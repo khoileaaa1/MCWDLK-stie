@@ -3,58 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RAGE BALANCE - FIXED</title>
+    <title>GAME CÂN BẰNG - SIÊU KHÓ</title>
     <style>
-        body { margin: 0; background: #000; color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; touch-action: none; }
+        body { margin: 0; background: #000; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; touch-action: none; }
         canvas { display: block; }
 
-        /* UI Screens */
-        .ui-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; background: rgba(0, 0, 0, 0.9); text-align: center; }
-        .container { padding: 25px; border: 2px solid #ff0055; border-radius: 15px; background: #0a0000; width: 85%; max-width: 400px; box-shadow: 0 0 20px #ff005555; }
+        /* Giao diện UI */
+        .ui-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; background: rgba(0, 0, 0, 0.95); text-align: center; }
+        .container { padding: 30px; border: 4px solid #ff0000; border-radius: 15px; background: #050000; width: 85%; max-width: 400px; box-shadow: 0 0 40px #ff000077; }
         
-        button { padding: 12px 25px; margin: 10px; font-size: 18px; font-weight: bold; background: transparent; color: #ff0055; border: 2px solid #ff0055; border-radius: 5px; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
-        button:hover { background: #ff0055; color: #000; }
-        button:disabled { border-color: #555; color: #555; cursor: not-allowed; }
+        button { padding: 15px; margin: 10px; font-size: 20px; font-weight: bold; background: #ff0000; color: #fff; border: none; border-radius: 8px; cursor: pointer; width: 95%; text-transform: uppercase; transition: 0.2s; }
+        button:hover { background: #fff; color: #ff0000; transform: scale(1.02); }
+        button:disabled { background: #444; color: #888; cursor: not-allowed; }
         
-        input { padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #ff0055; background: #000; color: #fff; width: 80%; text-align: center; font-size: 16px; }
+        input { padding: 15px; margin: 10px 0; background: #111; border: 2px solid #ff0000; color: #fff; width: 88%; text-align: center; font-size: 18px; border-radius: 8px; outline: none; }
 
-        #hud { position: fixed; top: 15px; width: 100%; text-align: center; font-size: 32px; font-weight: bold; color: #00ffff; z-index: 50; display: none; pointer-events: none; }
-        #diff-tag { position: fixed; top: 55px; width: 100%; text-align: center; font-size: 16px; z-index: 50; font-weight: bold; pointer-events: none; }
-
-        #countdown { position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 80px; z-index: 60; display: none; text-shadow: 0 0 20px #fff; pointer-events: none; }
+        #hud { position: fixed; top: 20px; width: 100%; text-align: center; font-size: 50px; font-weight: bold; color: #ff0000; z-index: 50; display: none; text-shadow: 0 0 15px #ff0000; }
+        #diff-tag { position: fixed; top: 85px; width: 100%; text-align: center; font-size: 16px; z-index: 50; color: #fff; font-weight: bold; display: none; letter-spacing: 2px; }
+        #countdown { position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 120px; z-index: 60; display: none; color: #fff; text-shadow: 0 0 30px #ff0000; font-weight: 900; }
         
-        ol { text-align: left; padding: 0; list-style: none; margin: 15px 0; max-height: 180px; overflow-y: auto; background: rgba(255,255,255,0.05); border-radius: 8px; }
-        li { padding: 8px 12px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; font-size: 14px; }
-        .rank-num { color: #ff0055; font-weight: bold; }
+        #insult-text { color: #00ffff; font-weight: bold; display: block; margin: 15px 0; min-height: 45px; font-size: 18px; line-height: 1.4; }
+        
+        /* Bảng xếp hạng */
+        .lb-title { color: #ffd700; margin-bottom: 10px; display: block; font-weight: bold; font-size: 20px; }
+        ol { text-align: left; padding: 0; list-style: none; margin: 10px 0; max-height: 150px; overflow-y: auto; background: rgba(255,255,255,0.05); border-radius: 10px; }
+        li { padding: 10px 15px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; font-size: 15px; }
+        .rank-num { color: #ff0000; font-weight: bold; margin-right: 8px; }
     </style>
 </head>
 <body>
 
 <div id="hud">0.0s</div>
-<div id="diff-tag"></div>
+<div id="diff-tag">CẤP ĐỘ: TỬ THẦN</div>
 <div id="countdown">2</div>
 
-<!-- START MENU -->
+<!-- MENU CHÍNH -->
 <div id="menu" class="ui-screen">
     <div class="container">
-        <h1 style="color: #ff0055; margin: 0;">RAGE BALANCE</h1>
-        <p style="font-size: 14px; color: #888;">Chạm 2 bên màn hình để giữ thăng bằng!</p>
-        <button onclick="startGame()">VÀO TRẬN</button>
-        <div style="margin-top: 15px;">
-            <strong style="color: #ffd700;">🏆 BẢNG XẾP HẠNG</strong>
+        <h1 style="color: #ff0000; font-size: 45px; margin: 0; letter-spacing: -2px;">GAME CÂN BẰNG</h1>
+        <p style="color: #aaa; margin-bottom: 25px;">Chạm 2 bên màn hình để sống sót!</p>
+        <button onclick="startGame()">BẮT ĐẦU ĂN HÀNH</button>
+        <div style="margin-top: 25px;">
+            <span class="lb-title">🏆 TOP KẺ LÌ LỢM</span>
             <ol id="leaderboardList"><li>Đang tải...</li></ol>
         </div>
     </div>
 </div>
 
-<!-- GAME OVER -->
+<!-- MÀN HÌNH THUA -->
 <div id="gameOverUI" class="ui-screen" style="display:none">
     <div class="container">
-        <h2 style="color: #ff0055;">KẾT THÚC!</h2>
-        <p style="font-size: 24px;"><span id="finalTime" style="color: #00ffff;">0</span> giây</p>
-        <input type="text" id="playerName" placeholder="Nhập tên..." maxlength="10">
-        <button id="btnSave" onclick="saveScore()">💾 LƯU ĐIỂM</button>
-        <button onclick="backToMenu()">🏠 VỀ MENU</button>
+        <h2 style="color: #ff0000; font-size: 35px; margin: 0;">GÀ VẬY SAO?</h2>
+        <span id="insult-text"></span>
+        <p style="font-size: 45px; margin: 15px 0; color: #fff; font-weight: 900;"><span id="finalTime" style="color: #ff0000;">0</span>s</p>
+        <input type="text" id="playerName" placeholder="Nhập tên kẻ bại trận..." maxlength="10">
+        <button id="btnSave" onclick="saveScore()">LƯU ĐIỂM & PHỤC THÙ</button>
+        <button onclick="showMenu()" style="background: #333;">VỀ MENU CHÍNH</button>
     </div>
 </div>
 
@@ -84,7 +88,18 @@
     const countdownUI = document.getElementById("countdown");
 
     let angle, speed, time, isGameOver = true, isPreparing = false;
-    let controlForce = 0, barWidth = 280, shake = 0;
+    let barWidth = 280, shake = 0;
+
+    const insults = [
+        "Tay chậm hơn rùa bò, nghỉ đi!",
+        "Về nhà bú sữa mẹ cho khỏe rồi chơi!",
+        "Bạn chơi thế này thì cái máy nó khóc đấy.",
+        "Kỹ năng của bạn tỉ lệ nghịch với độ đẹp trai.",
+        "Mù mắt thật sự, có thế mà cũng không cân được!",
+        "Cháu về học mẫu giáo lại đi cho chắc.",
+        "Thua rồi thì đừng đổ tại mạng nhé con gà!",
+        "Spam mỏi tay mà vẫn gà, đáng đời!"
+    ];
 
     function resize() {
         canvas.width = window.innerWidth;
@@ -93,106 +108,94 @@
     window.addEventListener('resize', resize);
     resize();
 
-    // Hệ thống nhấn nhạy (Pointerdown dùng cho cả chuột và touch)
+    // Điều khiển
     window.addEventListener('pointerdown', (e) => {
         if (isGameOver || isPreparing) return;
-        // Bỏ qua nếu nhấn trúng UI
         if (e.target.closest('.container')) return;
 
-        const touchX = e.clientX;
-        if (touchX < window.innerWidth / 2) {
-            applyPush(-1);
-        } else {
-            applyPush(1);
-        }
+        const force = 0.0035; // Lực rất nhẹ -> Phải spam mỏi tay
+        if (e.clientX < window.innerWidth / 2) speed -= force;
+        else speed += force;
     });
 
-    document.onkeydown = (e) => {
-        if (e.key === "ArrowLeft") applyPush(-1);
-        if (e.key === "ArrowRight") applyPush(1);
+    // Chuyển về Menu
+    window.showMenu = () => {
+        isGameOver = true;
+        document.querySelectorAll('.ui-screen').forEach(s => s.style.display = 'none');
+        document.getElementById("menu").style.display = "flex";
+        hud.style.display = "none";
+        diffTag.style.display = "none";
     };
 
-    function applyPush(dir) {
-        // Lực hích nhỏ để thanh nghiêng từ từ theo từng cú tap
-        controlForce += (dir * 0.0065); 
-    }
-
     window.startGame = () => {
-        hideScreens();
+        document.querySelectorAll('.ui-screen').forEach(s => s.style.display = 'none');
         hud.style.display = "block";
+        diffTag.style.display = "block";
         countdownUI.style.display = "block";
         
-        angle = 0; speed = 0; time = 0; controlForce = 0;
+        angle = 0; speed = 0; time = 0;
         isGameOver = false; isPreparing = true; barWidth = 280;
         
-        let waitTime = 2; // CHUẨN BỊ 2 GIÂY
+        let waitTime = 2;
         countdownUI.innerText = waitTime;
         let timer = setInterval(() => {
             waitTime--;
             if(waitTime <= 0) {
-                countdownUI.innerText = "GO!";
-                setTimeout(() => { countdownUI.style.display = "none"; isPreparing = false; }, 500);
+                countdownUI.innerText = "CHƠI!";
+                setTimeout(() => { countdownUI.style.display = "none"; isPreparing = false; }, 400);
                 clearInterval(timer);
             } else { countdownUI.innerText = waitTime; }
         }, 1000);
         gameLoop();
     };
 
-    window.backToMenu = () => {
-        isGameOver = true;
-        hideScreens();
-        document.getElementById("menu").style.display = "flex";
-    };
-
-    function hideScreens() {
-        document.querySelectorAll('.ui-screen').forEach(s => s.style.display = 'none');
-    }
-
     function update() {
         if (isGameOver || isPreparing) return;
 
-        let gravity = 0.008 + (time * 0.0004);
+        let gravity = 0.018 + (time * 0.002); 
         speed += Math.sin(angle) * gravity; 
-        
-        speed += controlForce;
-        controlForce *= 0.8; // Giảm lực nhanh để cảm giác spam mượt hơn
-        
-        if (time < 5) {
-            diffTag.innerText = "MỨC ĐỘ: DỄ"; diffTag.style.color = "#00ff00";
-        } else if (time < 12) {
-            diffTag.innerText = "MỨC ĐỘ: KHÓ (GIÓ)"; diffTag.style.color = "#ffff00";
-            speed += (Math.random() - 0.5) * 0.004;
+
+        if (time < 1) {
+            diffTag.innerText = "CẤP ĐỘ: KHỞI ĐỘNG";
+        } else if (time < 4) {
+            diffTag.innerText = "CẤP ĐỘ: GIÓ GIẬT CẤP 13";
+            speed += (Math.random() - 0.5) * 0.02;
         } else {
-            diffTag.innerText = "MỨC ĐỘ: ÁC MỘNG"; diffTag.style.color = "#ff0000";
-            shake = Math.random() * 5;
-            if(barWidth > 120) barWidth -= 0.1;
+            diffTag.innerText = "CẤP ĐỘ: TỬ THẦN";
+            shake = 15;
+            if(barWidth > 80) barWidth -= 0.8;
+            speed += Math.sin(time * 25) * 0.04;
         }
 
-        speed *= 0.98;
+        speed *= 0.97;
         angle += speed;
         time += 1/60;
         hud.innerText = time.toFixed(1) + "s";
 
-        if (Math.abs(angle) > 1.3) endGame();
+        if (Math.abs(angle) > 1.25) endGame();
     }
 
     function draw() {
         ctx.save();
-        if (shake > 0) { ctx.translate(Math.random()*shake, Math.random()*shake); shake *= 0.9; }
+        if (shake > 0) { ctx.translate(Math.random()*shake - shake/2, Math.random()*shake - shake/2); shake *= 0.8; }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         ctx.fillStyle = "#050000"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        const cx = canvas.width / 2, cy = canvas.height / 2 + 80;
+        const cx = canvas.width / 2, cy = canvas.height / 2 + 100;
 
-        ctx.strokeStyle = "#220000"; ctx.lineWidth = 15; ctx.beginPath();
+        // Trụ
+        ctx.strokeStyle = "#220000"; ctx.lineWidth = 20; ctx.beginPath();
         ctx.moveTo(cx, cy); ctx.lineTo(cx, canvas.height); ctx.stroke();
 
         ctx.translate(cx, cy); ctx.rotate(angle);
-        ctx.shadowBlur = 15; ctx.shadowColor = "#ff0055"; ctx.fillStyle = "#fff";
-        ctx.fillRect(-barWidth/2, -5, barWidth, 10);
+        
+        // Thanh ngang
+        ctx.fillStyle = "#ff0000"; 
+        ctx.fillRect(-barWidth/2, -8, barWidth, 16);
 
-        ctx.shadowColor = "#00ffff"; ctx.fillStyle = "#00ffff";
-        ctx.fillRect(-22, -47, 44, 44);
+        // Khối hộp (Fix vị trí nằm trên thanh)
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(-25, -58, 50, 50);
         ctx.restore();
     }
 
@@ -200,45 +203,38 @@
         isGameOver = true;
         document.getElementById("gameOverUI").style.display = "flex";
         document.getElementById("finalTime").innerText = time.toFixed(1);
+        document.getElementById("insult-text").innerText = insults[Math.floor(Math.random() * insults.length)];
         document.getElementById("btnSave").disabled = false;
-        document.getElementById("btnSave").innerText = "💾 LƯU ĐIỂM";
+        document.getElementById("btnSave").innerText = "LƯU ĐIỂM & PHỤC THÙ";
     }
 
-    function gameLoop() { if (!isGameOver) { update(); draw(); requestAnimationFrame(gameLoop); } }
-
-    // XỬ LÝ LƯU ĐIỂM VÀ VỀ MENU
     window.saveScore = async () => {
         const nameInput = document.getElementById("playerName");
-        const name = nameInput.value.trim() || "Ẩn danh";
+        const name = nameInput.value.trim() || "Gà Vô Danh";
         const finalS = Number(time.toFixed(1));
         const btn = document.getElementById("btnSave");
-        
         btn.disabled = true;
         btn.innerText = "ĐANG LƯU...";
         
         try {
             await push(ref(db, "leaderboard"), { name, score: finalS, date: Date.now() });
-            nameInput.value = ""; // Reset tên
-            backToMenu(); // Lưu xong quay về Menu chính
+            showMenu(); // Lưu xong quay về Menu chính không cần reload trang
         } catch (e) { 
-            alert("Lỗi khi lưu!"); 
-            btn.disabled = false;
-            btn.innerText = "💾 LƯU LẠI";
+            alert("Lỗi lưu điểm!");
+            btn.disabled = false; 
         }
     };
 
-    // Cập nhật BXH thời gian thực
     onValue(ref(db, "leaderboard"), (snapshot) => {
         const data = snapshot.val();
         if (!data) return;
         const list = Object.values(data).sort((a, b) => b.score - a.score).slice(0, 10);
         document.getElementById("leaderboardList").innerHTML = list.map((item, i) => `
-            <li>
-                <span><span class="rank-num">#${i+1}</span> ${item.name}</span>
-                <span style="color:#00ffff">${item.score}s</span>
-            </li>
+            <li><span><span class="rank-num">#${i+1}</span> ${item.name}</span><span>${item.score}s</span></li>
         `).join('');
     });
+
+    function gameLoop() { if (!isGameOver) { update(); draw(); requestAnimationFrame(gameLoop); } }
 </script>
 </body>
 </html>
