@@ -3,369 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Snake Eryk Pro Max</title>
+    <title>RAGE BALANCE - FIXED</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-        body{overflow:hidden;background:#000; touch-action: none;}
+        body { margin: 0; background: #000; color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; touch-action: none; }
+        canvas { display: block; }
 
-        body::before{
-            content:""; position:fixed; inset:0; z-index:-1;
-            background: radial-gradient(circle at 20% 20%, #38bdf822, transparent 35%),
-                        radial-gradient(circle at 80% 40%, #22c55e22, transparent 35%),
-                        radial-gradient(circle at 50% 80%, #3b82f622, transparent 35%),
-                        linear-gradient(135deg,#000,#020617,#000);
-            animation:bgmove 8s infinite alternate;
-        }
-        @keyframes bgmove{ from{transform:scale(1)} to{transform:scale(1.15)} }
+        /* UI Screens */
+        .ui-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; background: rgba(0, 0, 0, 0.9); text-align: center; }
+        .container { padding: 25px; border: 2px solid #ff0055; border-radius: 15px; background: #0a0000; width: 85%; max-width: 400px; box-shadow: 0 0 20px #ff005555; }
+        
+        button { padding: 12px 25px; margin: 10px; font-size: 18px; font-weight: bold; background: transparent; color: #ff0055; border: 2px solid #ff0055; border-radius: 5px; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
+        button:hover { background: #ff0055; color: #000; }
+        button:disabled { border-color: #555; color: #555; cursor: not-allowed; }
+        
+        input { padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #ff0055; background: #000; color: #fff; width: 80%; text-align: center; font-size: 16px; }
 
-        canvas{position:fixed; inset:0; z-index:1; touch-action: none;}
+        #hud { position: fixed; top: 15px; width: 100%; text-align: center; font-size: 32px; font-weight: bold; color: #00ffff; z-index: 50; display: none; pointer-events: none; }
+        #diff-tag { position: fixed; top: 55px; width: 100%; text-align: center; font-size: 16px; z-index: 50; font-weight: bold; pointer-events: none; }
 
-        .login, .menu, .over, .top {
-            position:fixed; inset:0; z-index:999; display:none; 
-            justify-content:center; align-items:center;
-        }
-        .box, .menu-box {
-            width:90%; max-width:360px; padding:25px;
-            border-radius:20px; background:rgba(0,0,0,0.8);
-            border:1px solid #38bdf8; backdrop-filter:blur(15px);
-            text-align:center; color:white;
-        }
-
-        button{
-            width:100%; padding:12px; margin-top:10px;
-            border:none; border-radius:12px;
-            background:linear-gradient(90deg,#38bdf8,#22c55e);
-            color:black; font-weight:bold; cursor:pointer;
-        }
-        button:active{ transform:scale(0.95); }
-
-        #hud{
-            position:fixed; top:10px; left:10px; z-index:10;
-            color:#00ff88; padding:8px 12px; border-radius:10px;
-            background:rgba(0,0,0,0.5); border:1px solid #38bdf8;
-            font-size:18px;
-        }
-
-        /* D-PAD Ở GIỮA GÓC DƯỚI */
-        #controls {
-            display: none;
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 200;
-            width: 240px;
-            height: 240px;
-        }
-        .dpad {
-            width: 100%; height: 100%;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 10px;
-        }
-        .dpad button {
-            background: rgba(255,255,255,0.18);
-            border: 4px solid #38bdf8;
-            border-radius: 18px;
-            color: white;
-            font-size: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 25px rgba(56,189,248,0.5);
-        }
-        .dpad button:active {
-            transform: scale(0.82);
-            background: rgba(56,189,248,0.55);
-        }
-
-        /* Leaderboard & Contact */
-        #list { max-height: 420px; overflow-y: auto; margin: 15px 0; padding-right: 8px; }
-        #list div {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px 18px; margin: 10px 0; background: rgba(255,255,255,0.09);
-            border-radius: 14px; border: 1px solid rgba(56,189,248,0.25);
-            font-size: 16px; gap: 12px; min-height: 58px;
-        }
-        #list div span:first-child { color: #38bdf8; font-weight: bold; min-width: 32px; }
-        #list div span:nth-child(2) { flex: 1; text-align: left; }
-        #list div span:nth-child(3) { color: #00ff88; font-weight: bold; min-width: 55px; text-align: right; }
-        #list div span:last-child { font-size: 13px; opacity: 0.8; min-width: 75px; text-align: right; }
-
-        .contact-header { font-size: 24px; margin-bottom: 20px; }
+        #countdown { position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 80px; z-index: 60; display: none; text-shadow: 0 0 20px #fff; pointer-events: none; }
+        
+        ol { text-align: left; padding: 0; list-style: none; margin: 15px 0; max-height: 180px; overflow-y: auto; background: rgba(255,255,255,0.05); border-radius: 8px; }
+        li { padding: 8px 12px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; font-size: 14px; }
+        .rank-num { color: #ff0055; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div id="hud">Score: 0</div>
 
-    <!-- LOGIN -->
-    <div class="login" id="login" style="display:flex">
-        <div class="box">
-            <h2>GAME SNAKE ERYK</h2>
-            <input id="user" placeholder="Tên tài khoản">
-            <button onclick="login()">Vào game</button>
+<div id="hud">0.0s</div>
+<div id="diff-tag"></div>
+<div id="countdown">2</div>
+
+<!-- START MENU -->
+<div id="menu" class="ui-screen">
+    <div class="container">
+        <h1 style="color: #ff0055; margin: 0;">RAGE BALANCE</h1>
+        <p style="font-size: 14px; color: #888;">Chạm 2 bên màn hình để giữ thăng bằng!</p>
+        <button onclick="startGame()">VÀO TRẬN</button>
+        <div style="margin-top: 15px;">
+            <strong style="color: #ffd700;">🏆 BẢNG XẾP HẠNG</strong>
+            <ol id="leaderboardList"><li>Đang tải...</li></ol>
         </div>
     </div>
+</div>
 
-    <!-- MENU -->
-    <div class="menu" id="menu">
-        <div class="menu-box">
-            <h1>🐍 Snake Eryk</h1>
-            <p>Pro Max Edition</p>
-            <button onclick="start()">▶ Bắt đầu</button>
-            <button onclick="openTop()">🏆 Bảng xếp hạng</button>
-            <button onclick="openContact()">📱 Contact</button>
-        </div>
+<!-- GAME OVER -->
+<div id="gameOverUI" class="ui-screen" style="display:none">
+    <div class="container">
+        <h2 style="color: #ff0055;">KẾT THÚC!</h2>
+        <p style="font-size: 24px;"><span id="finalTime" style="color: #00ffff;">0</span> giây</p>
+        <input type="text" id="playerName" placeholder="Nhập tên..." maxlength="10">
+        <button id="btnSave" onclick="saveScore()">💾 LƯU ĐIỂM</button>
+        <button onclick="backToMenu()">🏠 VỀ MENU</button>
     </div>
+</div>
 
-    <canvas id="c"></canvas>
+<canvas id="gameCanvas"></canvas>
 
-    <!-- GAME OVER -->
-    <div class="over" id="over">
-        <div class="menu-box">
-            <h1>GAME OVER</h1>
-            <p id="scoreText"></p>
-            <button onclick="restart()">🔄 Chơi lại</button>
-            <button onclick="backMenu()">🏠 Menu</button>
-        </div>
-    </div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-    <!-- LEADERBOARD -->
-    <div class="top" id="top">
-        <div class="menu-box">
-            <h2>🏆 Bảng Xếp Hạng</h2>
-            <div id="list"></div>
-            <button onclick="closeTop()">Đóng</button>
-        </div>
-    </div>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDini_60OLbZvd-AOJOCOvmtjRV5pPe_p8",
+        authDomain: "cwdlksite.firebaseapp.com",
+        projectId: "cwdlksite",
+        databaseURL: "https://cwdlksite-default-rtdb.firebaseio.com",
+        storageBucket: "cwdlksite.firebasestorage.app",
+        messagingSenderId: "77848012913",
+        appId: "1:77848012913:web:2fd560297deedaec2a13d0"
+    };
 
-    <!-- CONTACT -->
-    <div class="top" id="contact">
-        <div class="menu-box">
-            <div class="contact-header">📱 Contact</div>
-            <div style="display:flex;flex-direction:column;gap:12px">
-                <a href="https://x.com/Erykle1blp" target="_blank" style="padding:14px;background:rgba(255,255,255,0.08);border-radius:12px;text-decoration:none;color:white;border:1px solid #38bdf8">🐦 Twitter / X</a>
-                <a href="https://www.facebook.com/anggkhoi.806438?locale=vi_VN" target="_blank" style="padding:14px;background:rgba(255,255,255,0.08);border-radius:12px;text-decoration:none;color:white;border:1px solid #38bdf8">📘 Facebook</a>
-                <a href="https://www.tiktok.com/@anggkhoi" target="_blank" style="padding:14px;background:rgba(255,255,255,0.08);border-radius:12px;text-decoration:none;color:white;border:1px solid #38bdf8">🎵 TikTok</a>
-            </div>
-            <button onclick="closeContact()" style="margin-top:20px;background:linear-gradient(90deg,#22c55e,#38bdf8)">Đóng</button>
-        </div>
-    </div>
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-    <!-- D-PAD -->
-    <div id="controls">
-        <div class="dpad">
-            <div></div>
-            <button onclick="moveUp()">↑</button>
-            <div></div>
-            
-            <button onclick="moveLeft()">←</button>
-            <div></div>
-            <button onclick="moveRight()">→</button>
-            
-            <div></div>
-            <button onclick="moveDown()">↓</button>
-            <div></div>
-        </div>
-    </div>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const hud = document.getElementById("hud");
+    const diffTag = document.getElementById("diff-tag");
+    const countdownUI = document.getElementById("countdown");
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onValue, query, limitToLast, orderByChild } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    let angle, speed, time, isGameOver = true, isPreparing = false;
+    let controlForce = 0, barWidth = 280, shake = 0;
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyADmCQlryrBmQIuzQopZ5LCURO7RaguyuM",
-            databaseURL: "https://mcwdlk-default-rtdb.firebaseio.com",
-            projectId: "mcwdlk"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
 
-        let player = "", score = 0, dir, loop, c, ctx, snake, food, multiplier = 1;
-        let multiplierTimer = null;
-        let multiplierFood = null;
-        let redEatenCount = 0;
+    // Hệ thống nhấn nhạy (Pointerdown dùng cho cả chuột và touch)
+    window.addEventListener('pointerdown', (e) => {
+        if (isGameOver || isPreparing) return;
+        // Bỏ qua nếu nhấn trúng UI
+        if (e.target.closest('.container')) return;
 
-        window.login = function(){
-            player = document.getElementById("user").value || "Guest";
-            document.getElementById("login").style.display = "none";
-            document.getElementById("menu").style.display = "flex";
-        };
+        const touchX = e.clientX;
+        if (touchX < window.innerWidth / 2) {
+            applyPush(-1);
+        } else {
+            applyPush(1);
+        }
+    });
 
-        window.start = function(){
-            document.getElementById("menu").style.display = "none";
-            document.getElementById("c").style.display = "block";
-            init();
-        };
+    document.onkeydown = (e) => {
+        if (e.key === "ArrowLeft") applyPush(-1);
+        if (e.key === "ArrowRight") applyPush(1);
+    };
 
-        window.backMenu = function(){
-            clearInterval(loop);
-            if(multiplierTimer) clearTimeout(multiplierTimer);
-            document.getElementById("over").style.display = "none";
-            document.getElementById("c").style.display = "none";
-            document.getElementById("controls").style.display = "none";
-            document.getElementById("menu").style.display = "flex";
-        };
+    function applyPush(dir) {
+        // Lực hích nhỏ để thanh nghiêng từ từ theo từng cú tap
+        controlForce += (dir * 0.0065); 
+    }
 
-        window.openContact = () => document.getElementById("contact").style.display = "flex";
-        window.closeContact = () => document.getElementById("contact").style.display = "none";
+    window.startGame = () => {
+        hideScreens();
+        hud.style.display = "block";
+        countdownUI.style.display = "block";
+        
+        angle = 0; speed = 0; time = 0; controlForce = 0;
+        isGameOver = false; isPreparing = true; barWidth = 280;
+        
+        let waitTime = 2; // CHUẨN BỊ 2 GIÂY
+        countdownUI.innerText = waitTime;
+        let timer = setInterval(() => {
+            waitTime--;
+            if(waitTime <= 0) {
+                countdownUI.innerText = "GO!";
+                setTimeout(() => { countdownUI.style.display = "none"; isPreparing = false; }, 500);
+                clearInterval(timer);
+            } else { countdownUI.innerText = waitTime; }
+        }, 1000);
+        gameLoop();
+    };
 
-        window.openTop = function(){
-            document.getElementById("top").style.display = "flex";
-            const q = query(ref(db, "scores"), orderByChild("score"), limitToLast(20));
-            onValue(q, (snap) => {
-                let data = [];
-                snap.forEach(child => data.push(child.val()));
-                data.sort((a, b) => b.score - a.score);
-                let html = '';
-                data.forEach((d, i) => {
-                    const timeStr = new Date(d.time).toLocaleString('vi-VN', {month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit'});
-                    html += `<div><span>#${i+1}</span><span>${d.user}</span><span>${d.score}</span><span>${timeStr}</span></div>`;
-                });
-                document.getElementById("list").innerHTML = html || "<p style='text-align:center;padding:40px;opacity:0.6'>Chưa có điểm nào</p>";
-            });
-        };
-        window.closeTop = () => document.getElementById("top").style.display = "none";
+    window.backToMenu = () => {
+        isGameOver = true;
+        hideScreens();
+        document.getElementById("menu").style.display = "flex";
+    };
 
-        window.moveUp = () => { if(dir && dir.y !== 1) dir = {x:0, y:-1}; };
-        window.moveDown = () => { if(dir && dir.y !== -1) dir = {x:0, y:1}; };
-        window.moveLeft = () => { if(dir && dir.x !== 1) dir = {x:-1, y:0}; };
-        window.moveRight = () => { if(dir && dir.x !== -1) dir = {x:1, y:0}; };
+    function hideScreens() {
+        document.querySelectorAll('.ui-screen').forEach(s => s.style.display = 'none');
+    }
 
-        function resize(){
-            c = document.getElementById("c");
-            c.width = innerWidth;
-            c.height = innerHeight;
+    function update() {
+        if (isGameOver || isPreparing) return;
+
+        let gravity = 0.008 + (time * 0.0004);
+        speed += Math.sin(angle) * gravity; 
+        
+        speed += controlForce;
+        controlForce *= 0.8; // Giảm lực nhanh để cảm giác spam mượt hơn
+        
+        if (time < 5) {
+            diffTag.innerText = "MỨC ĐỘ: DỄ"; diffTag.style.color = "#00ff00";
+        } else if (time < 12) {
+            diffTag.innerText = "MỨC ĐỘ: KHÓ (GIÓ)"; diffTag.style.color = "#ffff00";
+            speed += (Math.random() - 0.5) * 0.004;
+        } else {
+            diffTag.innerText = "MỨC ĐỘ: ÁC MỘNG"; diffTag.style.color = "#ff0000";
+            shake = Math.random() * 5;
+            if(barWidth > 120) barWidth -= 0.1;
         }
 
-        function init(){
-            resize();
-            ctx = c.getContext("2d");
-            snake = [{x:10,y:10}];
-            dir = {x:1,y:0};
-            score = 0;
-            multiplier = 1;
-            redEatenCount = 0;
-            food = randomSafeFood();
-            multiplierFood = null;
+        speed *= 0.98;
+        angle += speed;
+        time += 1/60;
+        hud.innerText = time.toFixed(1) + "s";
 
-            document.onkeydown = (e) => {
-                if(e.key === "ArrowUp" && dir.y !== 1) dir = {x:0,y:-1};
-                if(e.key === "ArrowDown" && dir.y !== -1) dir = {x:0,y:1};
-                if(e.key === "ArrowLeft" && dir.x !== 1) dir = {x:-1,y:0};
-                if(e.key === "ArrowRight" && dir.x !== -1) dir = {x:1,y:0};
-            };
+        if (Math.abs(angle) > 1.3) endGame();
+    }
 
-            document.getElementById("controls").style.display = "block";
-            loop = setInterval(draw, 120);
+    function draw() {
+        ctx.save();
+        if (shake > 0) { ctx.translate(Math.random()*shake, Math.random()*shake); shake *= 0.9; }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = "#050000"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        const cx = canvas.width / 2, cy = canvas.height / 2 + 80;
+
+        ctx.strokeStyle = "#220000"; ctx.lineWidth = 15; ctx.beginPath();
+        ctx.moveTo(cx, cy); ctx.lineTo(cx, canvas.height); ctx.stroke();
+
+        ctx.translate(cx, cy); ctx.rotate(angle);
+        ctx.shadowBlur = 15; ctx.shadowColor = "#ff0055"; ctx.fillStyle = "#fff";
+        ctx.fillRect(-barWidth/2, -5, barWidth, 10);
+
+        ctx.shadowColor = "#00ffff"; ctx.fillStyle = "#00ffff";
+        ctx.fillRect(-22, -47, 44, 44);
+        ctx.restore();
+    }
+
+    function endGame() {
+        isGameOver = true;
+        document.getElementById("gameOverUI").style.display = "flex";
+        document.getElementById("finalTime").innerText = time.toFixed(1);
+        document.getElementById("btnSave").disabled = false;
+        document.getElementById("btnSave").innerText = "💾 LƯU ĐIỂM";
+    }
+
+    function gameLoop() { if (!isGameOver) { update(); draw(); requestAnimationFrame(gameLoop); } }
+
+    // XỬ LÝ LƯU ĐIỂM VÀ VỀ MENU
+    window.saveScore = async () => {
+        const nameInput = document.getElementById("playerName");
+        const name = nameInput.value.trim() || "Ẩn danh";
+        const finalS = Number(time.toFixed(1));
+        const btn = document.getElementById("btnSave");
+        
+        btn.disabled = true;
+        btn.innerText = "ĐANG LƯU...";
+        
+        try {
+            await push(ref(db, "leaderboard"), { name, score: finalS, date: Date.now() });
+            nameInput.value = ""; // Reset tên
+            backToMenu(); // Lưu xong quay về Menu chính
+        } catch (e) { 
+            alert("Lỗi khi lưu!"); 
+            btn.disabled = false;
+            btn.innerText = "💾 LƯU LẠI";
         }
+    };
 
-        // Hàm tạo thức ăn ĐỎ tránh vùng nút điều khiển
-        function randomSafeFood(){
-            let maxX = Math.floor(c.width / 20);
-            let maxY = Math.floor(c.height / 20);
-
-            let x, y;
-            do {
-                x = Math.floor(Math.random() * maxX);
-                y = Math.floor(Math.random() * maxY);
-            } while (isInControlArea(x, y));   // tránh vùng D-Pad
-
-            return {x, y};
-        }
-
-        // Kiểm tra xem vị trí có nằm trong vùng D-Pad không
-        function isInControlArea(x, y){
-            const gridX = Math.floor(c.width / 20);
-            const gridY = Math.floor(c.height / 20);
-
-            // Vùng D-Pad chiếm khoảng 12 ô ngang và 12 ô dọc ở dưới giữa
-            const controlGridLeft = Math.floor(gridX / 2) - 6;
-            const controlGridRight = Math.floor(gridX / 2) + 6;
-            const controlGridBottom = gridY - 13;   // cách đáy khoảng 13 ô
-
-            return (x >= controlGridLeft && x <= controlGridRight && y >= controlGridBottom);
-        }
-
-        function spawnMultiplierFood(){
-            if (multiplierFood) return;
-            multiplierFood = {
-                x: Math.floor(Math.random() * (c.width/20)),
-                y: Math.floor(Math.random() * (c.height/20))
-            };
-        }
-
-        function draw(){
-            document.getElementById("hud").innerText = `Score: ${score} ${multiplier > 1 ? '(x2)' : ''}`;
-
-            let maxX = Math.floor(c.width / 20);
-            let maxY = Math.floor(c.height / 20);
-            let head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
-
-            if(head.x < 0 || head.y < 0 || head.x >= maxX || head.y >= maxY) return end();
-            for(let s of snake) if(s.x === head.x && s.y === head.y) return end();
-
-            snake.unshift(head);
-
-            if(head.x === food.x && head.y === food.y){
-                score += 10 * multiplier;
-                redEatenCount++;
-                food = randomSafeFood();        // dùng hàm tránh vùng nút
-
-                if(redEatenCount >= 5 && !multiplierFood){
-                    spawnMultiplierFood();
-                    redEatenCount = 0;
-                }
-            } else {
-                snake.pop();
-            }
-
-            if(multiplierFood && head.x === multiplierFood.x && head.y === multiplierFood.y){
-                multiplier = 2;
-                if(multiplierTimer) clearTimeout(multiplierTimer);
-                multiplierTimer = setTimeout(() => {
-                    multiplier = 1;
-                    multiplierFood = null;
-                }, 3000);
-                multiplierFood = null;
-            }
-
-            ctx.fillStyle = "#000";
-            ctx.fillRect(0,0,c.width,c.height);
-            ctx.strokeStyle = "#38bdf8";
-            ctx.strokeRect(0,0,c.width,c.height);
-
-            ctx.fillStyle = "red";
-            ctx.fillRect(food.x*20, food.y*20, 20, 20);
-
-            if(multiplierFood){
-                ctx.fillStyle = "#facc15";
-                ctx.beginPath();
-                ctx.arc(multiplierFood.x*20 + 10, multiplierFood.y*20 + 10, 10, 0, Math.PI*2);
-                ctx.fill();
-            }
-
-            ctx.fillStyle = "lime";
-            snake.forEach(s => ctx.fillRect(s.x*20, s.y*20, 20, 20));
-        }
-
-        function end(){
-            clearInterval(loop);
-            if(multiplierTimer) clearTimeout(multiplierTimer);
-            document.getElementById("c").style.display = "none";
-            document.getElementById("controls").style.display = "none";
-            document.getElementById("over").style.display = "flex";
-            document.getElementById("scoreText").innerText = "Score: " + score;
-
-            push(ref(db, "scores"), { user: player, score: score, time: Date.now() });
-        }
-
-        window.restart = function(){
-            document.getElementById("over").style.display = "none";
-            document.getElementById("c").style.display = "block";
-            init();
-        };
-    </script>
+    // Cập nhật BXH thời gian thực
+    onValue(ref(db, "leaderboard"), (snapshot) => {
+        const data = snapshot.val();
+        if (!data) return;
+        const list = Object.values(data).sort((a, b) => b.score - a.score).slice(0, 10);
+        document.getElementById("leaderboardList").innerHTML = list.map((item, i) => `
+            <li>
+                <span><span class="rank-num">#${i+1}</span> ${item.name}</span>
+                <span style="color:#00ffff">${item.score}s</span>
+            </li>
+        `).join('');
+    });
+</script>
 </body>
 </html>
