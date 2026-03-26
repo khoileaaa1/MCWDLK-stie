@@ -3,48 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GAME CÂN BẰNG - SIÊU KHÓ</title>
+    <title>SIÊU CÂN BẰNG - TROLL MODE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        body { margin: 0; background: #000; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; touch-action: none; }
+        body { margin: 0; background: #000; color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; touch-action: none; }
         canvas { display: block; }
-
-        /* Giao diện UI */
-        .ui-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; background: rgba(0, 0, 0, 0.95); text-align: center; }
-        .container { padding: 30px; border: 4px solid #ff0000; border-radius: 15px; background: #050000; width: 85%; max-width: 400px; box-shadow: 0 0 40px #ff000077; }
         
-        button { padding: 15px; margin: 10px; font-size: 20px; font-weight: bold; background: #ff0000; color: #fff; border: none; border-radius: 8px; cursor: pointer; width: 95%; text-transform: uppercase; transition: 0.2s; }
-        button:hover { background: #fff; color: #ff0000; transform: scale(1.02); }
+        .ui-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; background: rgba(0, 0, 0, 0.95); text-align: center; }
+        .container { padding: 15px; border: 3px solid #ff0000; border-radius: 12px; background: #050000; width: 88%; max-width: 350px; box-shadow: 0 0 30px rgba(255, 0, 0, 0.4); }
+        
+        h1 { color: #ff0000; font-size: 24px; margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 2px; }
+        
+        /* Câu cà khịa */
+        #insult-text { color: #ffeb3b; font-style: italic; font-size: 14px; margin-bottom: 10px; min-height: 20px; }
+
+        button { padding: 14px; margin: 6px 0; font-size: 14px; font-weight: bold; background: #ff0000; color: #fff; border: none; border-radius: 6px; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.2s; }
+        button:active { transform: scale(0.98); background: #b30000; }
         button:disabled { background: #444; color: #888; cursor: not-allowed; }
         
-        input { padding: 15px; margin: 10px 0; background: #111; border: 2px solid #ff0000; color: #fff; width: 88%; text-align: center; font-size: 18px; border-radius: 8px; outline: none; }
+        input { padding: 12px; margin: 8px 0; background: #111; border: 2px solid #ff0000; color: #fff; width: 85%; text-align: center; font-size: 15px; border-radius: 6px; outline: none; }
 
-        #hud { position: fixed; top: 20px; width: 100%; text-align: center; font-size: 50px; font-weight: bold; color: #ff0000; z-index: 50; display: none; text-shadow: 0 0 15px #ff0000; }
-        #diff-tag { position: fixed; top: 85px; width: 100%; text-align: center; font-size: 16px; z-index: 50; color: #fff; font-weight: bold; display: none; letter-spacing: 2px; }
-        #countdown { position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 120px; z-index: 60; display: none; color: #fff; text-shadow: 0 0 30px #ff0000; font-weight: 900; }
+        #hud { position: fixed; top: 15px; width: 100%; text-align: center; font-size: 50px; font-weight: 900; color: #ff0000; z-index: 50; display: none; pointer-events: none; }
+        #click-hud { position: fixed; top: 20px; left: 20px; font-size: 16px; font-weight: bold; color: #ff0000; z-index: 55; display: none; border-left: 3px solid #ff0000; padding-left: 8px; }
+        #status-tag { position: fixed; top: 75px; width: 100%; text-align: center; font-size: 12px; z-index: 50; color: #00ffff; display: none; font-weight: bold; pointer-events: none; }
         
-        #insult-text { color: #00ffff; font-weight: bold; display: block; margin: 15px 0; min-height: 45px; font-size: 18px; line-height: 1.4; }
-        
-        /* Bảng xếp hạng */
-        .lb-title { color: #ffd700; margin-bottom: 10px; display: block; font-weight: bold; font-size: 20px; }
-        ol { text-align: left; padding: 0; list-style: none; margin: 10px 0; max-height: 150px; overflow-y: auto; background: rgba(255,255,255,0.05); border-radius: 10px; }
-        li { padding: 10px 15px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; font-size: 15px; }
-        .rank-num { color: #ff0000; font-weight: bold; margin-right: 8px; }
+        #danger-alert { position: fixed; bottom: 20%; width: 100%; text-align: center; color: #ffeb3b; font-weight: bold; font-size: 20px; z-index: 60; display: none; text-shadow: 0 0 10px #000; animation: blink 0.3s infinite; pointer-events: none; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+
+        .lb-box { margin-top: 10px; text-align: left; }
+        .lb-title { color: #ffd700; font-weight: bold; display: block; margin-bottom: 5px; text-align: center; font-size: 13px; text-transform: uppercase; }
+        ol { padding: 0; list-style: none; margin: 0; max-height: 120px; overflow-y: auto; background: rgba(255,255,255,0.05); border-radius: 6px; border: 1px solid #333; }
+        li { padding: 8px 12px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; font-size: 12px; }
+        .rank-num { color: #ff0000; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div id="hud">0.0s</div>
-<div id="diff-tag">CẤP ĐỘ: TỬ THẦN</div>
-<div id="countdown">2</div>
+<div id="click-hud">CLICKS: 0</div>
+<div id="status-tag">TRẠNG THÁI: CHUẨN BỊ</div>
+<div id="danger-alert">BẤM NHANH! CỨU NGUY!!!</div>
 
 <!-- MENU CHÍNH -->
 <div id="menu" class="ui-screen">
     <div class="container">
-        <h1 style="color: #ff0000; font-size: 45px; margin: 0; letter-spacing: -2px;">GAME CÂN BẰNG</h1>
-        <p style="color: #aaa; margin-bottom: 25px;">Chạm 2 bên màn hình để sống sót!</p>
-        <button onclick="startGame()">BẮT ĐẦU ĂN HÀNH</button>
-        <div style="margin-top: 25px;">
-            <span class="lb-title">🏆 TOP KẺ LÌ LỢM</span>
+        <h1>SIÊU CÂN BẰNG</h1>
+        <p style="color: #666; font-size: 11px; margin-top: -5px;">CHẾ ĐỘ: HÌNH TRÒN & CÀ KHỊA</p>
+        <button onclick="startGame()">BẮT ĐẦU</button>
+        <div class="lb-box">
+            <span class="lb-title">🏆 TOP 50 CAO THỦ</span>
             <ol id="leaderboardList"><li>Đang tải...</li></ol>
         </div>
     </div>
@@ -53,12 +60,16 @@
 <!-- MÀN HÌNH THUA -->
 <div id="gameOverUI" class="ui-screen" style="display:none">
     <div class="container">
-        <h2 style="color: #ff0000; font-size: 35px; margin: 0;">GÀ VẬY SAO?</h2>
-        <span id="insult-text"></span>
-        <p style="font-size: 45px; margin: 15px 0; color: #fff; font-weight: 900;"><span id="finalTime" style="color: #ff0000;">0</span>s</p>
-        <input type="text" id="playerName" placeholder="Nhập tên kẻ bại trận..." maxlength="10">
-        <button id="btnSave" onclick="saveScore()">LƯU ĐIỂM & PHỤC THÙ</button>
-        <button onclick="showMenu()" style="background: #333;">VỀ MENU CHÍNH</button>
+        <h2 style="color: #ff0000; margin: 0; font-size: 22px;">KẾT THÚC!</h2>
+        <p id="insult-text"></p> <!-- Nơi hiện câu chọc ghẹo -->
+        <p style="font-size: 45px; margin: 5px 0; font-weight: 900;"><span id="finalTime">0</span>s</p>
+        <p id="finalClicks" style="color: #888; margin-top: -10px; font-size: 13px;">Clicks: 0</p>
+        
+        <input type="text" id="playerName" placeholder="Nhập tên của bạn..." maxlength="10">
+        
+        <button id="btnSave" onclick="saveScore()">LƯU THÀNH TÍCH</button>
+        <button id="btnRetry" onclick="startGame()" style="background: #008000;">CHƠI LẠI</button>
+        <button onclick="backToMenu()" style="background: #222; color: #888; font-size: 12px; padding: 10px; margin-top: 10px;">VỀ MENU</button>
     </div>
 </div>
 
@@ -66,7 +77,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDini_60OLbZvd-AOJOCOvmtjRV5pPe_p8",
@@ -84,157 +95,157 @@
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
     const hud = document.getElementById("hud");
-    const diffTag = document.getElementById("diff-tag");
-    const countdownUI = document.getElementById("countdown");
+    const clickHud = document.getElementById("click-hud");
+    const statusTag = document.getElementById("status-tag");
+    const dangerAlert = document.getElementById("danger-alert");
+    const insultText = document.getElementById("insult-text");
 
-    let angle, speed, time, isGameOver = true, isPreparing = false;
-    let barWidth = 280, shake = 0;
+    let barAngle = 0, boxPos = 0, boxVel = 0, time = 0, clickCount = 0;
+    let isGameOver = true, isGracePeriod = true;
+    let barWidth = 320;
+    let animationId;
 
+    const gravity = 0.0065;
+    const clickForce = 0.19;
+    const friction = 0.965;
+    const weightPower = 0.08; // Tăng thêm chút độ khó do hình tròn dễ lăn hơn
+    const shrinkSpeed = 0.45;
+    const saveForce = 0.85;
+
+    // Danh sách câu cà khịa
     const insults = [
-        "Tay chậm hơn rùa bò, nghỉ đi!",
-        "Về nhà bú sữa mẹ cho khỏe rồi chơi!",
-        "Bạn chơi thế này thì cái máy nó khóc đấy.",
-        "Kỹ năng của bạn tỉ lệ nghịch với độ đẹp trai.",
-        "Mù mắt thật sự, có thế mà cũng không cân được!",
-        "Cháu về học mẫu giáo lại đi cho chắc.",
-        "Thua rồi thì đừng đổ tại mạng nhé con gà!",
-        "Spam mỏi tay mà vẫn gà, đáng đời!"
+        "Bạn gà quá vậy? 🐣",
+        "Tay chân bị đóng băng à? ❄️",
+        "Trò này dễ mà, sao rớt hoài vậy? 😂",
+        "Về chơi xếp hình đi bạn ơi...",
+        "Kỷ lục của bạn... thật đáng thất vọng!",
+        "Chắc tại cái điện thoại lag đúng không? 😉",
+        "Cố gắng lên, đừng để hình tròn nó khinh!",
+        "Bạn chơi kiểu gì vậy? Mắt nhắm à?"
     ];
 
-    function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resize);
     resize();
 
-    // Điều khiển
-    window.addEventListener('pointerdown', (e) => {
-        if (isGameOver || isPreparing) return;
-        if (e.target.closest('.container')) return;
-
-        const force = 0.0035; // Lực rất nhẹ -> Phải spam mỏi tay
-        if (e.clientX < window.innerWidth / 2) speed -= force;
-        else speed += force;
-    });
-
-    // Chuyển về Menu
-    window.showMenu = () => {
+    window.backToMenu = () => {
         isGameOver = true;
-        document.querySelectorAll('.ui-screen').forEach(s => s.style.display = 'none');
+        cancelAnimationFrame(animationId);
+        document.getElementById("gameOverUI").style.display = "none";
         document.getElementById("menu").style.display = "flex";
-        hud.style.display = "none";
-        diffTag.style.display = "none";
+        hud.style.display = "none"; clickHud.style.display = "none"; statusTag.style.display = "none";
     };
 
+    window.addEventListener('pointerdown', (e) => {
+        if (isGameOver || isGracePeriod) return;
+        if (e.target.closest('.container')) return;
+        clickCount++;
+        clickHud.innerText = `CLICKS: ${clickCount}`;
+        const edgeDist = (barWidth / 2) - Math.abs(boxPos);
+        if (edgeDist < barWidth * 0.15) {
+            if (boxPos > 0) boxVel -= saveForce; else boxVel += saveForce;
+            barAngle *= 0.5; 
+        } else {
+            if (e.clientX < window.innerWidth / 2) barAngle -= clickForce;
+            else barAngle += clickForce;
+        }
+    });
+
     window.startGame = () => {
-        document.querySelectorAll('.ui-screen').forEach(s => s.style.display = 'none');
-        hud.style.display = "block";
-        diffTag.style.display = "block";
-        countdownUI.style.display = "block";
-        
-        angle = 0; speed = 0; time = 0;
-        isGameOver = false; isPreparing = true; barWidth = 280;
-        
-        let waitTime = 2;
-        countdownUI.innerText = waitTime;
-        let timer = setInterval(() => {
-            waitTime--;
-            if(waitTime <= 0) {
-                countdownUI.innerText = "CHƠI!";
-                setTimeout(() => { countdownUI.style.display = "none"; isPreparing = false; }, 400);
-                clearInterval(timer);
-            } else { countdownUI.innerText = waitTime; }
-        }, 1000);
+        isGameOver = false; isGracePeriod = true;
+        time = 0; barAngle = 0; boxPos = 0; boxVel = 0; barWidth = 320; clickCount = 0;
+        document.getElementById("menu").style.display = "none";
+        document.getElementById("gameOverUI").style.display = "none";
+        hud.style.display = "block"; clickHud.style.display = "block"; statusTag.style.display = "block";
+        statusTag.innerText = "SẴN SÀNG...";
+        setTimeout(() => { if (!isGameOver) isGracePeriod = false; statusTag.innerText = "SỐNG SÓT ĐI!"; }, 1000);
         gameLoop();
     };
 
     function update() {
-        if (isGameOver || isPreparing) return;
-
-        let gravity = 0.018 + (time * 0.002); 
-        speed += Math.sin(angle) * gravity; 
-
-        if (time < 1) {
-            diffTag.innerText = "CẤP ĐỘ: KHỞI ĐỘNG";
-        } else if (time < 4) {
-            diffTag.innerText = "CẤP ĐỘ: GIÓ GIẬT CẤP 13";
-            speed += (Math.random() - 0.5) * 0.02;
-        } else {
-            diffTag.innerText = "CẤP ĐỘ: TỬ THẦN";
-            shake = 15;
-            if(barWidth > 80) barWidth -= 0.8;
-            speed += Math.sin(time * 25) * 0.04;
-        }
-
-        speed *= 0.97;
-        angle += speed;
+        if (isGameOver || isGracePeriod) return;
+        barAngle += (Math.random() - 0.5) * 0.02;
+        barAngle += (boxPos / (barWidth / 2)) * weightPower;
+        barAngle = Math.max(-1.4, Math.min(1.4, barAngle)); 
+        let accel = Math.sin(barAngle) * gravity * 150;
+        boxVel += accel;
+        boxVel *= friction;
+        boxPos += boxVel;
         time += 1/60;
         hud.innerText = time.toFixed(1) + "s";
-
-        if (Math.abs(angle) > 1.25) endGame();
+        if (time > 3 && barWidth > 80) barWidth -= shrinkSpeed;
+        const edgeDist = (barWidth / 2) - Math.abs(boxPos);
+        if (edgeDist < barWidth * 0.15) dangerAlert.style.display = "block";
+        else dangerAlert.style.display = "none";
+        if (Math.abs(boxPos) > barWidth / 2 || Math.abs(barAngle) > 1.35) endGame();
     }
 
     function draw() {
-        ctx.save();
-        if (shake > 0) { ctx.translate(Math.random()*shake - shake/2, Math.random()*shake - shake/2); shake *= 0.8; }
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
         ctx.fillStyle = "#050000"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        const cx = canvas.width / 2, cy = canvas.height / 2 + 100;
-
-        // Trụ
-        ctx.strokeStyle = "#220000"; ctx.lineWidth = 20; ctx.beginPath();
-        ctx.moveTo(cx, cy); ctx.lineTo(cx, canvas.height); ctx.stroke();
-
-        ctx.translate(cx, cy); ctx.rotate(angle);
+        const cx = canvas.width / 2, cy = canvas.height / 2 + 50;
+        ctx.fillStyle = "#1a1a1a"; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx-20, cy+40); ctx.lineTo(cx+20, cy+40); ctx.fill();
+        ctx.save(); ctx.translate(cx, cy); ctx.rotate(barAngle);
+        ctx.shadowBlur = 15; ctx.shadowColor = "#ff0000"; ctx.strokeStyle = "#ff0000"; ctx.lineWidth = 10;
+        ctx.beginPath(); ctx.moveTo(-barWidth/2, 0); ctx.lineTo(barWidth/2, 0); ctx.stroke();
         
-        // Thanh ngang
-        ctx.fillStyle = "#ff0000"; 
-        ctx.fillRect(-barWidth/2, -8, barWidth, 16);
-
-        // Khối hộp (Fix vị trí nằm trên thanh)
+        // VẼ HÌNH TRÒN (BALL)
+        ctx.shadowBlur = 10; ctx.shadowColor = "#fff";
         ctx.fillStyle = "#fff";
-        ctx.fillRect(-25, -58, 50, 50);
+        ctx.beginPath();
+        ctx.arc(boxPos, -18, 18, 0, Math.PI * 2); // Hình tròn bán kính 18
+        ctx.fill();
+        
+        // Thêm hiệu ứng bóng cho hình tròn
+        ctx.fillStyle = "rgba(0,0,0,0.2)";
+        ctx.beginPath();
+        ctx.arc(boxPos + 4, -22, 5, 0, Math.PI * 2);
+        ctx.fill();
+        
         ctx.restore();
     }
 
+    function gameLoop() { if (!isGameOver) { update(); draw(); animationId = requestAnimationFrame(gameLoop); } }
+
     function endGame() {
         isGameOver = true;
+        cancelAnimationFrame(animationId);
+        dangerAlert.style.display = "none";
         document.getElementById("gameOverUI").style.display = "flex";
         document.getElementById("finalTime").innerText = time.toFixed(1);
-        document.getElementById("insult-text").innerText = insults[Math.floor(Math.random() * insults.length)];
-        document.getElementById("btnSave").disabled = false;
-        document.getElementById("btnSave").innerText = "LƯU ĐIỂM & PHỤC THÙ";
+        document.getElementById("finalClicks").innerText = `Tổng số lần click: ${clickCount}`;
+        
+        // Hiển thị câu cà khịa ngẫu nhiên
+        insultText.innerText = insults[Math.floor(Math.random() * insults.length)];
+        
+        hud.style.display = "none"; clickHud.style.display = "none"; statusTag.style.display = "none";
+        const btnSave = document.getElementById("btnSave");
+        btnSave.disabled = false; btnSave.innerText = "LƯU THÀNH TÍCH";
+        btnSave.style.background = "#ff0000";
     }
 
     window.saveScore = async () => {
-        const nameInput = document.getElementById("playerName");
-        const name = nameInput.value.trim() || "Gà Vô Danh";
-        const finalS = Number(time.toFixed(1));
+        const name = document.getElementById("playerName").value.trim() || "Vô Danh";
+        const score = Number(time.toFixed(1));
         const btn = document.getElementById("btnSave");
-        btn.disabled = true;
-        btn.innerText = "ĐANG LƯU...";
-        
+        if (btn.disabled) return;
+        btn.disabled = true; btn.innerText = "ĐANG LƯU...";
         try {
-            await push(ref(db, "leaderboard"), { name, score: finalS, date: Date.now() });
-            showMenu(); // Lưu xong quay về Menu chính không cần reload trang
-        } catch (e) { 
-            alert("Lỗi lưu điểm!");
-            btn.disabled = false; 
-        }
+            const newRef = push(ref(db, "leaderboard"));
+            await Promise.all([
+                set(newRef, { name, score, timestamp: Date.now() }),
+                new Promise(r => setTimeout(r, 1000))
+            ]);
+            btn.innerText = "ĐÃ LƯU!"; btn.style.background = "#444";
+        } catch (e) { btn.innerText = "LỖI!"; btn.disabled = false; }
     };
 
-    onValue(ref(db, "leaderboard"), (snapshot) => {
-        const data = snapshot.val();
-        if (!data) return;
-        const list = Object.values(data).sort((a, b) => b.score - a.score).slice(0, 10);
-        document.getElementById("leaderboardList").innerHTML = list.map((item, i) => `
-            <li><span><span class="rank-num">#${i+1}</span> ${item.name}</span><span>${item.score}s</span></li>
-        `).join('');
+    onValue(ref(db, "leaderboard"), (snap) => {
+        const data = snap.val();
+        const listEl = document.getElementById("leaderboardList");
+        if (!data) { listEl.innerHTML = "<li>Trống</li>"; return; }
+        const scores = Object.values(data).sort((a, b) => b.score - a.score).slice(0, 50);
+        listEl.innerHTML = scores.map((s, i) => `<li><span><b class="rank-num">#${i+1}</b> ${s.name}</span><span style="color:#ff0000; font-weight:bold">${s.score.toFixed(1)}s</span></li>`).join('');
     });
-
-    function gameLoop() { if (!isGameOver) { update(); draw(); requestAnimationFrame(gameLoop); } }
 </script>
 </body>
 </html>
