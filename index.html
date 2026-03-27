@@ -4,23 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SIÊU CÂN BẰNG - TROLL MODE</title>
+    
+    <!-- CODE GOOGLE ADSENSE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8573479616106906"
+     crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         body { margin: 0; background: #000; color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; touch-action: none; }
         canvas { display: block; }
         
-        .ui-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; background: rgba(0, 0, 0, 0.95); text-align: center; }
-        .container { padding: 15px; border: 3px solid #ff0000; border-radius: 12px; background: #050000; width: 88%; max-width: 350px; box-shadow: 0 0 30px rgba(255, 0, 0, 0.4); }
+        .ui-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; background: rgba(0, 0, 0, 0.95); text-align: center; overflow-y: auto; }
+        .container { padding: 15px; border: 3px solid #ff0000; border-radius: 12px; background: #050000; width: 88%; max-width: 350px; box-shadow: 0 0 30px rgba(255, 0, 0, 0.4); margin: 10px 0; }
         
-        h1 { color: #ff0000; font-size: 24px; margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 2px; }
+        h1 { color: #ff0000; font-size: 24px; margin: 10px 0 5px 0; text-transform: uppercase; letter-spacing: 2px; }
         
-        /* Câu cà khịa */
-        #insult-text { color: #ffeb3b; font-style: italic; font-size: 14px; margin-bottom: 10px; min-height: 20px; }
+        .ad-container {
+            width: 100%;
+            min-height: 60px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #444;
+            overflow: hidden;
+            margin: 10px 0;
+        }
 
+        #insult-text { color: #ffeb3b; font-style: italic; font-size: 14px; margin-bottom: 10px; min-height: 20px; }
         button { padding: 14px; margin: 6px 0; font-size: 14px; font-weight: bold; background: #ff0000; color: #fff; border: none; border-radius: 6px; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.2s; }
         button:active { transform: scale(0.98); background: #b30000; }
         button:disabled { background: #444; color: #888; cursor: not-allowed; }
-        
         input { padding: 12px; margin: 8px 0; background: #111; border: 2px solid #ff0000; color: #fff; width: 85%; text-align: center; font-size: 15px; border-radius: 6px; outline: none; }
 
         #hud { position: fixed; top: 15px; width: 100%; text-align: center; font-size: 50px; font-weight: 900; color: #ff0000; z-index: 50; display: none; pointer-events: none; }
@@ -32,9 +48,11 @@
 
         .lb-box { margin-top: 10px; text-align: left; }
         .lb-title { color: #ffd700; font-weight: bold; display: block; margin-bottom: 5px; text-align: center; font-size: 13px; text-transform: uppercase; }
-        ol { padding: 0; list-style: none; margin: 0; max-height: 120px; overflow-y: auto; background: rgba(255,255,255,0.05); border-radius: 6px; border: 1px solid #333; }
+        
+        /* Chỉnh lại chiều cao để chứa 100 người nhưng không quá dài */
+        ol { padding: 0; list-style: none; margin: 0; max-height: 150px; overflow-y: auto; background: rgba(255,255,255,0.05); border-radius: 6px; border: 1px solid #333; }
         li { padding: 8px 12px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; font-size: 12px; }
-        .rank-num { color: #ff0000; font-weight: bold; }
+        .rank-num { color: #ff0000; font-weight: bold; width: 30px; display: inline-block; }
     </style>
 </head>
 <body>
@@ -46,12 +64,23 @@
 
 <!-- MENU CHÍNH -->
 <div id="menu" class="ui-screen">
+    <!-- ADS ĐẦU MENU -->
+    <div class="ad-container" style="max-width: 350px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8573479616106906"
+             data-ad-slot="AUTO_ADS_SLOT" 
+             data-ad-format="horizontal"
+             data-full-width-responsive="true"></ins>
+        <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+    </div>
+
     <div class="container">
         <h1>SIÊU CÂN BẰNG</h1>
         <p style="color: #666; font-size: 11px; margin-top: -5px;">CHẾ ĐỘ: HÌNH TRÒN & CÀ KHỊA</p>
         <button onclick="startGame()">BẮT ĐẦU</button>
         <div class="lb-box">
-            <span class="lb-title">🏆 TOP 50 CAO THỦ</span>
+            <span class="lb-title">🏆 TOP 100 CAO THỦ</span>
             <ol id="leaderboardList"><li>Đang tải...</li></ol>
         </div>
     </div>
@@ -61,15 +90,26 @@
 <div id="gameOverUI" class="ui-screen" style="display:none">
     <div class="container">
         <h2 style="color: #ff0000; margin: 0; font-size: 22px;">KẾT THÚC!</h2>
-        <p id="insult-text"></p> <!-- Nơi hiện câu chọc ghẹo -->
+        <p id="insult-text"></p>
         <p style="font-size: 45px; margin: 5px 0; font-weight: 900;"><span id="finalTime">0</span>s</p>
         <p id="finalClicks" style="color: #888; margin-top: -10px; font-size: 13px;">Clicks: 0</p>
         
-        <input type="text" id="playerName" placeholder="Nhập tên của bạn..." maxlength="10">
+        <input type="text" id="playerName" placeholder="Tên của bạn..." maxlength="10">
         
         <button id="btnSave" onclick="saveScore()">LƯU THÀNH TÍCH</button>
         <button id="btnRetry" onclick="startGame()" style="background: #008000;">CHƠI LẠI</button>
-        <button onclick="backToMenu()" style="background: #222; color: #888; font-size: 12px; padding: 10px; margin-top: 10px;">VỀ MENU</button>
+        <button onclick="backToMenu()" style="background: #222; color: #888; font-size: 12px; padding: 10px;">VỀ MENU</button>
+
+        <!-- ADS MÀN HÌNH THUA -->
+        <div class="ad-container" style="border-top: 1px solid #333; padding-top: 10px;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-8573479616106906"
+                 data-ad-slot="AUTO_ADS_SLOT" 
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+        </div>
     </div>
 </div>
 
@@ -108,17 +148,16 @@
     const gravity = 0.0065;
     const clickForce = 0.19;
     const friction = 0.965;
-    const weightPower = 0.08; // Tăng thêm chút độ khó do hình tròn dễ lăn hơn
+    const weightPower = 0.08; 
     const shrinkSpeed = 0.45;
     const saveForce = 0.85;
 
-    // Danh sách câu cà khịa
     const insults = [
         "Bạn gà quá vậy? 🐣",
         "Tay chân bị đóng băng à? ❄️",
         "Trò này dễ mà, sao rớt hoài vậy? 😂",
         "Về chơi xếp hình đi bạn ơi...",
-        "Kỷ lục của bạn... thật đáng thất vọng!",
+        "Kỷ lục của bạn... thật thất vọng!",
         "Chắc tại cái điện thoại lag đúng không? 😉",
         "Cố gắng lên, đừng để hình tròn nó khinh!",
         "Bạn chơi kiểu gì vậy? Mắt nhắm à?"
@@ -138,7 +177,7 @@
 
     window.addEventListener('pointerdown', (e) => {
         if (isGameOver || isGracePeriod) return;
-        if (e.target.closest('.container')) return;
+        if (e.target.closest('.container') || e.target.closest('.ad-container')) return;
         clickCount++;
         clickHud.innerText = `CLICKS: ${clickCount}`;
         const edgeDist = (barWidth / 2) - Math.abs(boxPos);
@@ -188,19 +227,11 @@
         ctx.shadowBlur = 15; ctx.shadowColor = "#ff0000"; ctx.strokeStyle = "#ff0000"; ctx.lineWidth = 10;
         ctx.beginPath(); ctx.moveTo(-barWidth/2, 0); ctx.lineTo(barWidth/2, 0); ctx.stroke();
         
-        // VẼ HÌNH TRÒN (BALL)
         ctx.shadowBlur = 10; ctx.shadowColor = "#fff";
         ctx.fillStyle = "#fff";
         ctx.beginPath();
-        ctx.arc(boxPos, -18, 18, 0, Math.PI * 2); // Hình tròn bán kính 18
+        ctx.arc(boxPos, -18, 18, 0, Math.PI * 2); 
         ctx.fill();
-        
-        // Thêm hiệu ứng bóng cho hình tròn
-        ctx.fillStyle = "rgba(0,0,0,0.2)";
-        ctx.beginPath();
-        ctx.arc(boxPos + 4, -22, 5, 0, Math.PI * 2);
-        ctx.fill();
-        
         ctx.restore();
     }
 
@@ -213,14 +244,10 @@
         document.getElementById("gameOverUI").style.display = "flex";
         document.getElementById("finalTime").innerText = time.toFixed(1);
         document.getElementById("finalClicks").innerText = `Tổng số lần click: ${clickCount}`;
-        
-        // Hiển thị câu cà khịa ngẫu nhiên
         insultText.innerText = insults[Math.floor(Math.random() * insults.length)];
-        
         hud.style.display = "none"; clickHud.style.display = "none"; statusTag.style.display = "none";
         const btnSave = document.getElementById("btnSave");
-        btnSave.disabled = false; btnSave.innerText = "LƯU THÀNH TÍCH";
-        btnSave.style.background = "#ff0000";
+        btnSave.disabled = false; btnSave.innerText = "LƯU THÀNH TÍCH"; btnSave.style.background = "#ff0000";
     }
 
     window.saveScore = async () => {
@@ -243,7 +270,9 @@
         const data = snap.val();
         const listEl = document.getElementById("leaderboardList");
         if (!data) { listEl.innerHTML = "<li>Trống</li>"; return; }
-        const scores = Object.values(data).sort((a, b) => b.score - a.score).slice(0, 50);
+        
+        // CẬP NHẬT LẤY TOP 100
+        const scores = Object.values(data).sort((a, b) => b.score - a.score).slice(0, 100);
         listEl.innerHTML = scores.map((s, i) => `<li><span><b class="rank-num">#${i+1}</b> ${s.name}</span><span style="color:#ff0000; font-weight:bold">${s.score.toFixed(1)}s</span></li>`).join('');
     });
 </script>
