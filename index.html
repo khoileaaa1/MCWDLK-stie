@@ -21,6 +21,11 @@
         
         h1 { color: #ff0000; font-size: 24px; margin: 10px 0 5px 0; text-transform: uppercase; letter-spacing: 2px; }
         
+        /* LANGUAGE SWITCHER */
+        .lang-switch { display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; }
+        .lang-btn { background: #222; border: 1px solid #444; color: #888; padding: 5px 12px; font-size: 11px; cursor: pointer; border-radius: 4px; transition: 0.3s; width: auto !important; margin: 0 !important; }
+        .lang-btn.active { background: #ff0000; color: white; border-color: #ff0000; }
+
         /* SOCIAL MEDIA BUTTONS */
         .social-box { display: flex; justify-content: center; gap: 20px; margin: 12px 0; border-bottom: 1px solid #222; padding-bottom: 12px; }
         .social-icon { color: #fff; font-size: 22px; transition: 0.3s; text-decoration: none; position: relative; }
@@ -29,21 +34,9 @@
         .fa-envelope:hover { color: #ea4335; }
         .social-label { display: block; font-size: 9px; color: #888; margin-top: 4px; text-transform: uppercase; }
 
-        .ad-container {
-            width: 100%;
-            min-height: 60px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: #444;
-            overflow: hidden;
-            margin: 10px 0;
-        }
+        .ad-container { width: 100%; min-height: 60px; background: rgba(255,255,255,0.03); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #444; overflow: hidden; margin: 10px 0; }
 
-        #insult-text { color: #ffeb3b; font-style: italic; font-size: 14px; margin-bottom: 10px; min-height: 20px; }
+        #insult-text { color: #ffeb3b; font-style: italic; font-size: 14px; margin-bottom: 10px; min-height: 40px; display: flex; align-items: center; justify-content: center; padding: 0 10px; }
         button { padding: 14px; margin: 6px 0; font-size: 14px; font-weight: bold; background: #ff0000; color: #fff; border: none; border-radius: 6px; cursor: pointer; width: 100%; text-transform: uppercase; transition: 0.2s; }
         button:active { transform: scale(0.98); background: #b30000; }
         button:disabled { background: #444; color: #888; cursor: not-allowed; }
@@ -72,21 +65,15 @@
 
 <!-- MENU CHÍNH -->
 <div id="menu" class="ui-screen">
-    <!-- ADS ĐẦU MENU -->
-    <div class="ad-container" style="max-width: 350px;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-8573479616106906"
-             data-ad-slot="AUTO_ADS_SLOT" 
-             data-ad-format="horizontal"
-             data-full-width-responsive="true"></ins>
-        <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
-    </div>
-
     <div class="container">
-        <h1>SIÊU CÂN BẰNG</h1>
+        <!-- Nút chuyển ngôn ngữ -->
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-lang-vi">VIETNAMESE</button>
+            <button class="lang-btn" id="btn-lang-en">ENGLISH</button>
+        </div>
+
+        <h1 id="txt-title">SIÊU CÂN BẰNG</h1>
         
-        <!-- CONTACT ADMIN -->
         <div class="social-box">
             <a href="https://x.com/Erykle1blp" target="_blank" class="social-icon">
                 <i class="fa-brands fa-x-twitter"></i>
@@ -98,12 +85,12 @@
             </a>
         </div>
 
-        <p style="color: #666; font-size: 11px; margin-top: 5px;">CHẾ ĐỘ: HÌNH TRÒN & CÀ KHỊA</p>
+        <p id="txt-mode" style="color: #666; font-size: 11px; margin-top: 5px;">CHẾ ĐỘ: HÌNH TRÒN & CÀ KHỊA</p>
         
-        <button onclick="startGame()">BẮT ĐẦU</button>
+        <button id="btn-start" onclick="startGame()">BẮT ĐẦU</button>
         
         <div class="lb-box">
-            <span class="lb-title">🏆 TOP 100 CAO THỦ</span>
+            <span class="lb-title" id="txt-lb-title">🏆 TOP 100 CAO THỦ</span>
             <ol id="leaderboardList"><li>Đang tải...</li></ol>
         </div>
     </div>
@@ -112,8 +99,8 @@
 <!-- MÀN HÌNH THUA -->
 <div id="gameOverUI" class="ui-screen" style="display:none">
     <div class="container">
-        <h2 style="color: #ff0000; margin: 0; font-size: 22px;">KẾT THÚC!</h2>
-        <p id="insult-text"></p>
+        <h2 id="txt-gameover" style="color: #ff0000; margin: 0; font-size: 22px;">KẾT THÚC!</h2>
+        <div id="insult-text"></div>
         <p style="font-size: 45px; margin: 5px 0; font-weight: 900;"><span id="finalTime">0</span>s</p>
         <p id="finalClicks" style="color: #888; margin-top: -10px; font-size: 13px;">Clicks: 0</p>
         
@@ -121,18 +108,7 @@
         
         <button id="btnSave" onclick="saveScore()">LƯU THÀNH TÍCH</button>
         <button id="btnRetry" onclick="startGame()" style="background: #008000;">CHƠI LẠI</button>
-        <button onclick="backToMenu()" style="background: #222; color: #888; font-size: 12px; padding: 10px;">VỀ MENU</button>
-
-        <!-- ADS MÀN HÌNH THUA -->
-        <div class="ad-container" style="border-top: 1px solid #333; padding-top: 10px;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-8573479616106906"
-                 data-ad-slot="AUTO_ADS_SLOT" 
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
-        </div>
+        <button id="btnMenu" onclick="backToMenu()" style="background: #222; color: #888; font-size: 12px; padding: 10px;">VỀ MENU</button>
     </div>
 </div>
 
@@ -155,6 +131,92 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
+    // --- HỆ THỐNG NGÔN NGỮ ---
+    let currentLang = 'vi';
+    const langs = {
+        vi: {
+            title: "SIÊU CÂN BẰNG",
+            mode: "CHẾ ĐỘ: HÌNH TRÒN & CÀ KHỊA",
+            start: "BẮT ĐẦU",
+            lbTitle: "🏆 TOP 100 CAO THỦ",
+            loading: "Đang tải...",
+            gameOver: "KẾT THÚC!",
+            saveBtn: "LƯU THÀNH TÍCH",
+            retryBtn: "CHƠI LẠI",
+            menuBtn: "VỀ MENU",
+            placeholder: "Tên của bạn...",
+            saving: "ĐANG LƯU...",
+            saved: "ĐÃ LƯU!",
+            error: "LỖI!",
+            statusReady: "SẴN SÀNG...",
+            statusGo: "SỐNG SÓT ĐI!",
+            danger: "BẤM NHANH! CỨU NGUY!!!",
+            totalClicks: "Tổng số lần click: ",
+            emptyLB: "Trống",
+            insults: [
+                "Bạn gà quá vậy? 🐣",
+                "Tay chân bị đóng băng à? ❄️",
+                "Trò này dễ mà, sao rớt hoài vậy? 😂",
+                "Về chơi xếp hình đi bạn ơi...",
+                "Kỷ lục của bạn... thật đáng thất vọng!",
+                "Chắc tại cái điện thoại lag đúng không? 😉",
+                "Cố gắng lên, đừng để hình tròn nó khinh!",
+                "Bạn chơi kiểu gì vậy? Mắt nhắm à?"
+            ]
+        },
+        en: {
+            title: "SUPER BALANCE",
+            mode: "MODE: CIRCLE & TROLL",
+            start: "START GAME",
+            lbTitle: "🏆 TOP 100 MASTERS",
+            loading: "Loading...",
+            gameOver: "GAME OVER!",
+            saveBtn: "SAVE SCORE",
+            retryBtn: "RETRY",
+            menuBtn: "BACK TO MENU",
+            placeholder: "Your name...",
+            saving: "SAVING...",
+            saved: "SAVED!",
+            error: "ERROR!",
+            statusReady: "READY...",
+            statusGo: "SURVIVE!",
+            danger: "QUICK! SAVE IT!!!",
+            totalClicks: "Total Clicks: ",
+            emptyLB: "Empty",
+            insults: [
+                "Are you a chicken? 🐣",
+                "Are your fingers frozen? ❄️",
+                "This is easy, why do you keep failing? 😂",
+                "Go play Tetris instead...",
+                "Your record is... disappointing!",
+                "Must be the phone lag, right? 😉",
+                "Focus! Don't let the circle laugh at you!",
+                "Are you playing with your eyes closed?"
+            ]
+        }
+    };
+
+    function updateLanguageUI(lang) {
+        currentLang = lang;
+        document.getElementById('btn-lang-vi').classList.toggle('active', lang === 'vi');
+        document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+
+        document.getElementById('txt-title').innerText = langs[lang].title;
+        document.getElementById('txt-mode').innerText = langs[lang].mode;
+        document.getElementById('btn-start').innerText = langs[lang].start;
+        document.getElementById('txt-lb-title').innerText = langs[lang].lbTitle;
+        document.getElementById('txt-gameover').innerText = langs[lang].gameOver;
+        document.getElementById('btnSave').innerText = langs[lang].saveBtn;
+        document.getElementById('btnRetry').innerText = langs[lang].retryBtn;
+        document.getElementById('btnMenu').innerText = langs[lang].menuBtn;
+        document.getElementById('playerName').placeholder = langs[lang].placeholder;
+        document.getElementById('danger-alert').innerText = langs[lang].danger;
+    }
+
+    document.getElementById('btn-lang-vi').onclick = () => updateLanguageUI('vi');
+    document.getElementById('btn-lang-en').onclick = () => updateLanguageUI('en');
+
+    // --- LOGIC GAME ---
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
     const hud = document.getElementById("hud");
@@ -175,17 +237,6 @@
     const shrinkSpeed = 0.45;
     const saveForce = 0.85;
 
-    const insults = [
-        "Bạn gà quá vậy? 🐣",
-        "Tay chân bị đóng băng à? ❄️",
-        "Trò này dễ mà, sao rớt hoài vậy? 😂",
-        "Về chơi xếp hình đi bạn ơi...",
-        "Kỷ lục của bạn... thật đáng thất vọng!",
-        "Chắc tại cái điện thoại lag đúng không? 😉",
-        "Cố gắng lên, đừng để hình tròn nó khinh!",
-        "Bạn chơi kiểu gì vậy? Mắt nhắm à?"
-    ];
-
     function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resize);
     resize();
@@ -200,7 +251,7 @@
 
     window.addEventListener('pointerdown', (e) => {
         if (isGameOver || isGracePeriod) return;
-        if (e.target.closest('.container') || e.target.closest('.ad-container') || e.target.closest('.social-box')) return;
+        if (e.target.closest('.container')) return;
         clickCount++;
         clickHud.innerText = `CLICKS: ${clickCount}`;
         const edgeDist = (barWidth / 2) - Math.abs(boxPos);
@@ -219,8 +270,14 @@
         document.getElementById("menu").style.display = "none";
         document.getElementById("gameOverUI").style.display = "none";
         hud.style.display = "block"; clickHud.style.display = "block"; statusTag.style.display = "block";
-        statusTag.innerText = "SẴN SÀNG...";
-        setTimeout(() => { if (!isGameOver) isGracePeriod = false; statusTag.innerText = "SỐNG SÓT ĐI!"; }, 1000);
+        
+        statusTag.innerText = langs[currentLang].statusReady;
+        setTimeout(() => { 
+            if (!isGameOver) {
+                isGracePeriod = false; 
+                statusTag.innerText = langs[currentLang].statusGo;
+            }
+        }, 1000);
         gameLoop();
     };
 
@@ -266,11 +323,14 @@
         dangerAlert.style.display = "none";
         document.getElementById("gameOverUI").style.display = "flex";
         document.getElementById("finalTime").innerText = time.toFixed(1);
-        document.getElementById("finalClicks").innerText = `Tổng số lần click: ${clickCount}`;
-        insultText.innerText = insults[Math.floor(Math.random() * insults.length)];
+        document.getElementById("finalClicks").innerText = `${langs[currentLang].totalClicks}${clickCount}`;
+        
+        const insultPool = langs[currentLang].insults;
+        insultText.innerText = insultPool[Math.floor(Math.random() * insultPool.length)];
+        
         hud.style.display = "none"; clickHud.style.display = "none"; statusTag.style.display = "none";
         const btnSave = document.getElementById("btnSave");
-        btnSave.disabled = false; btnSave.innerText = "LƯU THÀNH TÍCH"; btnSave.style.background = "#ff0000";
+        btnSave.disabled = false; btnSave.innerText = langs[currentLang].saveBtn; btnSave.style.background = "#ff0000";
     }
 
     window.saveScore = async () => {
@@ -278,21 +338,21 @@
         const score = Number(time.toFixed(1));
         const btn = document.getElementById("btnSave");
         if (btn.disabled) return;
-        btn.disabled = true; btn.innerText = "ĐANG LƯU...";
+        btn.disabled = true; btn.innerText = langs[currentLang].saving;
         try {
             const newRef = push(ref(db, "leaderboard"));
             await Promise.all([
                 set(newRef, { name, score, timestamp: Date.now() }),
                 new Promise(r => setTimeout(r, 1000))
             ]);
-            btn.innerText = "ĐÃ LƯU!"; btn.style.background = "#444";
-        } catch (e) { btn.innerText = "LỖI!"; btn.disabled = false; }
+            btn.innerText = langs[currentLang].saved; btn.style.background = "#444";
+        } catch (e) { btn.innerText = langs[currentLang].error; btn.disabled = false; }
     };
 
     onValue(ref(db, "leaderboard"), (snap) => {
         const data = snap.val();
         const listEl = document.getElementById("leaderboardList");
-        if (!data) { listEl.innerHTML = "<li>Trống</li>"; return; }
+        if (!data) { listEl.innerHTML = `<li>${langs[currentLang].emptyLB}</li>`; return; }
         const scores = Object.values(data).sort((a, b) => b.score - a.score).slice(0, 100);
         listEl.innerHTML = scores.map((s, i) => `<li><span><b class="rank-num">#${i+1}</b> ${s.name}</span><span style="color:#ff0000; font-weight:bold">${s.score.toFixed(1)}s</span></li>`).join('');
     });
