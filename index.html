@@ -3,62 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SIÊU CÂN BẰNG - LEGENDARY RANKED MODE</title>
+    <title>SIÊU CÂN BẰNG - ONLINE 1v1 & ROYAL PASS (HOTFIX)</title>
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8573479616106906" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #ff003c;
-            --primary-glow: rgba(255, 0, 60, 0.6);
-            --cyan: #00f0ff;
-            --gold: #ffd700;
-            --dark-bg: rgba(10, 5, 5, 0.85);
+            --primary: #ff003c; --primary-glow: rgba(255, 0, 60, 0.6);
+            --cyan: #00f0ff; --gold: #ffd700; --diamond: #ff007f;
+            --dark-bg: rgba(10, 5, 5, 0.85); --pass-vip: #ffaa00;
         }
 
         body { margin: 0; background: #000; color: white; font-family: 'Poppins', sans-serif; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
         canvas { display: block; position: relative; z-index: 0; }
         
-        /* HIỆU ỨNG MÀN HÌNH MÁY GAME THÙNG (CRT SCANLINES) */
-        .crt-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 4px, 3px 100%; opacity: 0.6;
-        }
-
-        .ui-screen { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            z-index: 100; background: rgba(0, 0, 0, 0.8); 
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            text-align: center; overflow-y: auto; 
-        }
+        .crt-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 4px, 3px 100%; opacity: 0.6; }
         
-        .container { 
-            padding: 25px 20px; border: 2px solid rgba(0, 240, 255, 0.4); border-radius: 16px; 
-            background: var(--dark-bg); width: 88%; max-width: 380px; 
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 240, 255, 0.1); 
-            margin: 10px 0; position: relative; animation: fadeIn 0.4s ease-out;
-        }
+        .server-announcement { position: fixed; top: 0; left: 0; width: 100%; background: rgba(0,0,0,0.8); border-bottom: 1px solid var(--cyan); color: #fff; font-size: 11px; padding: 4px 0; z-index: 200; white-space: nowrap; overflow: hidden; box-shadow: 0 0 10px rgba(0,240,255,0.3); }
+        .marquee-content { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        .marquee-content i { color: var(--gold); margin: 0 5px; }
 
+        .ui-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); text-align: center; overflow-y: auto; }
+        .container { padding: 25px 20px; border: 2px solid rgba(0, 240, 255, 0.4); border-radius: 16px; background: var(--dark-bg); width: 88%; max-width: 380px; box-shadow: 0 0 40px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 240, 255, 0.1); margin: 10px 0; position: relative; animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
         
-        h1, h2 { color: var(--cyan); font-family: 'Orbitron', sans-serif; font-size: 28px; margin: 5px 0 10px 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0,240,255,0.6); }
+        h1, h2 { color: var(--cyan); font-family: 'Orbitron', sans-serif; font-size: 26px; margin: 5px 0 10px 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0,240,255,0.6); }
         
-        /* RANK STYLES */
+        /* 5 RANK STYLES */
         .rank-dong { color: #cd7f32; text-shadow: 0 0 10px rgba(205, 127, 50, 0.6); }
         .rank-bac { color: #c0c0c0; text-shadow: 0 0 10px rgba(192, 192, 192, 0.8); }
         .rank-kimcuong { color: #00ffff; text-shadow: 0 0 15px rgba(0, 255, 255, 0.8); }
-        .rank-huyenthoai { 
-            background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #00ff00, #00ffff, #ff00ff, #ff0000);
-            background-size: 400% 400%; -webkit-background-clip: text; color: transparent; 
-            animation: rainbowGlow 3s ease infinite; font-weight: 900;
-        }
+        .rank-huyenthoai { color: #ff00ff; text-shadow: 0 0 15px rgba(255, 0, 255, 0.8); }
+        .rank-thachdau { background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #ff0000); background-size: 300% 300%; -webkit-background-clip: text; color: transparent; animation: rainbowGlow 2s ease infinite; font-weight: 900; text-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
         @keyframes rainbowGlow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
         .rank-box { background: rgba(0,0,0,0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 8px; padding: 15px 10px; margin-bottom: 15px; position: relative; }
@@ -68,113 +47,110 @@
         .progress-bar-fill { height: 100%; background: var(--cyan); width: 0%; transition: width 0.5s ease-out; box-shadow: 0 0 10px var(--cyan); }
         .rp-text { font-size: 11px; color: #aaa; margin-top: 4px; display: block; font-family: 'Orbitron', sans-serif;}
 
-        .user-stats-box { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 15px; display: flex; justify-content: space-around; font-family: 'Orbitron', sans-serif; font-size: 13px; }
-        .stat-item { color: #fff; display: flex; align-items: center; gap: 5px; }
-        .stat-item i { color: var(--gold); }
+        .user-stats-box { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 15px; display: flex; justify-content: space-around; font-family: 'Orbitron', sans-serif; font-size: 12px; flex-wrap: wrap; gap: 5px; }
+        .stat-item { color: #fff; display: flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.4); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); }
         
-        .btn-logout { position: absolute; top: -12px; right: -10px; background: #333; color: #fff; border: 1px solid #555; padding: 4px 8px; font-size: 10px; border-radius: 6px; cursor: pointer; font-family: 'Poppins', sans-serif; z-index: 10; transition: 0.3s;}
-        .btn-logout:hover { background: #ff003c; border-color: #ff003c; box-shadow: 0 0 10px var(--primary-glow); }
+        .btn-logout { position: absolute; top: -12px; right: -10px; background: #333; color: #fff; border: 1px solid #555; padding: 4px 8px; font-size: 10px; border-radius: 6px; cursor: pointer; font-family: 'Poppins', sans-serif; z-index: 10;}
+        .btn-logout:hover { background: #ff003c; border-color: #ff003c; }
 
-        .btn-group { display: flex; gap: 10px; margin-top: 10px; }
-        button { 
-            padding: 14px; margin: 8px 0; font-size: 16px; font-weight: 700; 
-            background: linear-gradient(135deg, var(--primary), #990024); 
-            color: #fff; border: none; border-radius: 8px; cursor: pointer; 
-            width: 100%; text-transform: uppercase; letter-spacing: 1px;
-            transition: all 0.2s; box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); font-family: 'Orbitron', sans-serif;
-        }
+        .btn-group { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+        .btn-row { display: flex; gap: 10px; }
+        button { padding: 12px; font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--primary), #990024); color: #fff; border: none; border-radius: 8px; cursor: pointer; width: 100%; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); font-family: 'Orbitron', sans-serif; }
         
-        #btn-start { animation: pulse 1.5s infinite; background: linear-gradient(135deg, #00f0ff, #005b66); box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3); }
-        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 10px rgba(0,240,255,0.4); } 50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(0,240,255,0.8); } 100% { transform: scale(1); box-shadow: 0 0 10px rgba(0,240,255,0.4); } }
+        #btn-start { background: linear-gradient(135deg, #00f0ff, #005b66); box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3); }
+        #btn-matchmake { animation: pulse 1.5s infinite; background: linear-gradient(135deg, #ff003c, #8b0000); box-shadow: 0 4px 15px rgba(255, 0, 60, 0.4); }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         
         button:hover { filter: brightness(1.2); transform: translateY(-2px); animation: none; }
-        button:active { transform: scale(0.96) translateY(2px); }
-        button.btn-shop { background: linear-gradient(135deg, #ffd700, #b8860b); color: #000; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2); animation: none; }
+        button:active { transform: scale(0.96); }
+        button.btn-shop { background: #333; box-shadow: none; border: 1px solid #555; }
+        button.btn-pass { background: linear-gradient(135deg, var(--pass-vip), #8b6508); color: #000; box-shadow: 0 4px 15px rgba(255, 170, 0, 0.3); }
         
-        input { 
-            padding: 14px; margin: 8px 0; background: rgba(0,0,0,0.5); 
-            border: 1px solid rgba(255,255,255,0.2); color: var(--cyan); 
-            width: 85%; text-align: center; font-size: 16px; font-family: 'Poppins', sans-serif; font-weight: 600;
-            border-radius: 8px; outline: none; transition: 0.3s;
-        }
+        input { padding: 14px; margin: 8px 0; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: var(--cyan); width: 85%; text-align: center; font-size: 16px; font-family: 'Poppins', sans-serif; font-weight: 600; border-radius: 8px; outline: none; transition: 0.3s; }
         input:focus { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
 
-        /* SHOP UI */
-        .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 250px; overflow-y: auto; padding-right: 5px; margin-bottom: 10px;}
-        .shop-grid::-webkit-scrollbar { width: 4px; }
-        .shop-grid::-webkit-scrollbar-track { background: #111; }
-        .shop-grid::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 4px; }
-        
-        .skin-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; text-align: center; transition: 0.3s; }
-        .skin-card.equipped { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0,240,255,0.3); background: rgba(0,240,255,0.1); }
-        .skin-preview-box { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 8px; height: 50px;}
-        .skin-preview-orb { width: 30px; height: 30px; border-radius: 50%; margin-bottom: 5px; }
-        .skin-preview-bar { width: 50px; height: 6px; border-radius: 3px; }
-        .skin-name { font-size: 11px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase;}
-        .skin-btn { padding: 6px; font-size: 11px; margin: 0; width: 100%; background: #333; box-shadow: none; animation: none;}
-        .skin-btn.buy { background: var(--gold); color: #000; }
-        .skin-btn.equip { background: var(--cyan); color: #000; }
-        .skin-btn.equipped { background: #555; cursor: default; }
+        .pass-container { max-height: 300px; overflow-y: auto; padding-right: 5px; margin-bottom: 10px; text-align: left;}
+        .pass-container::-webkit-scrollbar { width: 4px; } .pass-container::-webkit-scrollbar-thumb { background: var(--pass-vip); }
+        .pass-tier { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 8px; display: flex; align-items: center; padding: 10px; position: relative; }
+        .pass-tier.unlocked { border-color: var(--cyan); background: rgba(0,240,255,0.05); }
+        .pass-level { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: bold; color: #fff; width: 40px; text-align: center; border-right: 1px solid rgba(255,255,255,0.1); margin-right: 10px; }
+        .pass-rewards { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+        .reward-item { display: flex; justify-content: space-between; align-items: center; font-size: 12px; background: rgba(0,0,0,0.5); padding: 5px 8px; border-radius: 4px; border: 1px solid transparent; }
+        .reward-item.vip-reward { border-color: var(--pass-vip); }
+        .reward-item i { margin-right: 5px; }
+        .claim-btn { background: var(--cyan); color: #000; padding: 4px 10px; font-size: 10px; border-radius: 4px; margin: 0; width: auto; }
+        .claim-btn:disabled { background: #444; color: #888; }
 
-        /* IN-GAME HUD */
-        #hud { position: fixed; top: 15px; width: 100%; text-align: center; font-size: 60px; font-weight: 900; font-family: 'Orbitron', sans-serif; color: #fff; z-index: 50; display: none; pointer-events: none; text-shadow: 0 0 15px var(--cyan), 0 0 30px var(--cyan); }
-        #click-hud { position: fixed; top: 25px; left: 20px; font-size: 14px; font-family: 'Orbitron', sans-serif; color: #fff; z-index: 55; display: none; border-left: 4px solid var(--cyan); padding-left: 10px; text-shadow: 0 0 10px var(--cyan); background: rgba(0,0,0,0.6); padding: 5px 10px; border-radius: 0 6px 6px 0; }
-        #status-tag { position: fixed; top: 95px; width: 100%; text-align: center; font-size: 16px; font-family: 'Orbitron', sans-serif; z-index: 50; color: var(--cyan); display: none; font-weight: bold; pointer-events: none; text-shadow: 0 0 10px var(--cyan); letter-spacing: 2px; transition: color 0.2s; }
-        #danger-alert { position: fixed; bottom: 15%; width: 100%; text-align: center; color: #ffeb3b; font-weight: 900; font-family: 'Orbitron', sans-serif; font-size: 28px; z-index: 60; display: none; text-shadow: 0 0 20px #ff0000, 0 0 10px #ffeb3b; animation: dangerBlink 0.15s infinite; pointer-events: none; letter-spacing: 1px; }
-        @keyframes dangerBlink { 0% { opacity: 1; transform: scale(1) translate(0,0); } 50% { opacity: 0; transform: scale(1.1) translate(3px, -3px); } 100% { opacity: 1; transform: scale(1) translate(-3px, 3px); } }
+        #hud { position: fixed; top: 50px; width: 100%; text-align: center; font-size: 55px; font-weight: 900; font-family: 'Orbitron', sans-serif; color: #fff; z-index: 50; display: none; pointer-events: none; text-shadow: 0 0 15px var(--cyan); }
         
-        #insult-text { color: #ff003c; font-style: italic; font-size: 15px; margin-bottom: 10px; min-height: 40px; display: flex; align-items: center; justify-content: center; text-shadow: 0 0 8px rgba(255, 0, 60, 0.6); font-weight: bold; }
+        #match-hud { position: fixed; top: 10px; width: 100%; display: none; justify-content: space-around; background: rgba(0,0,0,0.8); padding: 10px 0; border-bottom: 2px solid var(--primary); z-index: 55; font-family: 'Orbitron', sans-serif; font-size: 14px; }
+        .match-player { color: var(--cyan); } .match-opponent { color: var(--primary); }
+        
+        #item-box { position: fixed; right: 15px; top: 50%; transform: translateY(-50%); display: none; flex-direction: column; gap: 15px; z-index: 60; }
+        .item-btn { width: 50px; height: 50px; border-radius: 50%; background: rgba(0,0,0,0.7); border: 2px solid var(--gold); color: #fff; font-size: 20px; display: flex; justify-content: center; align-items: center; position: relative; box-shadow: 0 0 10px var(--gold); padding: 0;}
+        .item-btn:active { transform: scale(0.9); }
+        .item-count { position: absolute; bottom: -5px; right: -5px; background: var(--primary); font-size: 10px; font-family: 'Orbitron', sans-serif; padding: 2px 6px; border-radius: 10px; font-weight: bold; }
 
+        #danger-alert { position: fixed; bottom: 15%; width: 100%; text-align: center; color: #ffeb3b; font-weight: 900; font-family: 'Orbitron', sans-serif; font-size: 28px; z-index: 60; display: none; text-shadow: 0 0 20px #ff0000; animation: dangerBlink 0.15s infinite; pointer-events: none; }
+        @keyframes dangerBlink { 0% { opacity: 1; transform: translate(0,0); } 50% { opacity: 0; transform: translate(3px, -3px); } 100% { opacity: 1; transform: translate(-3px, 3px); } }
+        
         .lb-box { margin-top: 10px; text-align: left; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
         .lb-title { color: var(--gold); font-weight: bold; font-family: 'Orbitron', sans-serif; display: block; margin-bottom: 8px; text-align: center; font-size: 14px; text-transform: uppercase; text-shadow: 0 0 5px rgba(255,215,0,0.5); }
-        ol { padding: 0; list-style: none; margin: 0; max-height: 120px; overflow-y: auto; border-radius: 6px; scrollbar-width: thin; scrollbar-color: var(--cyan) #111; }
-        ol::-webkit-scrollbar { width: 6px; }
-        ol::-webkit-scrollbar-track { background: #111; border-radius: 4px; }
-        ol::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 4px; }
+        ol { padding: 0; list-style: none; margin: 0; max-height: 100px; overflow-y: auto; border-radius: 6px; scrollbar-width: thin; scrollbar-color: var(--cyan) #111; }
+        ol::-webkit-scrollbar { width: 6px; } ol::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 4px; }
         li { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-family: 'Orbitron', sans-serif; }
-        .lb-name { display: flex; align-items: center; gap: 8px; color: #fff;}
-        .rank-num { color: #888; font-weight: 700; width: 25px; display: inline-block; font-size: 11px;}
-        
-        .switch-auth-link { font-size: 13px; margin-top: 15px; cursor: pointer; color: var(--cyan); text-decoration: underline; transition: 0.3s;}
-        .switch-auth-link:hover { color: #fff; text-shadow: 0 0 8px var(--cyan); }
     </style>
 </head>
 <body>
 
+<div class="server-announcement">
+    <div class="marquee-content" id="marqueeText">
+        <i class="fa-solid fa-bullhorn"></i> <b>[Hệ thống]</b>: Chào mừng MÙA 2 - KỶ NGUYÊN THÁCH ĐẤU! Ra mắt chế độ Online 1v1 & Vật phẩm In-game!
+    </div>
+</div>
 <div class="crt-overlay"></div>
 
 <div id="hud">0.0s</div>
-<div id="click-hud">CLICKS: 0</div>
-<div id="status-tag">TRẠNG THÁI: CHUẨN BỊ</div>
+<div id="click-hud" style="position: fixed; top: 35px; left: 20px; font-size: 14px; font-family: 'Orbitron', sans-serif; color: #fff; z-index: 55; display: none; border-left: 4px solid var(--cyan); padding-left: 10px; text-shadow: 0 0 10px var(--cyan); background: rgba(0,0,0,0.6); padding: 5px 10px; border-radius: 0 6px 6px 0;">CLICKS: 0</div>
+
+<div id="match-hud">
+    <div class="match-player">BẠN: <span id="my-match-time">0.0</span>s</div>
+    <div>VS</div>
+    <div class="match-opponent">ĐỐI THỦ: <span id="opp-match-time">0.0</span>s</div>
+</div>
+
+<div id="item-box">
+    <button class="item-btn" onclick="useItem('magnet')" id="btn-magnet"><i class="fa-solid fa-magnet"></i><span class="item-count" id="count-magnet">0</span></button>
+    <button class="item-btn" onclick="useItem('freeze')" id="btn-freeze" style="border-color: #00bfff; box-shadow: 0 0 10px #00bfff;"><i class="fa-regular fa-snowflake" style="color: #00bfff;"></i><span class="item-count" id="count-freeze">0</span></button>
+</div>
+
+<div id="status-tag" style="position: fixed; top: 105px; width: 100%; text-align: center; font-size: 16px; font-family: 'Orbitron', sans-serif; z-index: 50; color: var(--cyan); display: none; font-weight: bold; pointer-events: none; text-shadow: 0 0 10px var(--cyan); letter-spacing: 2px;">TRẠNG THÁI: CHUẨN BỊ</div>
 <div id="danger-alert">RỚT BÂY GIỜ!!! CỨU!!!</div>
 
 <div id="authUI" class="ui-screen">
     <div class="container" id="loginBox">
         <h1>ĐĂNG NHẬP</h1>
-        <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">Tham gia cày Rank và đua Top server!</p>
         <input type="text" id="loginUser" placeholder="Tên tài khoản..." maxlength="12">
         <input type="password" id="loginPass" placeholder="Mật khẩu...">
         <button onclick="handleLogin()">VÀO GAME</button>
         <p id="loginError" style="color: #ff003c; font-size: 13px; display: none; font-weight: bold; margin: 5px 0;"></p>
-        <p class="switch-auth-link" onclick="switchAuth('register')">Chưa có tài khoản? Đăng ký ngay</p>
+        <p style="font-size: 13px; color: var(--cyan); text-decoration: underline; cursor:pointer;" onclick="switchAuth('register')">Chưa có tài khoản? Đăng ký</p>
     </div>
-
     <div class="container" id="registerBox" style="display:none;">
         <h1>ĐĂNG KÝ</h1>
-        <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">Tạo tài khoản mới</p>
-        <input type="text" id="regUser" placeholder="Tên tài khoản (Hiển thị Top)" maxlength="12">
+        <input type="text" id="regUser" placeholder="Tên tài khoản..." maxlength="12">
         <input type="password" id="regPass" placeholder="Mật khẩu (Ít nhất 4 ký tự)">
-        <input type="password" id="regConfirm" placeholder="Xác nhận lại mật khẩu">
+        <input type="password" id="regConfirm" placeholder="Xác nhận mật khẩu">
         <button onclick="handleRegister()" style="background: linear-gradient(135deg, #00b09b, #96c93d);">TẠO TÀI KHOẢN</button>
         <p id="regError" style="color: #ff003c; font-size: 13px; display: none; font-weight: bold; margin: 5px 0;"></p>
-        <p class="switch-auth-link" onclick="switchAuth('login')">Đã có tài khoản? Quay lại Đăng nhập</p>
+        <p style="font-size: 13px; color: var(--cyan); text-decoration: underline; cursor:pointer;" onclick="switchAuth('login')">Quay lại Đăng nhập</p>
     </div>
 </div>
 
 <div id="menuUI" class="ui-screen" style="display:none">
     <div class="container">
         <button class="btn-logout" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i></button>
-        <h1 id="txt-title" style="margin-top: 0;">SIÊU CÂN BẰNG</h1>
+        <h1 id="txt-title" style="margin-top: 0; font-size: 24px;">SIÊU CÂN BẰNG</h1>
         
         <div class="rank-box">
             <span class="rank-icon" id="ui-rank-icon"><i class="fa-solid fa-medal"></i></span>
@@ -185,45 +161,73 @@
         </div>
 
         <div class="user-stats-box">
-            <div class="stat-item"><i class="fa-solid fa-coins"></i> <span id="ui-coins">0</span></div>
-            <div class="stat-item"><i class="fa-solid fa-clock" style="color:var(--cyan)"></i> Kỷ lục: <span id="ui-maxscore">0.0s</span></div>
+            <div class="stat-item" title="Kỷ lục"><i class="fa-solid fa-clock" style="color:var(--cyan)"></i> <span id="ui-maxscore">0.0s</span></div>
+            <div class="stat-item" title="Vàng"><i class="fa-solid fa-coins" style="color:var(--gold)"></i> <span id="ui-coins">0</span></div>
+            <div class="stat-item" title="Kim Cương"><i class="fa-solid fa-gem" style="color:var(--diamond)"></i> <span id="ui-diamonds">0</span></div>
+            <div class="stat-item" title="Nam Châm"><i class="fa-solid fa-magnet" style="color:#aaa"></i> <span id="ui-magnet">0</span></div>
+            <div class="stat-item" title="Đóng Băng"><i class="fa-regular fa-snowflake" style="color:#00bfff"></i> <span id="ui-freeze">0</span></div>
         </div>
 
         <div class="btn-group">
-            <button id="btn-start" onclick="startGame()">BẮT ĐẦU</button>
-            <button class="btn-shop" onclick="openShop()"><i class="fa-solid fa-cart-shopping"></i> SKIN</button>
+            <button id="btn-matchmake" onclick="startMatchmaking()"><i class="fa-solid fa-crosshairs"></i> ĐẤU KÍN 1v1</button>
+            <button id="btn-start" onclick="startGame(false)">CHƠI ĐƠN (LUYỆN TẬP)</button>
+            <div class="btn-row">
+                <button class="btn-pass" onclick="openPass()"><i class="fa-solid fa-ticket"></i> ROYAL PASS</button>
+                <button class="btn-shop" onclick="openShop()"><i class="fa-solid fa-cart-shopping"></i> KHO ĐỒ</button>
+            </div>
         </div>
         
         <div class="lb-box">
-            <span class="lb-title"><i class="fa-solid fa-trophy"></i> BẢNG XẾP HẠNG RANK</span>
+            <span class="lb-title"><i class="fa-solid fa-trophy"></i> TOP THÁCH ĐẤU</span>
             <ol id="leaderboardList"><li>Đang tải...</li></ol>
         </div>
+    </div>
+</div>
+
+<div id="matchmakingUI" class="ui-screen" style="display:none; background: rgba(0,0,0,0.95);">
+    <div class="container" style="border-color: #ff003c; box-shadow: 0 0 50px rgba(255,0,60,0.5);">
+        <h2 style="color: #ff003c;">ĐANG TÌM ĐỐI THỦ...</h2>
+        <i class="fa-solid fa-radar" style="font-size: 50px; color: #ff003c; animation: pulse 1s infinite; margin: 20px 0;"></i>
+        <p style="font-size: 12px; color: #888;">Hãy đảm bảo kết nối mạng ổn định.</p>
+        <button onclick="cancelMatchmaking()" style="background: #333; box-shadow: none;">HỦY BỎ</button>
+    </div>
+</div>
+
+<div id="passUI" class="ui-screen" style="display:none">
+    <div class="container" style="max-width: 420px; border-color: var(--pass-vip);">
+        <h2 style="color: var(--pass-vip); text-shadow: 0 0 15px var(--pass-vip);"><i class="fa-solid fa-star"></i> ROYAL PASS MÙA 2</h2>
+        <p style="font-size: 12px; color: #aaa; margin-top: -5px;">Cấp Pass hiện tại: <b id="pass-level-display" style="color:#fff;">1</b> (Dựa trên RP)</p>
+        <div class="pass-container" id="passContainer"></div>
+        <button id="btn-buy-vip" onclick="buyVIPPass()" style="background: linear-gradient(135deg, var(--pass-vip), #ff4500); margin-top: 10px;">MỞ KHÓA VIP PASS (500 💎)</button>
+        <button onclick="closePass()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none;">ĐÓNG</button>
     </div>
 </div>
 
 <div id="shopUI" class="ui-screen" style="display:none">
     <div class="container">
         <h2 style="color: var(--cyan); text-shadow: 0 0 15px var(--cyan);">KHO GIAO DIỆN</h2>
-        <p style="color: var(--gold); font-family: 'Orbitron', sans-serif; margin-top: -5px; margin-bottom: 15px;">
-            <i class="fa-solid fa-coins"></i> Vàng: <span id="shop-coins">0</span>
-        </p>
+        <div style="display: flex; justify-content: center; gap: 15px; font-family: 'Orbitron', sans-serif; margin-bottom: 15px; font-size: 13px;">
+            <div style="color: var(--gold);"><i class="fa-solid fa-coins"></i> <span id="shop-coins">0</span></div>
+            <div style="color: var(--diamond);"><i class="fa-solid fa-gem"></i> <span id="shop-diamonds">0</span></div>
+        </div>
         <div class="shop-grid" id="shopContainer"></div>
-        <button onclick="closeShop()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; margin-top: 15px;">ĐÓNG CỬA HÀNG</button>
+        <button onclick="closeShop()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; margin-top: 15px;">ĐÓNG</button>
     </div>
 </div>
 
 <div id="gameOverUI" class="ui-screen" style="display:none">
     <div class="container">
-        <h2 style="color: #ff003c; text-shadow: 0 0 15px #ff003c;">GAME OVER!</h2>
-        <div id="insult-text"></div>
+        <h2 id="go-title" style="color: #ff003c; text-shadow: 0 0 15px #ff003c;">HẠ GỤC!</h2>
+        <div id="go-desc" style="font-size: 14px; color: #aaa; margin-bottom: 10px;"></div>
         <p style="font-size: 50px; margin: 10px 0; font-weight: 900; font-family: 'Orbitron', sans-serif; color: #fff; text-shadow: 0 0 15px var(--cyan);"><span id="finalTime">0</span>s</p>
         
         <div style="background: rgba(0, 240, 255, 0.1); border: 1px solid var(--cyan); padding: 8px; border-radius: 6px; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">
-            <div style="color: var(--cyan); font-weight: bold; font-size: 18px;">+ <span id="earnedRP">0</span> RP</div>
+            <div id="go-rp" style="color: var(--cyan); font-weight: bold; font-size: 18px;">+ <span id="earnedRP">0</span> RP</div>
             <div style="color: var(--gold); font-size: 12px; margin-top: 4px;">+ <span id="earnedCoins">0</span> Vàng</div>
         </div>
         
-        <button id="btnRetry" onclick="startGame()" style="background: linear-gradient(135deg, #00f0ff, #005b66); box-shadow: 0 0 15px rgba(0,240,255,0.4);">CAY CHƯA? CHƠI LẠI!</button>
+        <button id="btnRetry" onclick="startMatchmaking()" style="background: linear-gradient(135deg, #00f0ff, #005b66); box-shadow: 0 0 15px rgba(0,240,255,0.4); display: none;">TÌM ĐỐI THỦ MỚI</button>
+        <button id="btnRetrySolo" onclick="startGame(false)" style="background: linear-gradient(135deg, #00f0ff, #005b66); box-shadow: 0 0 15px rgba(0,240,255,0.4);">CHƠI LẠI</button>
         <button id="btnMenu" onclick="backToMenu()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; animation: none;">VỀ MENU</button>
     </div>
 </div>
@@ -232,7 +236,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, push, onValue, set, get, child, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getDatabase, ref, push, onValue, set, get, child, update, onDisconnect, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDini_60OLbZvd-AOJOCOvmtjRV5pPe_p8",
@@ -244,346 +248,768 @@
         appId: "1:77848012913:web:2fd560297deedaec2a13d0"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    const app = initializeApp(firebaseConfig); 
+    const db = getDatabase(app); 
     const dbRef = ref(db);
 
     let currentUser = null;
-    let userData = { password: "", coins: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1, 2], equippedSkin: 0 };
+    let userData = { password: "", coins: 0, diamonds: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1], equippedSkin: 0, isPassVIP: false, passClaimed: [], items: { magnet: 2, freeze: 2 } };
     
-    // --- HỆ THỐNG RANK (RP) ---
     function getRankInfo(rp) {
-        if (rp >= 15000) return { name: "HUYỀN THOẠI", class: "rank-huyenthoai", icon: '<i class="fa-solid fa-crown"></i>', next: 15000, max: true };
-        if (rp >= 5000) return { name: "KIM CƯƠNG", class: "rank-kimcuong", icon: '<i class="fa-solid fa-gem"></i>', next: 15000, min: 5000 };
+        if (rp >= 20000) return { name: "THÁCH ĐẤU", class: "rank-thachdau", icon: '<i class="fa-solid fa-dragon"></i>', next: 20000, max: true };
+        if (rp >= 10000) return { name: "HUYỀN THOẠI", class: "rank-huyenthoai", icon: '<i class="fa-solid fa-crown"></i>', next: 20000, min: 10000 };
+        if (rp >= 5000) return { name: "KIM CƯƠNG", class: "rank-kimcuong", icon: '<i class="fa-solid fa-gem"></i>', next: 10000, min: 5000 };
         if (rp >= 1000) return { name: "BẠC", class: "rank-bac", icon: '<i class="fa-solid fa-star"></i>', next: 5000, min: 1000 };
         return { name: "ĐỒNG", class: "rank-dong", icon: '<i class="fa-solid fa-medal"></i>', next: 1000, min: 0 };
     }
 
+    const passData = [
+        { lvl: 1, rp: 0, free: { t: 'gold', a: 100, n: '100 Vàng' }, vip: { t: 'diamond', a: 50, n: '50 KC' } },
+        { lvl: 2, rp: 500, free: { t: 'item_magnet', a: 1, n: '1 Nam Châm' }, vip: { t: 'item_freeze', a: 3, n: '3 Đóng Băng' } },
+        { lvl: 3, rp: 1500, free: { t: 'gold', a: 200, n: '200 Vàng' }, vip: { t: 'skin', id: 2, n: 'Skin Lục Bảo' } },
+        { lvl: 4, rp: 3000, free: { t: 'item_freeze', a: 1, n: '1 Đóng Băng' }, vip: { t: 'diamond', a: 150, n: '150 KC' } },
+        { lvl: 5, rp: 5000, free: { t: 'skin', id: 3, n: 'Skin Độc Tố' }, vip: { t: 'skin', id: 20, n: 'Skin VIP Sát Thủ' } }
+    ];
+
     const skinData = [
-        { id: 0, name: "CƠ BẢN", price: 0, orbColor: "#00f0ff", orbCore: "#ffffff", orbDark: "#005b66", barColor: "#ff1a4d", barGlow: "#ff003c" },
-        { id: 1, name: "BĂNG GIÁ", price: 0, orbColor: "#00bfff", orbCore: "#e0ffff", orbDark: "#00008b", barColor: "#87cefa", barGlow: "#00bfff" },
-        { id: 2, name: "LỤC BẢO", price: 0, orbColor: "#39ff14", orbCore: "#eaffea", orbDark: "#0f5e00", barColor: "#32cd32", barGlow: "#00ff00" },
-        { id: 3, name: "ĐỘC TỐ", price: 50, orbColor: "#adff2f", orbCore: "#ffff00", orbDark: "#556b2f", barColor: "#9932cc", barGlow: "#8a2be2" },
-        { id: 4, name: "DUNG NHAM", price: 150, orbColor: "#ff4500", orbCore: "#ffeea8", orbDark: "#661400", barColor: "#ff0000", barGlow: "#ff4500" },
-        { id: 5, name: "HẮC ÁM", price: 300, orbColor: "#9d00ff", orbCore: "#f3e5f5", orbDark: "#3a0066", barColor: "#4b0082", barGlow: "#800080" },
-        { id: 6, name: "HOÀNG KIM", price: 600, orbColor: "#ffd700", orbCore: "#ffffff", orbDark: "#806600", barColor: "#ffea00", barGlow: "#ffd700" },
-        { id: 7, name: "HUYẾT NGUYỆT", price: 1000, orbColor: "#dc143c", orbCore: "#ffb6c1", orbDark: "#8b0000", barColor: "#8b0000", barGlow: "#ff0000" },
-        { id: 8, name: "BÓNG MA", price: 1500, orbColor: "#f8f8ff", orbCore: "#ffffff", orbDark: "#708090", barColor: "#dcdcdc", barGlow: "#ffffff" },
-        { id: 9, name: "ĐẠI DƯƠNG", price: 2000, orbColor: "#00ced1", orbCore: "#e0ffff", orbDark: "#008080", barColor: "#0000cd", barGlow: "#0000ff" },
-        { id: 10, name: "TINH VÂN", price: 2500, orbColor: "#ff69b4", orbCore: "#ffe4e1", orbDark: "#c71585", barColor: "#ff1493", barGlow: "#ff69b4" },
-        { id: 11, name: "LÔI THẦN", price: 3000, orbColor: "#ffff00", orbCore: "#ffffff", orbDark: "#b8860b", barColor: "#00ffff", barGlow: "#00ced1" },
-        { id: 12, name: "THIÊN THẠCH", price: 4000, orbColor: "#d2691e", orbCore: "#ffebcd", orbDark: "#8b4513", barColor: "#ff8c00", barGlow: "#ff4500" },
-        { id: 13, name: "BẠCH KIM", price: 5000, orbColor: "#e5e4e2", orbCore: "#ffffff", orbDark: "#a9a9a9", barColor: "#e5e4e2", barGlow: "#c0c0c0" },
-        { id: 14, name: "HỖN MANG", price: 7000, orbColor: "#ff00ff", orbCore: "#ffb6c1", orbDark: "#8b008b", barColor: "#ff0000", barGlow: "#ff00ff" },
-        { id: 15, name: "HƯ VÔ", price: 10000, orbColor: "#111111", orbCore: "#555555", orbDark: "#000000", barColor: "#222222", barGlow: "#ffffff" },
-        { id: 16, name: "NEON TRẮNG", price: 15000, orbColor: "#ffffff", orbCore: "#ffffff", orbDark: "#cccccc", barColor: "#ffffff", barGlow: "#ffffff" },
-        { id: 17, name: "CYBERPUNK", price: 20000, orbColor: "#ff007f", orbCore: "#ffffff", orbDark: "#8b004b", barColor: "#00ffff", barGlow: "#00f0ff" },
-        { id: 18, name: "MA TRẬN", price: 30000, orbColor: "#00ff41", orbCore: "#ccffcc", orbDark: "#008f11", barColor: "#00ff41", barGlow: "#003b00" },
-        { id: 19, name: "VÔ CỰC", price: 50000, orbColor: "#00ffff", orbCore: "#ff00ff", orbDark: "#0000ff", barColor: "#ffff00", barGlow: "#ff0000" }
+        { id: 0, name: "CƠ BẢN", price: 0, curr: 'gold', orbColor: "#00f0ff", orbCore: "#ffffff", orbDark: "#005b66", barColor: "#ff1a4d", barGlow: "#ff003c" },
+        { id: 1, name: "BĂNG GIÁ", price: 0, curr: 'gold', orbColor: "#00bfff", orbCore: "#e0ffff", orbDark: "#00008b", barColor: "#87cefa", barGlow: "#00bfff" },
+        { id: 2, name: "LỤC BẢO", price: 0, curr: 'gold', orbColor: "#39ff14", orbCore: "#eaffea", orbDark: "#0f5e00", barColor: "#32cd32", barGlow: "#00ff00" },
+        { id: 3, name: "ĐỘC TỐ", price: 50, curr: 'gold', orbColor: "#adff2f", orbCore: "#ffff00", orbDark: "#556b2f", barColor: "#9932cc", barGlow: "#8a2be2" },
+        { id: 20, name: "SÁT THỦ", price: 50, curr: 'diamond', vip: true, orbColor: "#ff003c", orbCore: "#000000", orbDark: "#330000", barColor: "#000000", barGlow: "#ff003c" }
     ];
 
-    const insults = [
-        "Spam tay nữa đi bro! ⚡", "Tay chân bị đóng băng à? ❄️", "Trò này cho nít chơi, sao rớt hoài vậy? 😂",
-        "Có cái thanh ngang cũng giữ không xong!", "Mắt lác à? Lệch thế kia!", "Run tay rồi kìa, yếu thế!",
-        "Chắc do mạng lag đúng không? Đổ thừa đi 🤣", "Kỷ lục này con nít nhà bên còn làm tốt hơn!",
-        "Chơi dở thế này thì tắt máy học bài đi!", "Điểm Rank lẹt đẹt thế, cày tiếp đi!"
-    ];
-
-    // --- HỆ THỐNG ÂM THANH ---
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    let audioCtx; let beepingInterval = null;
-    function initAudio() { if (!audioCtx) audioCtx = new AudioContext(); if (audioCtx.state === 'suspended') audioCtx.resume(); }
-
+    const AudioContext = window.AudioContext || window.webkitAudioContext; 
+    let audioCtx;
+    
+    function initAudio() { 
+        if (!audioCtx) audioCtx = new AudioContext(); 
+        if (audioCtx.state === 'suspended') audioCtx.resume(); 
+    }
+    
     function playSound(type) {
-        if (!audioCtx) return;
-        const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-        osc.connect(gain); gain.connect(audioCtx.destination); const now = audioCtx.currentTime;
-        if (type === 'click') {
-            osc.type = 'sine'; osc.frequency.setValueAtTime(800, now); osc.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
-            gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-            osc.start(now); osc.stop(now + 0.1);
-        } else if (type === 'over') {
-            osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, now); osc.frequency.exponentialRampToValueAtTime(40, now + 0.5);
-            gain.gain.setValueAtTime(0.2, now); gain.gain.linearRampToValueAtTime(0, now + 0.5);
-            osc.start(now); osc.stop(now + 0.5);
-        } else if (type === 'danger') {
-            osc.type = 'square'; osc.frequency.setValueAtTime(300, now);
-            gain.gain.setValueAtTime(0.05, now); gain.gain.linearRampToValueAtTime(0, now + 0.1);
-            osc.start(now); osc.stop(now + 0.1);
+        if (!audioCtx) return; 
+        const osc = audioCtx.createOscillator(); 
+        const gain = audioCtx.createGain(); 
+        osc.connect(gain); gain.connect(audioCtx.destination); 
+        const now = audioCtx.currentTime;
+        
+        if (type === 'click') { 
+            osc.type = 'sine'; osc.frequency.setValueAtTime(800, now); osc.frequency.exponentialRampToValueAtTime(1200, now + 0.1); 
+            gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1); 
+            osc.start(now); osc.stop(now + 0.1); 
+        } else if (type === 'over') { 
+            osc.type = 'square'; osc.frequency.setValueAtTime(100, now); osc.frequency.exponentialRampToValueAtTime(10, now + 0.6); 
+            gain.gain.setValueAtTime(0.3, now); gain.gain.linearRampToValueAtTime(0, now + 0.6); 
+            osc.start(now); osc.stop(now + 0.6); 
+        } else if (type === 'item') { 
+            osc.type = 'triangle'; osc.frequency.setValueAtTime(600, now); osc.frequency.linearRampToValueAtTime(1500, now + 0.3); 
+            gain.gain.setValueAtTime(0.2, now); gain.gain.linearRampToValueAtTime(0, now + 0.3); 
+            osc.start(now); osc.stop(now + 0.3); 
+        } else if (type === 'win') { 
+            osc.type = 'sine'; osc.frequency.setValueAtTime(400, now); osc.frequency.linearRampToValueAtTime(800, now + 0.5); 
+            gain.gain.setValueAtTime(0.2, now); gain.gain.linearRampToValueAtTime(0, now + 0.5); 
+            osc.start(now); osc.stop(now + 0.5); 
         }
     }
 
-    // --- Auth Logic ---
-    window.switchAuth = (type) => { document.getElementById('loginBox').style.display = type === 'login' ? 'block' : 'none'; document.getElementById('registerBox').style.display = type === 'register' ? 'block' : 'none'; document.getElementById('loginError').style.display = 'none'; document.getElementById('regError').style.display = 'none'; };
-    function showError(formType, message) { const errEl = document.getElementById(formType === 'login' ? 'loginError' : 'regError'); errEl.innerText = message; errEl.style.display = 'block'; }
-
+    window.switchAuth = (t) => { 
+        document.getElementById('loginBox').style.display = t === 'login' ? 'block' : 'none'; 
+        document.getElementById('registerBox').style.display = t === 'register' ? 'block' : 'none'; 
+    };
+    
+    function showError(form, msg) { 
+        const el = document.getElementById(form === 'login' ? 'loginError' : 'regError'); 
+        el.innerText = msg; el.style.display = 'block'; 
+    }
+    
     function syncUserData(data) {
-        userData = data;
-        if(userData.rp === undefined) userData.rp = Math.floor(userData.maxScore * 10) || 0;
-        if(!userData.unlockedSkins) userData.unlockedSkins = [0, 1, 2];
-        [0, 1, 2].forEach(id => { if(!userData.unlockedSkins.includes(id)) userData.unlockedSkins.push(id); });
+        userData = { ...{ coins: 0, diamonds: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1], equippedSkin: 0, isPassVIP: false, passClaimed: [], items: {magnet: 2, freeze: 2} }, ...data };
+        if(!userData.items) userData.items = { magnet: 2, freeze: 2 };
+        if(userData.items.magnet === undefined) userData.items.magnet = 2;
+        if(userData.items.freeze === undefined) userData.items.freeze = 2;
     }
 
-    const savedUser = localStorage.getItem("scb_username"); const savedPass = localStorage.getItem("scb_password");
+    const savedUser = localStorage.getItem("scb_user"); 
+    const savedPass = localStorage.getItem("scb_pass");
+    
     if (savedUser && savedPass) {
-        get(child(dbRef, `users/${savedUser}`)).then((snapshot) => {
-            if (snapshot.exists() && snapshot.val().password === savedPass) {
-                currentUser = savedUser; syncUserData(snapshot.val());
-                document.getElementById('authUI').style.display = 'none'; updateMenuUI(); document.getElementById('menuUI').style.display = 'flex';
+        get(child(dbRef, `users/${savedUser}`)).then((snap) => {
+            if (snap.exists() && snap.val().password === savedPass) { 
+                currentUser = savedUser; 
+                syncUserData(snap.val()); 
+                document.getElementById('authUI').style.display = 'none'; 
+                updateMenuUI(); 
+                document.getElementById('menuUI').style.display = 'flex'; 
             }
-        });
+        }).catch(err => console.error(err));
     }
 
-    window.handleLogin = async () => {
-        initAudio();
-        const user = document.getElementById("loginUser").value.trim(); const pass = document.getElementById("loginPass").value;
-        if (!user || !pass) return showError('login', 'Điền đủ thông tin đi!');
+    window.handleLogin = async () => { 
+        initAudio(); 
+        const u = document.getElementById("loginUser").value.trim(); 
+        const p = document.getElementById("loginPass").value; 
+        if (!u || !p) return;
+        
         try {
-            const snapshot = await get(child(dbRef, `users/${user}`));
-            if (snapshot.exists() && snapshot.val().password === pass) {
-                currentUser = user; syncUserData(snapshot.val());
-                localStorage.setItem("scb_username", user); localStorage.setItem("scb_password", pass);
-                document.getElementById('authUI').style.display = 'none'; updateMenuUI(); document.getElementById('menuUI').style.display = 'flex';
-            } else { showError('login', 'Sai tài khoản hoặc mật khẩu!'); }
-        } catch (e) { showError('login', 'Lỗi mạng!'); }
+            const snap = await get(child(dbRef, `users/${u}`));
+            if (snap.exists() && snap.val().password === p) { 
+                currentUser = u; 
+                syncUserData(snap.val()); 
+                localStorage.setItem("scb_user", u); 
+                localStorage.setItem("scb_pass", p); 
+                document.getElementById('authUI').style.display = 'none'; 
+                updateMenuUI(); 
+                document.getElementById('menuUI').style.display = 'flex'; 
+            } else { 
+                showError('login', 'Sai tài khoản/mật khẩu!'); 
+            }
+        } catch(e) { showError('login', 'Lỗi mạng!'); }
+    };
+    
+    window.handleRegister = async () => { 
+        initAudio(); 
+        const u = document.getElementById("regUser").value.trim(); 
+        const p = document.getElementById("regPass").value; 
+        const c = document.getElementById("regConfirm").value; 
+        if(u.length<3 || p.length<4 || p!==c) return;
+        
+        try {
+            const snap = await get(child(dbRef, `users/${u}`)); 
+            if (snap.exists()) return showError('register', 'Tên đã tồn tại!');
+            
+            userData = { password: p, coins: 0, diamonds: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1], equippedSkin: 0, isPassVIP: false, passClaimed: [], items: { magnet: 2, freeze: 2 } };
+            await set(ref(db, `users/${u}`), userData); 
+            
+            currentUser = u; 
+            localStorage.setItem("scb_user", u); 
+            localStorage.setItem("scb_pass", p); 
+            document.getElementById('authUI').style.display = 'none'; 
+            updateMenuUI(); 
+            document.getElementById('menuUI').style.display = 'flex';
+        } catch(e) { showError('register', 'Lỗi mạng!'); }
+    };
+    
+    window.handleLogout = () => { 
+        localStorage.removeItem("scb_user"); 
+        localStorage.removeItem("scb_pass"); 
+        window.location.reload(); 
     };
 
-    window.handleRegister = async () => {
-        initAudio();
-        const user = document.getElementById("regUser").value.trim(); const pass = document.getElementById("regPass").value; const confirmPass = document.getElementById("regConfirm").value;
-        if (user.length < 3) return showError('register', 'Tên quá ngắn!'); if (pass.length < 4) return showError('register', 'Mật khẩu quá ngắn!'); if (pass !== confirmPass) return showError('register', 'Mật khẩu không khớp!');
-        try {
-            const snapshot = await get(child(dbRef, `users/${user}`));
-            if (snapshot.exists()) return showError('register', 'Tên này có người đặt rồi!');
-            userData = { password: pass, coins: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1, 2], equippedSkin: 0 };
-            await set(ref(db, `users/${user}`), userData);
-            currentUser = user; localStorage.setItem("scb_username", user); localStorage.setItem("scb_password", pass);
-            document.getElementById('authUI').style.display = 'none'; updateMenuUI(); document.getElementById('menuUI').style.display = 'flex';
-        } catch (e) { showError('register', 'Lỗi mạng!'); }
-    };
-
-    window.handleLogout = () => { localStorage.removeItem("scb_username"); localStorage.removeItem("scb_password"); currentUser = null; ['loginUser','loginPass','regUser','regPass','regConfirm'].forEach(id => document.getElementById(id).value = ""); document.getElementById('menuUI').style.display = 'none'; document.getElementById('authUI').style.display = 'flex'; switchAuth('login'); };
-
-    async function saveUserData() { if(currentUser) { await update(ref(db, `users/${currentUser}`), userData); updateMenuUI(); } }
+    async function saveUserData() { 
+        if(currentUser) await update(ref(db, `users/${currentUser}`), userData); 
+        updateMenuUI(); 
+    }
     
     function updateMenuUI() {
         if(!currentUser) return;
-        document.getElementById('ui-username').innerText = currentUser;
-        document.getElementById('ui-coins').innerText = userData.coins;
+        document.getElementById('ui-username').innerText = currentUser; 
+        document.getElementById('ui-coins').innerText = userData.coins; 
+        document.getElementById('ui-diamonds').innerText = userData.diamonds; 
         document.getElementById('ui-maxscore').innerText = userData.maxScore.toFixed(1) + 's';
         
-        // Cập nhật Rank
+        document.getElementById('ui-magnet').innerText = userData.items.magnet || 0; 
+        document.getElementById('ui-freeze').innerText = userData.items.freeze || 0;
+        
         const rank = getRankInfo(userData.rp);
-        const nameEl = document.getElementById('ui-rank-name');
-        const iconEl = document.getElementById('ui-rank-icon');
-        
-        nameEl.innerText = rank.name;
-        nameEl.className = "rank-name " + rank.class;
-        iconEl.innerHTML = rank.icon;
-        iconEl.className = "rank-icon " + rank.class;
-        
+        document.getElementById('ui-rank-name').innerText = rank.name; 
+        document.getElementById('ui-rank-name').className = "rank-name " + rank.class;
+        document.getElementById('ui-rank-icon').innerHTML = rank.icon; 
+        document.getElementById('ui-rank-icon').className = "rank-icon " + rank.class;
         document.getElementById('ui-rp-current').innerText = userData.rp;
-        if(rank.max) {
-            document.getElementById('ui-rp-next').innerText = "MAX";
-            document.getElementById('ui-rp-bar').style.width = "100%";
-        } else {
-            document.getElementById('ui-rp-next').innerText = rank.next;
-            const progress = ((userData.rp - rank.min) / (rank.next - rank.min)) * 100;
-            document.getElementById('ui-rp-bar').style.width = progress + "%";
+        
+        if(rank.max) { 
+            document.getElementById('ui-rp-next').innerText = "MAX"; 
+            document.getElementById('ui-rp-bar').style.width = "100%"; 
+        } else { 
+            document.getElementById('ui-rp-next').innerText = rank.next; 
+            document.getElementById('ui-rp-bar').style.width = (((userData.rp - rank.min) / (rank.next - rank.min)) * 100) + "%"; 
         }
     }
 
-    // --- Shop Logic ---
-    window.openShop = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('shopUI').style.display = 'flex'; document.getElementById('shop-coins').innerText = userData.coins; renderShop(); };
+    // Pass
+    window.openPass = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('passUI').style.display = 'flex'; renderPass(); };
+    window.closePass = () => { document.getElementById('passUI').style.display = 'none'; document.getElementById('menuUI').style.display = 'flex'; updateMenuUI(); };
+    window.buyVIPPass = () => { 
+        if(userData.diamonds >= 500 && !userData.isPassVIP) { 
+            userData.diamonds -= 500; userData.isPassVIP = true; saveUserData(); renderPass(); 
+            alert("Đã nâng cấp VIP Pass!"); document.getElementById('btn-buy-vip').style.display = 'none'; 
+            pushMarquee(`${currentUser} vừa nâng cấp VIP Pass!`); 
+        } else alert("Không đủ Kim Cương!"); 
+    };
+    
+    function renderPass() {
+        const c = document.getElementById('passContainer'); c.innerHTML = '';
+        let currentLvl = 1; for(let p of passData) { if(userData.rp >= p.rp) currentLvl = p.lvl; }
+        document.getElementById('pass-level-display').innerText = currentLvl;
+        if(userData.isPassVIP) document.getElementById('btn-buy-vip').style.display = 'none';
+
+        passData.forEach((p, i) => {
+            const unlocked = currentLvl >= p.lvl; 
+            const claimedFree = (userData.passClaimed || []).includes(`f${p.lvl}`); 
+            const claimedVIP = (userData.passClaimed || []).includes(`v${p.lvl}`);
+            
+            let btnFree = claimedFree ? `<button class="claim-btn" disabled>Đã nhận</button>` : (unlocked ? `<button class="claim-btn" onclick="claimPass(${p.lvl}, 'free')">Nhận</button>` : `<button class="claim-btn" disabled>Khóa</button>`);
+            let btnVIP = claimedVIP ? `<button class="claim-btn" disabled>Đã nhận</button>` : (unlocked && userData.isPassVIP ? `<button class="claim-btn" onclick="claimPass(${p.lvl}, 'vip')">Nhận</button>` : `<button class="claim-btn" disabled><i class="fa-solid fa-lock"></i> VIP</button>`);
+            
+            c.innerHTML += `<div class="pass-tier ${unlocked ? 'unlocked' : ''}"><div class="pass-level">${p.lvl}</div><div class="pass-rewards"><div class="reward-item"><span><i class="fa-solid fa-gift"></i> ${p.free.n}</span> ${btnFree}</div><div class="reward-item vip-reward"><span><i class="fa-solid fa-crown" style="color:var(--pass-vip)"></i> ${p.vip.n}</span> ${btnVIP}</div></div></div>`;
+        });
+    }
+
+    window.claimPass = (lvl, type) => {
+        const tier = passData.find(p => p.lvl === lvl); if(!tier) return;
+        const reward = type === 'free' ? tier.free : tier.vip;
+        if(reward.t === 'gold') userData.coins += reward.a;
+        if(reward.t === 'diamond') userData.diamonds += reward.a;
+        if(reward.t === 'item_magnet') userData.items.magnet = (userData.items.magnet || 0) + reward.a;
+        if(reward.t === 'item_freeze') userData.items.freeze = (userData.items.freeze || 0) + reward.a;
+        if(reward.t === 'skin' && !userData.unlockedSkins.includes(reward.id)) userData.unlockedSkins.push(reward.id);
+        
+        if(!userData.passClaimed) userData.passClaimed = [];
+        userData.passClaimed.push(`${type === 'free' ? 'f' : 'v'}${lvl}`);
+        playSound('click'); saveUserData(); renderPass();
+    };
+
+    // Shop
+    window.openShop = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('shopUI').style.display = 'flex'; document.getElementById('shop-coins').innerText = userData.coins; document.getElementById('shop-diamonds').innerText = userData.diamonds; renderShop(); };
     window.closeShop = () => { document.getElementById('shopUI').style.display = 'none'; document.getElementById('menuUI').style.display = 'flex'; updateMenuUI(); };
+    
     function renderShop() {
         const container = document.getElementById('shopContainer'); container.innerHTML = '';
         skinData.forEach(skin => {
-            const isUnlocked = userData.unlockedSkins.includes(skin.id); const isEquipped = userData.equippedSkin === skin.id;
-            let btnHTML = isEquipped ? `<button class="skin-btn equipped" disabled>ĐANG DÙNG</button>` : 
-                          isUnlocked ? `<button class="skin-btn equip" onclick="equipSkin(${skin.id})">TRANG BỊ</button>` : 
-                                       `<button class="skin-btn buy" onclick="buySkin(${skin.id}, ${skin.price})">MUA (${skin.price})</button>`;
-            container.innerHTML += `
-                <div class="skin-card ${isEquipped ? 'equipped' : ''}">
-                    <div class="skin-preview-box">
-                        <div class="skin-preview-orb" style="background: radial-gradient(circle, ${skin.orbCore} 0%, ${skin.orbColor} 50%, ${skin.orbDark} 100%); box-shadow: 0 0 10px ${skin.orbColor};"></div>
-                        <div class="skin-preview-bar" style="background: ${skin.barColor}; box-shadow: 0 0 10px ${skin.barGlow};"></div>
-                    </div>
-                    <div class="skin-name" style="color: ${skin.orbColor}">${skin.name}</div>${btnHTML}
-                </div>`;
+            const isUnlocked = userData.unlockedSkins.includes(skin.id); 
+            const isEquipped = userData.equippedSkin === skin.id; let btnHTML = '';
+            
+            if (isEquipped) { 
+                btnHTML = `<button class="skin-btn equipped" disabled>ĐANG DÙNG</button>`; 
+            } else if (isUnlocked) { 
+                btnHTML = `<button class="skin-btn equip" onclick="equipSkin(${skin.id})">TRANG BỊ</button>`; 
+            } else { 
+                if(skin.curr === 'diamond') btnHTML = `<button class="skin-btn buy-diamond" onclick="buySkin(${skin.id}, ${skin.price}, 'diamond')">MUA ${skin.price} 💎</button>`;
+                else btnHTML = `<button class="skin-btn buy-gold" onclick="buySkin(${skin.id}, ${skin.price}, 'gold')">MUA ${skin.price} <i class="fa-solid fa-coins"></i></button>`;
+            }
+            
+            container.innerHTML += `<div class="skin-card ${isEquipped ? 'equipped' : ''} ${skin.vip ? 'vip' : ''}"><div class="skin-preview-box"><div class="skin-preview-orb" style="background: radial-gradient(circle, ${skin.orbCore} 0%, ${skin.orbColor} 50%, ${skin.orbDark} 100%); box-shadow: 0 0 10px ${skin.orbColor};"></div><div class="skin-preview-bar" style="background: ${skin.barColor}; box-shadow: 0 0 10px ${skin.barGlow};"></div></div><div class="skin-name" style="color: ${skin.orbColor}">${skin.name}</div>${btnHTML}</div>`;
         });
     }
-    window.buySkin = (id, price) => { if (userData.coins >= price) { userData.coins -= price; userData.unlockedSkins.push(id); userData.equippedSkin = id; saveUserData(); renderShop(); document.getElementById('shop-coins').innerText = userData.coins; } else { alert("Chưa đủ Vàng! Vô cày Rank kiếm vàng tiếp đi."); } };
+    
+    window.buySkin = (id, price, curr) => {
+        initAudio();
+        if (curr === 'gold') { 
+            if (userData.coins >= price) { userData.coins -= price; unlockSkin(id); } else alert("Chưa đủ Vàng!"); 
+        } else { 
+            if (userData.diamonds >= price) { userData.diamonds -= price; unlockSkin(id); } else alert("Chưa đủ Kim Cương!"); 
+        }
+    };
+    
+    function unlockSkin(id) { 
+        playSound('click'); userData.unlockedSkins.push(id); userData.equippedSkin = id; 
+        saveUserData(); renderShop(); 
+        document.getElementById('shop-coins').innerText = userData.coins; 
+        document.getElementById('shop-diamonds').innerText = userData.diamonds; 
+    }
+    
     window.equipSkin = (id) => { userData.equippedSkin = id; saveUserData(); renderShop(); };
 
-    // --- Leaderboard ---
     onValue(ref(db, "leaderboard"), (snap) => {
-        const data = snap.val(); const listEl = document.getElementById("leaderboardList");
-        if (!data) { listEl.innerHTML = `<li>Trống</li>`; return; }
+        const data = snap.val(); 
+        const listEl = document.getElementById("leaderboardList"); 
+        if (!data) return;
+        
         const userStats = {}; 
         Object.values(data).forEach(s => { 
-            let rpCalc = s.rp || Math.floor(s.score * 10); // Hỗ trợ dữ liệu cũ
-            if(!userStats[s.name]) userStats[s.name] = { score: s.score, rp: rpCalc };
-            else {
-                if(s.score > userStats[s.name].score) userStats[s.name].score = s.score;
-                if(rpCalc > userStats[s.name].rp) userStats[s.name].rp = rpCalc;
-            }
+            let rpCalc = s.rp || Math.floor(s.score * 10); 
+            if(!userStats[s.name]) userStats[s.name] = { score: s.score, rp: rpCalc }; 
+            else { 
+                if(s.score > userStats[s.name].score) userStats[s.name].score = s.score; 
+                if(rpCalc > userStats[s.name].rp) userStats[s.name].rp = rpCalc; 
+            } 
         });
-        // Sort by RP cho xếp hạng cày cuốc
-        const sorted = Object.entries(userStats).map(([name, d]) => ({name, ...d})).sort((a, b) => b.rp - a.rp).slice(0, 10);
         
-        listEl.innerHTML = sorted.map((s, i) => {
-            const rank = getRankInfo(s.rp);
-            return `<li>
-                <div class="lb-name"><span class="rank-num">#${i+1}</span> <span class="${rank.class}" style="font-size: 14px;">${rank.icon}</span> <span style="${rank.class === 'rank-huyenthoai' ? 'color:#fff' : ''}" class="${rank.class === 'rank-huyenthoai' ? rank.class : ''}">${s.name}</span></div>
-                <div style="text-align: right;">
-                    <span style="color:var(--cyan); font-weight:bold;">${s.score.toFixed(1)}s</span><br>
-                    <span style="font-size: 10px; color: #888;">${s.rp} RP</span>
-                </div>
-            </li>`;
+        const sorted = Object.entries(userStats).map(([name, d]) => ({name, ...d})).sort((a, b) => b.rp - a.rp).slice(0, 10);
+        listEl.innerHTML = sorted.map((s, i) => { 
+            const rank = getRankInfo(s.rp); 
+            return `<li><div class="lb-name"><span class="rank-num">#${i+1}</span> <span class="${rank.class}" style="font-size: 14px;">${rank.icon}</span> <span class="${rank.class === 'rank-thachdau' ? rank.class : ''}">${s.name}</span></div><div style="text-align: right;"><span style="color:var(--cyan); font-weight:bold;">${s.score.toFixed(1)}s</span><br><span style="font-size: 10px; color: #888;">${s.rp} RP</span></div></li>`; 
         }).join('');
     });
 
-    // --- LOGIC GAME VẬT LÝ (GIỮ NGUYÊN 100%) ---
-    const canvas = document.getElementById("gameCanvas"); const ctx = canvas.getContext("2d");
-    const hud = document.getElementById("hud"); const clickHud = document.getElementById("click-hud");
-    const statusTag = document.getElementById("status-tag"); const dangerAlert = document.getElementById("danger-alert");
-    const insultText = document.getElementById("insult-text");
+    function pushMarquee(text) { 
+        const m = document.getElementById('marqueeText'); 
+        m.innerHTML += ` &nbsp;&nbsp;&nbsp; <i class="fa-solid fa-bolt"></i> ${text}`; 
+    }
 
-    let barAngle = 0, boxPos = 0, boxVel = 0, time = 0, clickCount = 0;
-    let isGameOver = true, isGracePeriod = true;
-    let barWidth = 320; let currentEdgeDist = 0; let isDanger = false;
+    // --- GAME ENGINE CORE ---
+    const canvas = document.getElementById("gameCanvas"); 
+    const ctx = canvas.getContext("2d");
+    
+    let barAngle = 0;
+    let boxPos = 0;
+    let boxVel = 0;
+    let time = 0;
+    let clickCount = 0;
+    let isGameOver = true;
+    let isGracePeriod = true;
+    let barWidth = 320;
+    let currentEdgeDist = 0;
+    let isDanger = false;
     let animationId;
-
-    const gravity = 0.006; const clickForce = 0.18; const friction = 0.965; const weightPower = 0.06; const shrinkSpeed = 0.45;
-    let windTimer = 2; let windForce = 0; let floatingTexts = []; let particles = []; let orbTrail = [];
+    
+    const gravity = 0.006; 
+    const clickForce = 0.18; 
+    const friction = 0.965; 
+    const weightPower = 0.06; 
+    const shrinkSpeed = 0.45;
+    
+    let windTimer = 2; 
+    let windForce = 0; 
+    
+    let floatingTexts = []; 
+    let explosionParticles = []; 
+    let orbTrail = []; 
+    let particles = [];
+    
     const trollWords = ["GÀ!", "NON!", "CẨN THẬN!", "SẮP RỚT!", "MẮT LÁC À?", "YẾU!", "LỆCH KÌA!", "RUN TAY À?", "TẬP TRUNG!"];
+    
+    let activeMagnet = 0; 
+    let activeFreeze = 0;
+    
+    let isMultiplayer = false; 
+    let currentMatchId = null; 
+    let matchRef = null; 
+    let oppTime = 0; 
+    let oppDead = false; 
+    let matchListener = null; 
+    let beepingInterval = null;
 
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resize); resize();
+    function resize() { 
+        canvas.width = window.innerWidth; 
+        canvas.height = window.innerHeight; 
+    } 
+    window.addEventListener('resize', resize); 
+    resize();
 
-    window.backToMenu = () => { isGameOver = true; cancelAnimationFrame(animationId); document.getElementById("gameOverUI").style.display = "none"; document.getElementById("menuUI").style.display = "flex"; hud.style.display = "none"; clickHud.style.display = "none"; statusTag.style.display = "none"; updateMenuUI(); };
+    window.backToMenu = () => { 
+        isGameOver = true; 
+        cancelAnimationFrame(animationId); 
+        document.getElementById("gameOverUI").style.display = "none"; 
+        document.getElementById("menuUI").style.display = "flex"; 
+        document.getElementById("hud").style.display = "none"; 
+        document.getElementById("click-hud").style.display = "none"; 
+        document.getElementById("match-hud").style.display = "none"; 
+        document.getElementById("item-box").style.display = "none"; 
+        document.getElementById("status-tag").style.display = "none"; 
+        
+        if(matchRef) { 
+            remove(matchRef); 
+            matchRef = null; 
+        } 
+        updateMenuUI(); 
+    };
+
+    window.startMatchmaking = async () => {
+        initAudio(); 
+        document.getElementById('menuUI').style.display = 'none'; 
+        document.getElementById('matchmakingUI').style.display = 'flex';
+        
+        const roomsSnap = await get(child(dbRef, 'matches')); 
+        let foundRoom = null;
+        if (roomsSnap.exists()) { 
+            roomsSnap.forEach(r => { 
+                if(r.val().state === 'waiting' && r.val().p1 !== currentUser) foundRoom = r.key; 
+            }); 
+        }
+        
+        if (foundRoom) {
+            currentMatchId = foundRoom; 
+            matchRef = ref(db, `matches/${currentMatchId}`);
+            await update(matchRef, { state: 'playing', p2: currentUser, p2Time: 0, p2Dead: false });
+            setupMatchListener(); 
+            setTimeout(() => startGame(true), 1000);
+        } else {
+            const newRoomRef = push(ref(db, 'matches')); 
+            currentMatchId = newRoomRef.key; 
+            matchRef = newRoomRef;
+            await set(matchRef, { state: 'waiting', p1: currentUser, p1Time: 0, p1Dead: false, p2: "", p2Time: 0, p2Dead: false });
+            onDisconnect(matchRef).remove(); 
+            matchListener = onValue(matchRef, (snap) => { 
+                const data = snap.val(); 
+                if(data && data.state === 'playing') { 
+                    setupMatchListener(); startGame(true); 
+                } 
+            });
+        }
+    };
+
+    window.cancelMatchmaking = () => { 
+        if(matchRef) { remove(matchRef); matchRef = null; } 
+        document.getElementById('matchmakingUI').style.display = 'none'; 
+        document.getElementById('menuUI').style.display = 'flex'; 
+    };
+
+    function setupMatchListener() {
+        matchListener = onValue(matchRef, (snap) => {
+            const data = snap.val(); 
+            if(!data) return;
+            const isP1 = data.p1 === currentUser; 
+            oppTime = isP1 ? data.p2Time : data.p1Time; 
+            oppDead = isP1 ? data.p2Dead : data.p1Dead;
+            
+            document.getElementById('opp-match-time').innerText = oppTime.toFixed(1);
+            if(oppDead && !isGameOver) { 
+                triggerWin(); 
+            }
+        });
+    }
+
+    window.startGame = (multi) => {
+        initAudio(); 
+        cancelAnimationFrame(animationId);
+        
+        isGameOver = false; 
+        isGracePeriod = true; 
+        isMultiplayer = multi;
+        
+        document.getElementById('matchmakingUI').style.display = 'none'; 
+        document.getElementById("menuUI").style.display = "none"; 
+        document.getElementById("gameOverUI").style.display = "none";
+        
+        time = 0; barAngle = 0; boxPos = 0; boxVel = 0; barWidth = 320; clickCount = 0; 
+        activeMagnet = 0; activeFreeze = 0; 
+        
+        explosionParticles = []; 
+        orbTrail = []; 
+        particles = []; 
+        floatingTexts = [];
+        
+        document.getElementById("status-tag").style.display = "block"; 
+        document.getElementById("status-tag").innerText = "SẴN SÀNG...";
+        
+        if (isMultiplayer) {
+            document.getElementById("match-hud").style.display = "flex"; 
+            document.getElementById("item-box").style.display = "flex";
+            document.getElementById("count-magnet").innerText = userData.items.magnet || 0; 
+            document.getElementById("count-freeze").innerText = userData.items.freeze || 0;
+            document.getElementById("my-match-time").innerText = "0.0"; 
+            document.getElementById("opp-match-time").innerText = "0.0";
+            
+            document.getElementById("btnRetry").style.display = "block";
+            document.getElementById("btnRetrySolo").style.display = "none";
+        } else {
+            document.getElementById("hud").style.display = "block"; 
+            document.getElementById("click-hud").style.display = "block"; 
+            document.getElementById("click-hud").innerText = "CLICKS: 0";
+            document.getElementById("hud").innerText = "0.0s";
+            
+            document.getElementById("btnRetry").style.display = "none";
+            document.getElementById("btnRetrySolo").style.display = "block";
+        }
+        
+        if(beepingInterval) clearInterval(beepingInterval);
+        beepingInterval = setInterval(() => { 
+            if(!isGameOver && isDanger && !isGracePeriod && activeFreeze <= 0) playSound('danger'); 
+        }, 200);
+
+        setTimeout(() => { 
+            if (!isGameOver) { 
+                isGracePeriod = false; 
+                document.getElementById("status-tag").innerText = "SỐNG SÓT ĐI!"; 
+            } 
+        }, 1000);
+        
+        gameLoop();
+    };
 
     window.addEventListener('pointerdown', (e) => {
-        if (isGameOver || isGracePeriod) return;
-        if (e.target.closest('.container')) return;
+        if (isGameOver || isGracePeriod || e.target.closest('.item-btn') || e.target.closest('.container')) return;
         
-        clickCount++; playSound('click');
+        clickCount++; 
+        playSound('click');
         
         const currentSkin = skinData.find(s => s.id === userData.equippedSkin) || skinData[0];
-        for(let i=0; i<8; i++) { particles.push({ x: e.clientX, y: e.clientY, vx: (Math.random()-0.5)*10, vy: (Math.random()-0.5)*10, life: 1, color: currentSkin.orbColor }); }
         
-        let mỉaMai = ""; if(clickCount > 20) mỉaMai = " (Spam à?)"; if(clickCount > 50) mỉaMai = " (Mỏi tay chưa?)"; if(clickCount > 100) mỉaMai = " (Sắp hỏng màn hình!)";
-        clickHud.innerText = `CLICKS: ${clickCount}${mỉaMai}`;
+        for(let i=0; i<8; i++) { 
+            particles.push({ 
+                x: e.clientX, y: e.clientY, 
+                vx: (Math.random()-0.5)*10, vy: (Math.random()-0.5)*10, 
+                life: 1, color: currentSkin.orbColor 
+            }); 
+        }
         
-        if (currentEdgeDist < barWidth * 0.25) {
-            if (boxPos > 0) boxVel -= 0.6; else boxVel += 0.6;
-            if (barAngle > 0) barAngle = Math.max(0, barAngle - 0.3); else barAngle = Math.min(0, barAngle + 0.3);
-        } else {
-            if (e.clientX < window.innerWidth / 2) barAngle -= clickForce; else barAngle += clickForce;
+        let miaMai = ""; 
+        if(clickCount > 20) miaMai = " (Spam à?)"; 
+        if(clickCount > 50) miaMai = " (Mỏi tay chưa?)"; 
+        if(clickCount > 100) miaMai = " (Hỏng màn hình!)";
+        
+        if(!isMultiplayer) document.getElementById("click-hud").innerText = `CLICKS: ${clickCount}${miaMai}`;
+        
+        if (activeFreeze <= 0) {
+            if (currentEdgeDist < barWidth * 0.25) { 
+                if (boxPos > 0) boxVel -= 0.6; else boxVel += 0.6; 
+                if (barAngle > 0) barAngle = Math.max(0, barAngle - 0.3); 
+                else barAngle = Math.min(0, barAngle + 0.3); 
+            } else { 
+                if (e.clientX < window.innerWidth / 2) barAngle -= clickForce; 
+                else barAngle += clickForce; 
+            }
         }
     });
 
-    window.startGame = () => {
-        initAudio(); isGameOver = false; isGracePeriod = true;
-        time = 0; barAngle = 0; boxPos = 0; boxVel = 0; barWidth = 320; clickCount = 0; windTimer = 3; floatingTexts = []; particles = []; orbTrail = [];
-        document.getElementById("menuUI").style.display = "none"; document.getElementById("gameOverUI").style.display = "none";
-        hud.style.display = "block"; clickHud.style.display = "block"; statusTag.style.display = "block"; clickHud.innerText = "CLICKS: 0";
-        statusTag.innerText = "SẴN SÀNG..."; statusTag.style.color = "var(--cyan)";
-        
-        if(beepingInterval) clearInterval(beepingInterval);
-        beepingInterval = setInterval(() => { if(!isGameOver && isDanger && !isGracePeriod) playSound('danger'); }, 200);
-
-        setTimeout(() => { if (!isGameOver) { isGracePeriod = false; statusTag.innerText = "SỐNG SÓT ĐI!"; } }, 1000);
-        gameLoop();
+    window.useItem = (type) => {
+        if(isGameOver || isGracePeriod) return;
+        if(userData.items[type] > 0) {
+            userData.items[type]--; 
+            saveUserData(); 
+            playSound('item');
+            if(type === 'magnet') { 
+                activeMagnet = 3; 
+                document.getElementById("count-magnet").innerText = userData.items.magnet; 
+            }
+            if(type === 'freeze') { 
+                activeFreeze = 3; 
+                document.getElementById("count-freeze").innerText = userData.items.freeze; 
+                document.getElementById("status-tag").innerText = "❄️ ĐÓNG BĂNG!"; 
+            }
+        }
     };
 
     function updatePhysics() {
         if (isGameOver || isGracePeriod) return;
-        windTimer -= 1/60;
-        if (windTimer <= 0) {
-            if (time > 5 && Math.random() < 0.4) {
-                windForce = (Math.random() - 0.5) * 0.5; windTimer = 2 + Math.random() * 4;
-                statusTag.innerText = "⚠️ GIÓ LỐC!"; statusTag.style.color = "#ffeb3b";
-                setTimeout(() => { if(!isGameOver && statusTag.innerText === "⚠️ GIÓ LỐC!") { statusTag.innerText = "SỐNG SÓT ĐI!"; statusTag.style.color = "var(--cyan)"; } }, 1500);
-            } else { windTimer = 1; windForce = 0; }
+        
+        let delta = 1/60; 
+        time += delta;
+        
+        if(activeMagnet > 0) { 
+            activeMagnet -= delta; 
+            boxVel -= boxPos * 0.05; 
+        } 
+        
+        if(activeFreeze > 0) { 
+            activeFreeze -= delta; 
+            windForce = 0; 
+            barAngle *= 0.9; 
+        } else {
+            windTimer -= delta;
+            if (windTimer <= 0) {
+                if (time > 5 && Math.random() < 0.4) { 
+                    windForce = (Math.random() - 0.5) * 0.5; 
+                    windTimer = 2 + Math.random() * 4; 
+                    document.getElementById("status-tag").innerText = "⚠️ GIÓ LỐC!"; 
+                } else { 
+                    windTimer = 1; 
+                    windForce = 0; 
+                    document.getElementById("status-tag").innerText = ""; 
+                }
+            }
+            barAngle += windForce * 0.05; 
+            barAngle += (Math.random() - 0.5) * 0.02; 
+            barAngle += (boxPos / (barWidth / 2)) * weightPower;
         }
         
-        barAngle += windForce * 0.05; barAngle += (Math.random() - 0.5) * 0.02; barAngle += (boxPos / (barWidth / 2)) * weightPower;
         barAngle = Math.max(-1.4, Math.min(1.4, barAngle)); 
+        let accel = Math.sin(barAngle) * gravity * 150; 
+        boxVel += accel; 
+        boxVel *= friction; 
+        boxPos += boxVel;
         
-        let accel = Math.sin(barAngle) * gravity * 150; boxVel += accel; boxVel *= friction; boxPos += boxVel;
-        time += 1/60; hud.innerText = time.toFixed(1) + "s";
-        if (time > 3 && barWidth > 80) barWidth -= shrinkSpeed;
+        if(time > 3 && barWidth > 80) barWidth -= shrinkSpeed;
         
-        currentEdgeDist = (barWidth / 2) - Math.abs(boxPos); isDanger = currentEdgeDist < barWidth * 0.25;
-        if (isDanger) dangerAlert.style.display = "block"; else dangerAlert.style.display = "none";
+        currentEdgeDist = (barWidth / 2) - Math.abs(boxPos); 
+        isDanger = currentEdgeDist < barWidth * 0.25;
         
-        orbTrail.push({x: boxPos, a: barAngle}); if(orbTrail.length > 10) orbTrail.shift();
-        particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life -= 0.05; }); particles = particles.filter(p => p.life > 0);
+        if (isDanger && activeFreeze <= 0) document.getElementById("danger-alert").style.display = "block"; 
+        else document.getElementById("danger-alert").style.display = "none";
+        
+        orbTrail.push({x: boxPos, a: barAngle}); 
+        if(orbTrail.length > 10) orbTrail.shift();
+        
+        if (Math.random() < 0.015 && time > 2) { 
+            floatingTexts.push({ 
+                x: (Math.random() - 0.5) * canvas.width * 0.8, 
+                y: (Math.random() - 0.5) * canvas.height * 0.5 - 50, 
+                text: trollWords[Math.floor(Math.random() * trollWords.length)], 
+                life: 1.0 
+            }); 
+        }
 
-        if (Math.random() < 0.015 && time > 2) { floatingTexts.push({ x: (Math.random() - 0.5) * canvas.width * 0.8, y: (Math.random() - 0.5) * canvas.height * 0.5 - 50, text: trollWords[Math.floor(Math.random() * trollWords.length)], life: 1.0 }); }
-        floatingTexts.forEach(t => t.life -= 0.012); floatingTexts = floatingTexts.filter(t => t.life > 0);
+        if(isMultiplayer) {
+            document.getElementById("my-match-time").innerText = time.toFixed(1);
+            if(time*60 % 10 < 1 && matchRef) {
+                get(matchRef).then(snap=>{
+                    if(snap.exists()) { 
+                        const isP1 = snap.val().p1 === currentUser; 
+                        update(matchRef, isP1 ? { p1Time: time } : { p2Time: time }); 
+                    }
+                });
+            }
+        } else {
+            document.getElementById("hud").innerText = time.toFixed(1) + "s";
+        }
 
-        if (Math.abs(boxPos) > barWidth / 2 || Math.abs(barAngle) > 1.35) endGame();
+        if (Math.abs(boxPos) > barWidth / 2 || Math.abs(barAngle) > 1.35) triggerDeath();
+    }
+
+    function triggerDeath() {
+        isGameOver = true; 
+        playSound('over');
+        if(beepingInterval) clearInterval(beepingInterval);
+        
+        const skin = skinData.find(s => s.id === userData.equippedSkin) || skinData[0];
+        const cx = canvas.width/2; 
+        const cy = canvas.height/2 + 50;
+        const absX = cx + Math.cos(barAngle)*boxPos - Math.sin(barAngle)*(-18); 
+        const absY = cy + Math.sin(barAngle)*boxPos + Math.cos(barAngle)*(-18);
+        
+        for(let i=0; i<100; i++) { 
+            explosionParticles.push({ 
+                x: absX, y: absY, 
+                vx: (Math.random()-0.5)*20, vy: (Math.random()-0.5)*20, 
+                life: 1.5, color: skin.orbColor, size: Math.random()*5 
+            }); 
+        }
+        
+        if(isMultiplayer && matchRef) {
+            get(matchRef).then(snap => { 
+                if(snap.exists()) { 
+                    const isP1 = snap.val().p1 === currentUser; 
+                    update(matchRef, isP1 ? { p1Dead: true } : { p2Dead: true }); 
+                } 
+            });
+        }
+        
+        setTimeout(() => showGameOverUI(false), 1500);
+    }
+    
+    function triggerWin() { 
+        isGameOver = true; 
+        playSound('win'); 
+        setTimeout(() => showGameOverUI(true), 500); 
     }
 
     function draw() {
-        const bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        bgGrad.addColorStop(0, '#050011'); bgGrad.addColorStop(1, '#000000');
-        ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
+        ctx.fillStyle = "#050011"; 
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.save();
-        if (!isGameOver && isDanger && !isGracePeriod) { const shake = 8; ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake); }
-
-        ctx.strokeStyle = (!isGameOver && isDanger && !isGracePeriod) ? "rgba(255, 0, 0, 0.4)" : "rgba(0, 255, 255, 0.06)"; 
-        ctx.lineWidth = (!isGameOver && isDanger && !isGracePeriod) ? 2 : 1; ctx.beginPath();
-        const gridSize = 40; const offset = (time * 30) % gridSize;
-        for (let x = 0; x <= canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); }
-        for (let y = offset; y <= canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); }
+        
+        if (!isGameOver && isDanger && activeFreeze <= 0) { 
+            const shake = 8; 
+            ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake); 
+        }
+        
+        ctx.strokeStyle = (!isGameOver && isDanger && activeFreeze <= 0) ? "rgba(255, 0, 0, 0.4)" : "rgba(0, 255, 255, 0.06)"; 
+        ctx.lineWidth = 1; 
+        ctx.beginPath();
+        const gs = 40; const off = (time * 30) % gs;
+        for (let x = 0; x <= canvas.width; x += gs) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); }
+        for (let y = off; y <= canvas.height; y += gs) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); } 
         ctx.stroke();
         
-        particles.forEach(p => { ctx.fillStyle = p.color; ctx.globalAlpha = p.life; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill(); }); ctx.globalAlpha = 1;
-
         const cx = canvas.width / 2, cy = canvas.height / 2 + 50;
 
-        ctx.save(); ctx.translate(cx, cy);
-        floatingTexts.forEach(t => { ctx.fillStyle = `rgba(255, 0, 60, ${t.life})`; ctx.font = "900 24px Orbitron"; ctx.textAlign = "center"; ctx.fillText(t.text, t.x, t.y); });
+        if (isGameOver) {
+            explosionParticles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life -= 0.02; }); 
+            explosionParticles = explosionParticles.filter(p => p.life > 0);
+            explosionParticles.forEach(p => { 
+                ctx.fillStyle = p.color; ctx.globalAlpha = p.life; 
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill(); 
+            }); 
+            ctx.globalAlpha = 1;
+        }
+
+        particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life -= 0.05; }); 
+        particles = particles.filter(p => p.life > 0);
+        particles.forEach(p => { 
+            ctx.fillStyle = p.color; ctx.globalAlpha = p.life; 
+            ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill(); 
+        }); 
+        ctx.globalAlpha = 1;
+
+        floatingTexts.forEach(t => t.life -= 0.012); 
+        floatingTexts = floatingTexts.filter(t => t.life > 0);
+        ctx.save(); 
+        ctx.translate(cx, cy);
+        floatingTexts.forEach(t => { 
+            ctx.fillStyle = `rgba(255, 0, 60, ${t.life})`; 
+            ctx.font = "900 24px Orbitron"; ctx.textAlign = "center"; 
+            ctx.fillText(t.text, t.x, t.y); 
+        });
         ctx.restore();
 
-        ctx.shadowBlur = 10; ctx.shadowColor = "#ff003c"; ctx.fillStyle = "#1a0005"; ctx.strokeStyle = "#ff003c";
+        ctx.shadowBlur = 10; ctx.shadowColor = "#ff003c"; ctx.fillStyle = "#1a0005"; ctx.strokeStyle = "#ff003c"; 
         ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx-25, cy+45); ctx.lineTo(cx+25, cy+45); ctx.closePath(); ctx.fill(); ctx.stroke();
         
-        ctx.save(); ctx.translate(cx, cy); ctx.rotate(barAngle);
-        const currentSkin = skinData.find(s => s.id === userData.equippedSkin) || skinData[0];
+        ctx.save(); 
+        ctx.translate(cx, cy); ctx.rotate(barAngle);
+        const skin = skinData.find(s => s.id === userData.equippedSkin) || skinData[0];
 
-        orbTrail.forEach((t, i) => { ctx.save(); ctx.rotate(t.a - barAngle); ctx.fillStyle = currentSkin.orbColor; ctx.globalAlpha = (i / orbTrail.length) * 0.3; ctx.beginPath(); ctx.arc(t.x, -18, 18 - (10 - i)*0.5, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }); ctx.globalAlpha = 1;
-
-        ctx.lineCap = "round"; ctx.shadowBlur = 25; ctx.shadowColor = currentSkin.barGlow; ctx.strokeStyle = currentSkin.barColor; ctx.lineWidth = 8;
-        ctx.beginPath(); ctx.moveTo(-barWidth/2, 0); ctx.lineTo(barWidth/2, 0); ctx.stroke();
+        if (!isGameOver) {
+            orbTrail.forEach((t, i) => { 
+                ctx.save(); 
+                ctx.rotate(t.a - barAngle); 
+                ctx.fillStyle = skin.orbColor; 
+                ctx.globalAlpha = (i / orbTrail.length) * 0.3; 
+                ctx.beginPath(); ctx.arc(t.x, -18, 18 - (10 - i)*0.5, 0, Math.PI * 2); ctx.fill(); 
+                ctx.restore(); 
+            }); 
+            ctx.globalAlpha = 1;
+            
+            if(activeFreeze > 0) { ctx.shadowBlur = 30; ctx.shadowColor = "#00bfff"; ctx.strokeStyle = "#00bfff"; } 
+            else { ctx.shadowBlur = 25; ctx.shadowColor = skin.barGlow; ctx.strokeStyle = skin.barColor; }
+            
+            ctx.lineCap = "round"; ctx.lineWidth = 8; ctx.beginPath(); ctx.moveTo(-barWidth/2, 0); ctx.lineTo(barWidth/2, 0); ctx.stroke();
+            
+            ctx.shadowBlur = 20; ctx.shadowColor = skin.orbColor;
+            const grad = ctx.createRadialGradient(boxPos - 5, -23, 2, boxPos, -18, 18);
+            grad.addColorStop(0, skin.orbCore); grad.addColorStop(0.3, skin.orbColor); grad.addColorStop(1, skin.orbDark);
+            ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(boxPos, -18, 18, 0, Math.PI * 2); ctx.fill();
+            
+            if(activeMagnet > 0) { 
+                ctx.strokeStyle = "rgba(255, 215, 0, 0.5)"; ctx.lineWidth = 2; 
+                ctx.beginPath(); ctx.moveTo(boxPos, -18); ctx.lineTo(0, -18); ctx.stroke(); 
+            }
+        }
         
-        ctx.shadowBlur = 20; ctx.shadowColor = currentSkin.orbColor;
-        const orbGrad = ctx.createRadialGradient(boxPos - 5, -23, 2, boxPos, -18, 18);
-        orbGrad.addColorStop(0, currentSkin.orbCore); orbGrad.addColorStop(0.3, currentSkin.orbColor); orbGrad.addColorStop(1, currentSkin.orbDark);
-        ctx.fillStyle = orbGrad; ctx.beginPath(); ctx.arc(boxPos, -18, 18, 0, Math.PI * 2); ctx.fill();
-        ctx.restore();
-        
+        ctx.restore(); 
         ctx.restore();
     }
 
-    function gameLoop() { if (!isGameOver) { updatePhysics(); draw(); animationId = requestAnimationFrame(gameLoop); } }
+    function gameLoop() { 
+        try {
+            updatePhysics(); 
+            draw(); 
+        } catch(e) { console.error(e); }
+        animationId = requestAnimationFrame(gameLoop); 
+    }
 
-    async function endGame() {
-        isGameOver = true; cancelAnimationFrame(animationId); dangerAlert.style.display = "none";
-        if(beepingInterval) clearInterval(beepingInterval); playSound('over');
-
-        const finalScore = Number(time.toFixed(1)); const earnedCoins = Math.floor(finalScore); 
-        const earnedRP = Math.floor(finalScore * 10); // 1s = 10 RP
+    async function showGameOverUI(isWin) {
+        document.getElementById("danger-alert").style.display = "none";
+        const finalScore = Number(time.toFixed(1)); 
+        let earnedCoins = Math.floor(finalScore); 
+        let earnedRP = Math.floor(finalScore * 10);
         
-        userData.coins += earnedCoins;
-        userData.rp += earnedRP;
+        if(isMultiplayer) {
+            if(isWin) {
+                earnedRP += 500; 
+                document.getElementById("go-title").innerText = "VICTORY!"; 
+                document.getElementById("go-title").style.color = "var(--cyan)"; 
+                document.getElementById("go-desc").innerText = "Bạn đã sống sót lâu hơn đối thủ!";
+            } else {
+                earnedRP -= 200; 
+                document.getElementById("go-title").innerText = "DEFEAT!"; 
+                document.getElementById("go-title").style.color = "#ff003c"; 
+                document.getElementById("go-desc").innerText = "Đối thủ trâu bò hơn bạn!";
+            }
+        } else {
+            document.getElementById("go-title").innerText = "HẠ GỤC!"; 
+            document.getElementById("go-title").style.color = "#ff003c"; 
+            document.getElementById("go-desc").innerText = "Chơi cẩn thận chút đi!";
+        }
         
-        if(finalScore > userData.maxScore) userData.maxScore = finalScore;
+        userData.coins += earnedCoins; 
+        userData.rp = Math.max(0, userData.rp + earnedRP);
+        
+        if(finalScore > userData.maxScore && !isMultiplayer) {
+            userData.maxScore = finalScore;
+        }
         
         push(ref(db, "leaderboard"), { name: currentUser, score: userData.maxScore, rp: userData.rp, timestamp: Date.now() });
         await saveUserData();
@@ -591,10 +1017,16 @@
         document.getElementById("gameOverUI").style.display = "flex"; 
         document.getElementById("finalTime").innerText = finalScore; 
         document.getElementById("earnedCoins").innerText = earnedCoins;
-        document.getElementById("earnedRP").innerText = earnedRP;
+        document.getElementById("earnedRP").innerText = (earnedRP > 0 ? "+" : "") + earnedRP;
+        document.getElementById("go-rp").style.color = earnedRP > 0 ? "var(--cyan)" : "#ff003c";
         
-        insultText.innerText = insults[Math.floor(Math.random() * insults.length)];
-        hud.style.display = "none"; clickHud.style.display = "none"; statusTag.style.display = "none";
+        document.getElementById("hud").style.display = "none"; 
+        document.getElementById("click-hud").style.display = "none"; 
+        document.getElementById("status-tag").style.display = "none";
+        document.getElementById("match-hud").style.display = "none"; 
+        document.getElementById("item-box").style.display = "none";
+        
+        if(matchRef) { remove(matchRef); matchRef = null; } 
     }
 </script>
 </body>
