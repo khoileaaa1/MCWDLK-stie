@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SIÊU CÂN BẰNG - ONLINE 1v1 & ROYAL PASS (HOTFIX)</title>
+    <title>SIÊU CÂN BẰNG - ONLINE 1v1 & ROYAL PASS</title>
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8573479616106906" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -32,7 +32,6 @@
         
         h1, h2 { color: var(--cyan); font-family: 'Orbitron', sans-serif; font-size: 26px; margin: 5px 0 10px 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0,240,255,0.6); }
         
-        /* 5 RANK STYLES */
         .rank-dong { color: #cd7f32; text-shadow: 0 0 10px rgba(205, 127, 50, 0.6); }
         .rank-bac { color: #c0c0c0; text-shadow: 0 0 10px rgba(192, 192, 192, 0.8); }
         .rank-kimcuong { color: #00ffff; text-shadow: 0 0 15px rgba(0, 255, 255, 0.8); }
@@ -105,7 +104,7 @@
 
 <div class="server-announcement">
     <div class="marquee-content" id="marqueeText">
-        <i class="fa-solid fa-bullhorn"></i> <b>[Hệ thống]</b>: Chào mừng MÙA 2 - KỶ NGUYÊN THÁCH ĐẤU! Ra mắt chế độ Online 1v1 & Vật phẩm In-game!
+        <i class="fa-solid fa-bullhorn"></i> <b>[Hệ thống]</b>: Chào mừng MÙA 2 - KỶ NGUYÊN THÁCH ĐẤU! Cập nhật đếm ngược bắt đầu trận!
     </div>
 </div>
 <div class="crt-overlay"></div>
@@ -114,9 +113,9 @@
 <div id="click-hud" style="position: fixed; top: 35px; left: 20px; font-size: 14px; font-family: 'Orbitron', sans-serif; color: #fff; z-index: 55; display: none; border-left: 4px solid var(--cyan); padding-left: 10px; text-shadow: 0 0 10px var(--cyan); background: rgba(0,0,0,0.6); padding: 5px 10px; border-radius: 0 6px 6px 0;">CLICKS: 0</div>
 
 <div id="match-hud">
-    <div class="match-player">BẠN: <span id="my-match-time">0.0</span>s</div>
-    <div>VS</div>
-    <div class="match-opponent">ĐỐI THỦ: <span id="opp-match-time">0.0</span>s</div>
+    <div class="match-player"><span id="my-name">BẠN</span>: <span id="my-match-time">0.0</span>s</div>
+    <div><i class="fa-solid fa-bolt" style="color:var(--gold)"></i> VS</div>
+    <div class="match-opponent"><span id="opp-name">ĐỐI THỦ</span>: <span id="opp-match-time">0.0</span>s</div>
 </div>
 
 <div id="item-box">
@@ -124,7 +123,7 @@
     <button class="item-btn" onclick="useItem('freeze')" id="btn-freeze" style="border-color: #00bfff; box-shadow: 0 0 10px #00bfff;"><i class="fa-regular fa-snowflake" style="color: #00bfff;"></i><span class="item-count" id="count-freeze">0</span></button>
 </div>
 
-<div id="status-tag" style="position: fixed; top: 105px; width: 100%; text-align: center; font-size: 16px; font-family: 'Orbitron', sans-serif; z-index: 50; color: var(--cyan); display: none; font-weight: bold; pointer-events: none; text-shadow: 0 0 10px var(--cyan); letter-spacing: 2px;">TRẠNG THÁI: CHUẨN BỊ</div>
+<div id="status-tag" style="position: fixed; top: 105px; width: 100%; text-align: center; font-size: 20px; font-family: 'Orbitron', sans-serif; z-index: 50; color: var(--cyan); display: none; font-weight: bold; pointer-events: none; text-shadow: 0 0 10px var(--cyan); letter-spacing: 2px;">TRẠNG THÁI: CHUẨN BỊ</div>
 <div id="danger-alert">RỚT BÂY GIỜ!!! CỨU!!!</div>
 
 <div id="authUI" class="ui-screen">
@@ -542,178 +541,148 @@
     const canvas = document.getElementById("gameCanvas"); 
     const ctx = canvas.getContext("2d");
     
-    let barAngle = 0;
-    let boxPos = 0;
-    let boxVel = 0;
-    let time = 0;
-    let clickCount = 0;
-    let isGameOver = true;
-    let isGracePeriod = true;
-    let barWidth = 320;
-    let currentEdgeDist = 0;
-    let isDanger = false;
-    let animationId;
+    let barAngle = 0; let boxPos = 0; let boxVel = 0; let time = 0; let visualTime = 0; let clickCount = 0;
+    let isGameOver = true; let isGracePeriod = true; let barWidth = 320; let currentEdgeDist = 0; let isDanger = false;
+    let animationId; let matchStarted = false;
     
-    const gravity = 0.006; 
-    const clickForce = 0.18; 
-    const friction = 0.965; 
-    const weightPower = 0.06; 
-    const shrinkSpeed = 0.45;
-    
-    let windTimer = 2; 
-    let windForce = 0; 
-    
-    let floatingTexts = []; 
-    let explosionParticles = []; 
-    let orbTrail = []; 
-    let particles = [];
-    
+    const gravity = 0.006; const clickForce = 0.18; const friction = 0.965; const weightPower = 0.06; const shrinkSpeed = 0.45;
+    let windTimer = 2; let windForce = 0; 
+    let floatingTexts = []; let explosionParticles = []; let orbTrail = []; let particles = [];
     const trollWords = ["GÀ!", "NON!", "CẨN THẬN!", "SẮP RỚT!", "MẮT LÁC À?", "YẾU!", "LỆCH KÌA!", "RUN TAY À?", "TẬP TRUNG!"];
     
-    let activeMagnet = 0; 
-    let activeFreeze = 0;
-    
-    let isMultiplayer = false; 
-    let currentMatchId = null; 
-    let matchRef = null; 
-    let oppTime = 0; 
-    let oppDead = false; 
-    let matchListener = null; 
-    let beepingInterval = null;
+    let activeMagnet = 0; let activeFreeze = 0;
+    let isMultiplayer = false; let currentMatchId = null; let matchRef = null; let oppTime = 0; let oppDead = false; let matchListener = null; let beepingInterval = null;
 
-    function resize() { 
-        canvas.width = window.innerWidth; 
-        canvas.height = window.innerHeight; 
-    } 
-    window.addEventListener('resize', resize); 
-    resize();
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; } 
+    window.addEventListener('resize', resize); resize();
 
     window.backToMenu = () => { 
-        isGameOver = true; 
-        cancelAnimationFrame(animationId); 
-        document.getElementById("gameOverUI").style.display = "none"; 
-        document.getElementById("menuUI").style.display = "flex"; 
-        document.getElementById("hud").style.display = "none"; 
-        document.getElementById("click-hud").style.display = "none"; 
-        document.getElementById("match-hud").style.display = "none"; 
-        document.getElementById("item-box").style.display = "none"; 
-        document.getElementById("status-tag").style.display = "none"; 
-        
-        if(matchRef) { 
-            remove(matchRef); 
-            matchRef = null; 
-        } 
+        isGameOver = true; cancelAnimationFrame(animationId); 
+        document.getElementById("gameOverUI").style.display = "none"; document.getElementById("menuUI").style.display = "flex"; 
+        document.getElementById("hud").style.display = "none"; document.getElementById("click-hud").style.display = "none"; 
+        document.getElementById("match-hud").style.display = "none"; document.getElementById("item-box").style.display = "none"; document.getElementById("status-tag").style.display = "none"; 
+        if(matchRef) { remove(matchRef); matchRef = null; } 
         updateMenuUI(); 
     };
 
+    function listenToMatch() {
+        if(matchListener) return;
+        matchListener = onValue(matchRef, (snap) => {
+            const data = snap.val(); 
+            if(!data) return;
+
+            // Trigger game start for both when state becomes 'playing'
+            if (data.state === 'playing' && !matchStarted) {
+                matchStarted = true;
+                startGame(true, data);
+            }
+
+            if (data.state === 'playing') {
+                const isP1 = data.p1 === currentUser; 
+                oppTime = isP1 ? data.p2Time : data.p1Time; 
+                oppDead = isP1 ? data.p2Dead : data.p1Dead;
+                
+                const oppName = isP1 ? data.p2 : data.p1;
+                document.getElementById('opp-name').innerText = oppName || "ĐANG TẢI...";
+                document.getElementById('my-name').innerText = currentUser;
+                document.getElementById('opp-match-time').innerText = (oppTime || 0).toFixed(1);
+                
+                if(oppDead && !isGameOver && !isGracePeriod) { 
+                    triggerWin(); 
+                }
+            }
+        });
+    }
+
     window.startMatchmaking = async () => {
-        initAudio(); 
-        document.getElementById('menuUI').style.display = 'none'; 
-        document.getElementById('matchmakingUI').style.display = 'flex';
+        initAudio(); matchStarted = false;
+        document.getElementById('menuUI').style.display = 'none'; document.getElementById('matchmakingUI').style.display = 'flex';
         
-        const roomsSnap = await get(child(dbRef, 'matches')); 
-        let foundRoom = null;
+        const roomsSnap = await get(child(dbRef, 'arena_matches')); let foundRoom = null; const now = Date.now();
         if (roomsSnap.exists()) { 
             roomsSnap.forEach(r => { 
-                if(r.val().state === 'waiting' && r.val().p1 !== currentUser) foundRoom = r.key; 
+                const roomData = r.val();
+                if(roomData.state === 'waiting' && roomData.p1 !== currentUser && (now - roomData.createdAt < 30000)) { foundRoom = r.key; }
             }); 
         }
         
         if (foundRoom) {
-            currentMatchId = foundRoom; 
-            matchRef = ref(db, `matches/${currentMatchId}`);
+            currentMatchId = foundRoom; matchRef = ref(db, `arena_matches/${currentMatchId}`);
+            listenToMatch();
             await update(matchRef, { state: 'playing', p2: currentUser, p2Time: 0, p2Dead: false });
-            setupMatchListener(); 
-            setTimeout(() => startGame(true), 1000);
         } else {
-            const newRoomRef = push(ref(db, 'matches')); 
-            currentMatchId = newRoomRef.key; 
-            matchRef = newRoomRef;
-            await set(matchRef, { state: 'waiting', p1: currentUser, p1Time: 0, p1Dead: false, p2: "", p2Time: 0, p2Dead: false });
+            const newRoomRef = push(ref(db, 'arena_matches')); currentMatchId = newRoomRef.key; matchRef = newRoomRef;
+            await set(matchRef, { state: 'waiting', p1: currentUser, p1Time: 0, p1Dead: false, p2: "", p2Time: 0, p2Dead: false, createdAt: now });
             onDisconnect(matchRef).remove(); 
-            matchListener = onValue(matchRef, (snap) => { 
-                const data = snap.val(); 
-                if(data && data.state === 'playing') { 
-                    setupMatchListener(); startGame(true); 
-                } 
-            });
+            
+            let pingInterval = setInterval(() => {
+                if (document.getElementById('matchmakingUI').style.display === 'flex' && matchRef) { update(matchRef, { createdAt: Date.now() }); } 
+                else { clearInterval(pingInterval); }
+            }, 15000);
+            listenToMatch();
         }
     };
 
     window.cancelMatchmaking = () => { 
         if(matchRef) { remove(matchRef); matchRef = null; } 
-        document.getElementById('matchmakingUI').style.display = 'none'; 
-        document.getElementById('menuUI').style.display = 'flex'; 
+        document.getElementById('matchmakingUI').style.display = 'none'; document.getElementById('menuUI').style.display = 'flex'; 
     };
 
-    function setupMatchListener() {
-        matchListener = onValue(matchRef, (snap) => {
-            const data = snap.val(); 
-            if(!data) return;
-            const isP1 = data.p1 === currentUser; 
-            oppTime = isP1 ? data.p2Time : data.p1Time; 
-            oppDead = isP1 ? data.p2Dead : data.p1Dead;
-            
-            document.getElementById('opp-match-time').innerText = oppTime.toFixed(1);
-            if(oppDead && !isGameOver) { 
-                triggerWin(); 
-            }
-        });
-    }
-
-    window.startGame = (multi) => {
-        initAudio(); 
-        cancelAnimationFrame(animationId);
+    window.startGame = (multi, matchData = null) => {
+        initAudio(); cancelAnimationFrame(animationId);
         
-        isGameOver = false; 
-        isGracePeriod = true; 
-        isMultiplayer = multi;
+        isGameOver = false; isGracePeriod = true; isMultiplayer = multi;
+        document.getElementById('matchmakingUI').style.display = 'none'; document.getElementById("menuUI").style.display = "none"; document.getElementById("gameOverUI").style.display = "none";
         
-        document.getElementById('matchmakingUI').style.display = 'none'; 
-        document.getElementById("menuUI").style.display = "none"; 
-        document.getElementById("gameOverUI").style.display = "none";
-        
-        time = 0; barAngle = 0; boxPos = 0; boxVel = 0; barWidth = 320; clickCount = 0; 
-        activeMagnet = 0; activeFreeze = 0; 
-        
-        explosionParticles = []; 
-        orbTrail = []; 
-        particles = []; 
-        floatingTexts = [];
+        time = 0; visualTime = 0; barAngle = 0; boxPos = 0; boxVel = 0; barWidth = 320; clickCount = 0; activeMagnet = 0; activeFreeze = 0; 
+        explosionParticles = []; orbTrail = []; particles = []; floatingTexts = [];
         
         document.getElementById("status-tag").style.display = "block"; 
-        document.getElementById("status-tag").innerText = "SẴN SÀNG...";
         
         if (isMultiplayer) {
-            document.getElementById("match-hud").style.display = "flex"; 
-            document.getElementById("item-box").style.display = "flex";
-            document.getElementById("count-magnet").innerText = userData.items.magnet || 0; 
-            document.getElementById("count-freeze").innerText = userData.items.freeze || 0;
-            document.getElementById("my-match-time").innerText = "0.0"; 
-            document.getElementById("opp-match-time").innerText = "0.0";
+            document.getElementById("match-hud").style.display = "flex"; document.getElementById("item-box").style.display = "flex";
+            document.getElementById("count-magnet").innerText = userData.items.magnet || 0; document.getElementById("count-freeze").innerText = userData.items.freeze || 0;
+            document.getElementById("my-match-time").innerText = "0.0"; document.getElementById("opp-match-time").innerText = "0.0";
             
-            document.getElementById("btnRetry").style.display = "block";
-            document.getElementById("btnRetrySolo").style.display = "none";
+            if (matchData) {
+                const isP1 = matchData.p1 === currentUser;
+                document.getElementById('opp-name').innerText = isP1 ? matchData.p2 : matchData.p1;
+                document.getElementById('my-name').innerText = currentUser;
+            }
+
+            document.getElementById("btnRetry").style.display = "block"; document.getElementById("btnRetrySolo").style.display = "none";
         } else {
-            document.getElementById("hud").style.display = "block"; 
-            document.getElementById("click-hud").style.display = "block"; 
-            document.getElementById("click-hud").innerText = "CLICKS: 0";
-            document.getElementById("hud").innerText = "0.0s";
-            
-            document.getElementById("btnRetry").style.display = "none";
-            document.getElementById("btnRetrySolo").style.display = "block";
+            document.getElementById("hud").style.display = "block"; document.getElementById("click-hud").style.display = "block"; 
+            document.getElementById("click-hud").innerText = "CLICKS: 0"; document.getElementById("hud").innerText = "0.0s";
+            document.getElementById("btnRetry").style.display = "none"; document.getElementById("btnRetrySolo").style.display = "block";
         }
         
-        if(beepingInterval) clearInterval(beepingInterval);
-        beepingInterval = setInterval(() => { 
-            if(!isGameOver && isDanger && !isGracePeriod && activeFreeze <= 0) playSound('danger'); 
-        }, 200);
+        // ĐẾM NGƯỢC 5 GIÂY ĐỒNG BỘ
+        let countdown = 5;
+        document.getElementById("status-tag").innerText = `TRẬN ĐẤU BẮT ĐẦU SAU ${countdown}s...`;
+        document.getElementById("status-tag").style.color = "#ffeb3b";
+        document.getElementById("status-tag").style.fontSize = "20px";
 
-        setTimeout(() => { 
-            if (!isGameOver) { 
-                isGracePeriod = false; 
-                document.getElementById("status-tag").innerText = "SỐNG SÓT ĐI!"; 
-            } 
+        let countInterval = setInterval(() => {
+            countdown--;
+            if (countdown > 0) {
+                document.getElementById("status-tag").innerText = `TRẬN ĐẤU BẮT ĐẦU SAU ${countdown}s...`;
+                playSound('click');
+            } else {
+                clearInterval(countInterval);
+                if (!isGameOver) {
+                    isGracePeriod = false;
+                    document.getElementById("status-tag").innerText = "SỐNG SÓT ĐI!";
+                    document.getElementById("status-tag").style.color = "var(--cyan)";
+                    document.getElementById("status-tag").style.fontSize = "16px";
+                    playSound('win');
+
+                    if(beepingInterval) clearInterval(beepingInterval);
+                    beepingInterval = setInterval(() => { 
+                        if(!isGameOver && isDanger && !isGracePeriod && activeFreeze <= 0) playSound('danger'); 
+                    }, 200);
+                }
+            }
         }, 1000);
         
         gameLoop();
@@ -722,34 +691,20 @@
     window.addEventListener('pointerdown', (e) => {
         if (isGameOver || isGracePeriod || e.target.closest('.item-btn') || e.target.closest('.container')) return;
         
-        clickCount++; 
-        playSound('click');
-        
+        clickCount++; playSound('click');
         const currentSkin = skinData.find(s => s.id === userData.equippedSkin) || skinData[0];
         
-        for(let i=0; i<8; i++) { 
-            particles.push({ 
-                x: e.clientX, y: e.clientY, 
-                vx: (Math.random()-0.5)*10, vy: (Math.random()-0.5)*10, 
-                life: 1, color: currentSkin.orbColor 
-            }); 
-        }
+        for(let i=0; i<8; i++) { particles.push({ x: e.clientX, y: e.clientY, vx: (Math.random()-0.5)*10, vy: (Math.random()-0.5)*10, life: 1, color: currentSkin.orbColor }); }
         
-        let miaMai = ""; 
-        if(clickCount > 20) miaMai = " (Spam à?)"; 
-        if(clickCount > 50) miaMai = " (Mỏi tay chưa?)"; 
-        if(clickCount > 100) miaMai = " (Hỏng màn hình!)";
-        
+        let miaMai = ""; if(clickCount > 20) miaMai = " (Spam à?)"; if(clickCount > 50) miaMai = " (Mỏi tay chưa?)"; if(clickCount > 100) miaMai = " (Hỏng màn hình!)";
         if(!isMultiplayer) document.getElementById("click-hud").innerText = `CLICKS: ${clickCount}${miaMai}`;
         
         if (activeFreeze <= 0) {
             if (currentEdgeDist < barWidth * 0.25) { 
                 if (boxPos > 0) boxVel -= 0.6; else boxVel += 0.6; 
-                if (barAngle > 0) barAngle = Math.max(0, barAngle - 0.3); 
-                else barAngle = Math.min(0, barAngle + 0.3); 
+                if (barAngle > 0) barAngle = Math.max(0, barAngle - 0.3); else barAngle = Math.min(0, barAngle + 0.3); 
             } else { 
-                if (e.clientX < window.innerWidth / 2) barAngle -= clickForce; 
-                else barAngle += clickForce; 
+                if (e.clientX < window.innerWidth / 2) barAngle -= clickForce; else barAngle += clickForce; 
             }
         }
     });
@@ -757,88 +712,60 @@
     window.useItem = (type) => {
         if(isGameOver || isGracePeriod) return;
         if(userData.items[type] > 0) {
-            userData.items[type]--; 
-            saveUserData(); 
-            playSound('item');
-            if(type === 'magnet') { 
-                activeMagnet = 3; 
-                document.getElementById("count-magnet").innerText = userData.items.magnet; 
-            }
-            if(type === 'freeze') { 
-                activeFreeze = 3; 
-                document.getElementById("count-freeze").innerText = userData.items.freeze; 
-                document.getElementById("status-tag").innerText = "❄️ ĐÓNG BĂNG!"; 
-            }
+            userData.items[type]--; saveUserData(); playSound('item');
+            if(type === 'magnet') { activeMagnet = 3; document.getElementById("count-magnet").innerText = userData.items.magnet; }
+            if(type === 'freeze') { activeFreeze = 3; document.getElementById("count-freeze").innerText = userData.items.freeze; document.getElementById("status-tag").innerText = "❄️ ĐÓNG BĂNG!"; }
         }
     };
 
     function updatePhysics() {
-        if (isGameOver || isGracePeriod) return;
-        
         let delta = 1/60; 
+        visualTime += delta;
+
+        if (isGameOver) return; 
+        
+        // Hiệu ứng visual chạy ngay cả khi đếm ngược
+        particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life -= 0.05; }); particles = particles.filter(p => p.life > 0);
+        floatingTexts.forEach(t => t.life -= 0.012); floatingTexts = floatingTexts.filter(t => t.life > 0);
+
+        if (isGracePeriod) {
+            barAngle = 0; boxPos = 0; boxVel = 0;
+            return; // Dừng xử lý vật lý bóng khi đếm ngược
+        }
+        
         time += delta;
-        
-        if(activeMagnet > 0) { 
-            activeMagnet -= delta; 
-            boxVel -= boxPos * 0.05; 
-        } 
-        
-        if(activeFreeze > 0) { 
-            activeFreeze -= delta; 
-            windForce = 0; 
-            barAngle *= 0.9; 
-        } else {
+
+        if(activeMagnet > 0) { activeMagnet -= delta; boxVel -= boxPos * 0.05; } 
+        if(activeFreeze > 0) { activeFreeze -= delta; windForce = 0; barAngle *= 0.9; } 
+        else {
             windTimer -= delta;
             if (windTimer <= 0) {
                 if (time > 5 && Math.random() < 0.4) { 
-                    windForce = (Math.random() - 0.5) * 0.5; 
-                    windTimer = 2 + Math.random() * 4; 
-                    document.getElementById("status-tag").innerText = "⚠️ GIÓ LỐC!"; 
+                    windForce = (Math.random() - 0.5) * 0.5; windTimer = 2 + Math.random() * 4; document.getElementById("status-tag").innerText = "⚠️ GIÓ LỐC!"; 
                 } else { 
-                    windTimer = 1; 
-                    windForce = 0; 
-                    document.getElementById("status-tag").innerText = ""; 
+                    windTimer = 1; windForce = 0; document.getElementById("status-tag").innerText = ""; 
                 }
             }
-            barAngle += windForce * 0.05; 
-            barAngle += (Math.random() - 0.5) * 0.02; 
-            barAngle += (boxPos / (barWidth / 2)) * weightPower;
+            barAngle += windForce * 0.05; barAngle += (Math.random() - 0.5) * 0.02; barAngle += (boxPos / (barWidth / 2)) * weightPower;
         }
         
         barAngle = Math.max(-1.4, Math.min(1.4, barAngle)); 
-        let accel = Math.sin(barAngle) * gravity * 150; 
-        boxVel += accel; 
-        boxVel *= friction; 
-        boxPos += boxVel;
+        let accel = Math.sin(barAngle) * gravity * 150; boxVel += accel; boxVel *= friction; boxPos += boxVel;
         
         if(time > 3 && barWidth > 80) barWidth -= shrinkSpeed;
         
-        currentEdgeDist = (barWidth / 2) - Math.abs(boxPos); 
-        isDanger = currentEdgeDist < barWidth * 0.25;
+        currentEdgeDist = (barWidth / 2) - Math.abs(boxPos); isDanger = currentEdgeDist < barWidth * 0.25;
+        if (isDanger && activeFreeze <= 0) document.getElementById("danger-alert").style.display = "block"; else document.getElementById("danger-alert").style.display = "none";
         
-        if (isDanger && activeFreeze <= 0) document.getElementById("danger-alert").style.display = "block"; 
-        else document.getElementById("danger-alert").style.display = "none";
+        orbTrail.push({x: boxPos, a: barAngle}); if(orbTrail.length > 10) orbTrail.shift();
         
-        orbTrail.push({x: boxPos, a: barAngle}); 
-        if(orbTrail.length > 10) orbTrail.shift();
-        
-        if (Math.random() < 0.015 && time > 2) { 
-            floatingTexts.push({ 
-                x: (Math.random() - 0.5) * canvas.width * 0.8, 
-                y: (Math.random() - 0.5) * canvas.height * 0.5 - 50, 
-                text: trollWords[Math.floor(Math.random() * trollWords.length)], 
-                life: 1.0 
-            }); 
-        }
+        if (Math.random() < 0.015 && time > 2) { floatingTexts.push({ x: (Math.random() - 0.5) * canvas.width * 0.8, y: (Math.random() - 0.5) * canvas.height * 0.5 - 50, text: trollWords[Math.floor(Math.random() * trollWords.length)], life: 1.0 }); }
 
         if(isMultiplayer) {
             document.getElementById("my-match-time").innerText = time.toFixed(1);
             if(time*60 % 10 < 1 && matchRef) {
                 get(matchRef).then(snap=>{
-                    if(snap.exists()) { 
-                        const isP1 = snap.val().p1 === currentUser; 
-                        update(matchRef, isP1 ? { p1Time: time } : { p2Time: time }); 
-                    }
+                    if(snap.exists()) { const isP1 = snap.val().p1 === currentUser; update(matchRef, isP1 ? { p1Time: time } : { p2Time: time }); }
                 });
             }
         } else {
@@ -849,56 +776,36 @@
     }
 
     function triggerDeath() {
-        isGameOver = true; 
-        playSound('over');
+        isGameOver = true; playSound('over');
         if(beepingInterval) clearInterval(beepingInterval);
         
         const skin = skinData.find(s => s.id === userData.equippedSkin) || skinData[0];
-        const cx = canvas.width/2; 
-        const cy = canvas.height/2 + 50;
-        const absX = cx + Math.cos(barAngle)*boxPos - Math.sin(barAngle)*(-18); 
-        const absY = cy + Math.sin(barAngle)*boxPos + Math.cos(barAngle)*(-18);
+        const cx = canvas.width/2; const cy = canvas.height/2 + 50;
+        const absX = cx + Math.cos(barAngle)*boxPos - Math.sin(barAngle)*(-18); const absY = cy + Math.sin(barAngle)*boxPos + Math.cos(barAngle)*(-18);
         
         for(let i=0; i<100; i++) { 
-            explosionParticles.push({ 
-                x: absX, y: absY, 
-                vx: (Math.random()-0.5)*20, vy: (Math.random()-0.5)*20, 
-                life: 1.5, color: skin.orbColor, size: Math.random()*5 
-            }); 
+            explosionParticles.push({ x: absX, y: absY, vx: (Math.random()-0.5)*20, vy: (Math.random()-0.5)*20, life: 1.5, color: skin.orbColor, size: Math.random()*5 }); 
         }
         
         if(isMultiplayer && matchRef) {
             get(matchRef).then(snap => { 
-                if(snap.exists()) { 
-                    const isP1 = snap.val().p1 === currentUser; 
-                    update(matchRef, isP1 ? { p1Dead: true } : { p2Dead: true }); 
-                } 
+                if(snap.exists()) { const isP1 = snap.val().p1 === currentUser; update(matchRef, isP1 ? { p1Dead: true } : { p2Dead: true }); } 
             });
         }
-        
         setTimeout(() => showGameOverUI(false), 1500);
     }
     
-    function triggerWin() { 
-        isGameOver = true; 
-        playSound('win'); 
-        setTimeout(() => showGameOverUI(true), 500); 
-    }
+    function triggerWin() { isGameOver = true; playSound('win'); setTimeout(() => showGameOverUI(true), 500); }
 
     function draw() {
-        ctx.fillStyle = "#050011"; 
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#050011"; ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.save();
         
-        if (!isGameOver && isDanger && activeFreeze <= 0) { 
-            const shake = 8; 
-            ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake); 
-        }
+        if (!isGameOver && isDanger && activeFreeze <= 0 && !isGracePeriod) { const shake = 8; ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake); }
         
-        ctx.strokeStyle = (!isGameOver && isDanger && activeFreeze <= 0) ? "rgba(255, 0, 0, 0.4)" : "rgba(0, 255, 255, 0.06)"; 
-        ctx.lineWidth = 1; 
-        ctx.beginPath();
-        const gs = 40; const off = (time * 30) % gs;
+        ctx.strokeStyle = (!isGameOver && isDanger && activeFreeze <= 0 && !isGracePeriod) ? "rgba(255, 0, 0, 0.4)" : "rgba(0, 255, 255, 0.06)"; 
+        ctx.lineWidth = 1; ctx.beginPath();
+        const gs = 40; const off = (visualTime * 30) % gs; // Sử dụng visualTime để lưới chạy mượt mà ngay cả khi đếm ngược
         for (let x = 0; x <= canvas.width; x += gs) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); }
         for (let y = off; y <= canvas.height; y += gs) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); } 
         ctx.stroke();
@@ -906,51 +813,24 @@
         const cx = canvas.width / 2, cy = canvas.height / 2 + 50;
 
         if (isGameOver) {
-            explosionParticles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life -= 0.02; }); 
-            explosionParticles = explosionParticles.filter(p => p.life > 0);
-            explosionParticles.forEach(p => { 
-                ctx.fillStyle = p.color; ctx.globalAlpha = p.life; 
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill(); 
-            }); 
-            ctx.globalAlpha = 1;
+            explosionParticles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life -= 0.02; }); explosionParticles = explosionParticles.filter(p => p.life > 0);
+            explosionParticles.forEach(p => { ctx.fillStyle = p.color; ctx.globalAlpha = p.life; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill(); }); ctx.globalAlpha = 1;
         }
 
-        particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life -= 0.05; }); 
-        particles = particles.filter(p => p.life > 0);
-        particles.forEach(p => { 
-            ctx.fillStyle = p.color; ctx.globalAlpha = p.life; 
-            ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill(); 
-        }); 
-        ctx.globalAlpha = 1;
+        particles.forEach(p => { ctx.fillStyle = p.color; ctx.globalAlpha = p.life; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill(); }); ctx.globalAlpha = 1;
 
-        floatingTexts.forEach(t => t.life -= 0.012); 
-        floatingTexts = floatingTexts.filter(t => t.life > 0);
-        ctx.save(); 
-        ctx.translate(cx, cy);
-        floatingTexts.forEach(t => { 
-            ctx.fillStyle = `rgba(255, 0, 60, ${t.life})`; 
-            ctx.font = "900 24px Orbitron"; ctx.textAlign = "center"; 
-            ctx.fillText(t.text, t.x, t.y); 
-        });
+        ctx.save(); ctx.translate(cx, cy);
+        floatingTexts.forEach(t => { ctx.fillStyle = `rgba(255, 0, 60, ${t.life})`; ctx.font = "900 24px Orbitron"; ctx.textAlign = "center"; ctx.fillText(t.text, t.x, t.y); });
         ctx.restore();
 
         ctx.shadowBlur = 10; ctx.shadowColor = "#ff003c"; ctx.fillStyle = "#1a0005"; ctx.strokeStyle = "#ff003c"; 
         ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx-25, cy+45); ctx.lineTo(cx+25, cy+45); ctx.closePath(); ctx.fill(); ctx.stroke();
         
-        ctx.save(); 
-        ctx.translate(cx, cy); ctx.rotate(barAngle);
+        ctx.save(); ctx.translate(cx, cy); ctx.rotate(barAngle);
         const skin = skinData.find(s => s.id === userData.equippedSkin) || skinData[0];
 
         if (!isGameOver) {
-            orbTrail.forEach((t, i) => { 
-                ctx.save(); 
-                ctx.rotate(t.a - barAngle); 
-                ctx.fillStyle = skin.orbColor; 
-                ctx.globalAlpha = (i / orbTrail.length) * 0.3; 
-                ctx.beginPath(); ctx.arc(t.x, -18, 18 - (10 - i)*0.5, 0, Math.PI * 2); ctx.fill(); 
-                ctx.restore(); 
-            }); 
-            ctx.globalAlpha = 1;
+            orbTrail.forEach((t, i) => { ctx.save(); ctx.rotate(t.a - barAngle); ctx.fillStyle = skin.orbColor; ctx.globalAlpha = (i / orbTrail.length) * 0.3; ctx.beginPath(); ctx.arc(t.x, -18, 18 - (10 - i)*0.5, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }); ctx.globalAlpha = 1;
             
             if(activeFreeze > 0) { ctx.shadowBlur = 30; ctx.shadowColor = "#00bfff"; ctx.strokeStyle = "#00bfff"; } 
             else { ctx.shadowBlur = 25; ctx.shadowColor = skin.barGlow; ctx.strokeStyle = skin.barColor; }
@@ -962,21 +842,14 @@
             grad.addColorStop(0, skin.orbCore); grad.addColorStop(0.3, skin.orbColor); grad.addColorStop(1, skin.orbDark);
             ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(boxPos, -18, 18, 0, Math.PI * 2); ctx.fill();
             
-            if(activeMagnet > 0) { 
-                ctx.strokeStyle = "rgba(255, 215, 0, 0.5)"; ctx.lineWidth = 2; 
-                ctx.beginPath(); ctx.moveTo(boxPos, -18); ctx.lineTo(0, -18); ctx.stroke(); 
-            }
+            if(activeMagnet > 0) { ctx.strokeStyle = "rgba(255, 215, 0, 0.5)"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(boxPos, -18); ctx.lineTo(0, -18); ctx.stroke(); }
         }
         
-        ctx.restore(); 
-        ctx.restore();
+        ctx.restore(); ctx.restore();
     }
 
     function gameLoop() { 
-        try {
-            updatePhysics(); 
-            draw(); 
-        } catch(e) { console.error(e); }
+        try { updatePhysics(); draw(); } catch(e) { console.error(e); }
         animationId = requestAnimationFrame(gameLoop); 
     }
 
@@ -1007,9 +880,7 @@
         userData.coins += earnedCoins; 
         userData.rp = Math.max(0, userData.rp + earnedRP);
         
-        if(finalScore > userData.maxScore && !isMultiplayer) {
-            userData.maxScore = finalScore;
-        }
+        if(finalScore > userData.maxScore && !isMultiplayer) { userData.maxScore = finalScore; }
         
         push(ref(db, "leaderboard"), { name: currentUser, score: userData.maxScore, rp: userData.rp, timestamp: Date.now() });
         await saveUserData();
@@ -1026,7 +897,7 @@
         document.getElementById("match-hud").style.display = "none"; 
         document.getElementById("item-box").style.display = "none";
         
-        if(matchRef) { remove(matchRef); matchRef = null; } 
+        if(matchRef) { remove(matchRef); matchRef = null; matchStarted = false;} 
     }
 </script>
 </body>
