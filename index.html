@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SIÊU CÂN BẰNG - MAX TROLL UPDATE</title>
+    <title>SIÊU CÂN BẰNG - LEGENDARY RANKED MODE</title>
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8573479616106906" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -21,47 +21,75 @@
             --dark-bg: rgba(10, 5, 5, 0.85);
         }
 
-        body { margin: 0; background: #000; color: white; font-family: 'Poppins', sans-serif; overflow: hidden; touch-action: none; }
-        canvas { display: block; }
+        body { margin: 0; background: #000; color: white; font-family: 'Poppins', sans-serif; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
+        canvas { display: block; position: relative; z-index: 0; }
         
+        /* HIỆU ỨNG MÀN HÌNH MÁY GAME THÙNG (CRT SCANLINES) */
+        .crt-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%; opacity: 0.6;
+        }
+
         .ui-screen { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            z-index: 100; background: rgba(0, 0, 0, 0.75); 
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            z-index: 100; background: rgba(0, 0, 0, 0.8); 
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             text-align: center; overflow-y: auto; 
         }
         
         .container { 
-            padding: 25px 20px; border: 2px solid rgba(255, 0, 60, 0.4); border-radius: 16px; 
+            padding: 25px 20px; border: 2px solid rgba(0, 240, 255, 0.4); border-radius: 16px; 
             background: var(--dark-bg); width: 88%; max-width: 380px; 
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.2), inset 0 0 20px rgba(255, 0, 0, 0.1); 
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 240, 255, 0.1); 
             margin: 10px 0; position: relative; animation: fadeIn 0.4s ease-out;
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
         
-        h1, h2 { color: var(--primary); font-family: 'Orbitron', sans-serif; font-size: 26px; margin: 5px 0 10px 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px var(--primary-glow); }
+        h1, h2 { color: var(--cyan); font-family: 'Orbitron', sans-serif; font-size: 28px; margin: 5px 0 10px 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0,240,255,0.6); }
         
-        .user-stats-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 8px; padding: 10px; margin-bottom: 15px; display: flex; justify-content: space-around; font-family: 'Orbitron', sans-serif; font-size: 14px; position: relative; }
-        .stat-item { color: var(--cyan); text-shadow: 0 0 5px rgba(0,240,255,0.5); display: flex; align-items: center; gap: 5px; }
+        /* RANK STYLES */
+        .rank-dong { color: #cd7f32; text-shadow: 0 0 10px rgba(205, 127, 50, 0.6); }
+        .rank-bac { color: #c0c0c0; text-shadow: 0 0 10px rgba(192, 192, 192, 0.8); }
+        .rank-kimcuong { color: #00ffff; text-shadow: 0 0 15px rgba(0, 255, 255, 0.8); }
+        .rank-huyenthoai { 
+            background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #00ff00, #00ffff, #ff00ff, #ff0000);
+            background-size: 400% 400%; -webkit-background-clip: text; color: transparent; 
+            animation: rainbowGlow 3s ease infinite; font-weight: 900;
+        }
+        @keyframes rainbowGlow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+        .rank-box { background: rgba(0,0,0,0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 8px; padding: 15px 10px; margin-bottom: 15px; position: relative; }
+        .rank-icon { font-size: 35px; margin-bottom: 5px; display: block; }
+        .rank-name { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px;}
+        .progress-bar-bg { width: 100%; height: 8px; background: #222; border-radius: 4px; overflow: hidden; margin-top: 5px; border: 1px solid #444;}
+        .progress-bar-fill { height: 100%; background: var(--cyan); width: 0%; transition: width 0.5s ease-out; box-shadow: 0 0 10px var(--cyan); }
+        .rp-text { font-size: 11px; color: #aaa; margin-top: 4px; display: block; font-family: 'Orbitron', sans-serif;}
+
+        .user-stats-box { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 15px; display: flex; justify-content: space-around; font-family: 'Orbitron', sans-serif; font-size: 13px; }
+        .stat-item { color: #fff; display: flex; align-items: center; gap: 5px; }
         .stat-item i { color: var(--gold); }
         
-        .btn-logout { position: absolute; top: -12px; right: -10px; background: #333; color: #fff; border: 1px solid #555; padding: 4px 8px; font-size: 10px; border-radius: 6px; cursor: pointer; font-family: 'Poppins', sans-serif; box-shadow: none; width: auto; margin: 0; }
-        .btn-logout:hover { background: #ff003c; border-color: #ff003c; transform: none; box-shadow: 0 0 10px var(--primary-glow); }
+        .btn-logout { position: absolute; top: -12px; right: -10px; background: #333; color: #fff; border: 1px solid #555; padding: 4px 8px; font-size: 10px; border-radius: 6px; cursor: pointer; font-family: 'Poppins', sans-serif; z-index: 10; transition: 0.3s;}
+        .btn-logout:hover { background: #ff003c; border-color: #ff003c; box-shadow: 0 0 10px var(--primary-glow); }
 
         .btn-group { display: flex; gap: 10px; margin-top: 10px; }
         button { 
-            padding: 14px; margin: 8px 0; font-size: 15px; font-weight: 700; 
+            padding: 14px; margin: 8px 0; font-size: 16px; font-weight: 700; 
             background: linear-gradient(135deg, var(--primary), #990024); 
             color: #fff; border: none; border-radius: 8px; cursor: pointer; 
             width: 100%; text-transform: uppercase; letter-spacing: 1px;
             transition: all 0.2s; box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); font-family: 'Orbitron', sans-serif;
         }
-        button:hover { box-shadow: 0 0 20px var(--primary-glow); transform: translateY(-2px); }
-        button:active { transform: scale(0.96) translateY(2px); box-shadow: 0 2px 5px rgba(255,0,0,0.5); }
-        button.btn-shop { background: linear-gradient(135deg, #00b09b, #96c93d); box-shadow: 0 4px 15px rgba(0, 255, 0, 0.2); }
-        button.btn-shop:hover { box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); }
+        
+        #btn-start { animation: pulse 1.5s infinite; background: linear-gradient(135deg, #00f0ff, #005b66); box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3); }
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 10px rgba(0,240,255,0.4); } 50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(0,240,255,0.8); } 100% { transform: scale(1); box-shadow: 0 0 10px rgba(0,240,255,0.4); } }
+        
+        button:hover { filter: brightness(1.2); transform: translateY(-2px); animation: none; }
+        button:active { transform: scale(0.96) translateY(2px); }
+        button.btn-shop { background: linear-gradient(135deg, #ffd700, #b8860b); color: #000; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2); animation: none; }
         
         input { 
             padding: 14px; margin: 8px 0; background: rgba(0,0,0,0.5); 
@@ -69,49 +97,51 @@
             width: 85%; text-align: center; font-size: 16px; font-family: 'Poppins', sans-serif; font-weight: 600;
             border-radius: 8px; outline: none; transition: 0.3s;
         }
-        input:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(0, 240, 255, 0.3); }
+        input:focus { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
 
         /* SHOP UI */
-        .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 280px; overflow-y: auto; padding-right: 5px; margin-bottom: 10px;}
+        .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 250px; overflow-y: auto; padding-right: 5px; margin-bottom: 10px;}
         .shop-grid::-webkit-scrollbar { width: 4px; }
         .shop-grid::-webkit-scrollbar-track { background: #111; }
-        .shop-grid::-webkit-scrollbar-thumb { background: var(--cyan); }
+        .shop-grid::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 4px; }
         
         .skin-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; text-align: center; transition: 0.3s; }
         .skin-card.equipped { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0,240,255,0.3); background: rgba(0,240,255,0.1); }
-        
         .skin-preview-box { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 8px; height: 50px;}
         .skin-preview-orb { width: 30px; height: 30px; border-radius: 50%; margin-bottom: 5px; }
         .skin-preview-bar { width: 50px; height: 6px; border-radius: 3px; }
-
         .skin-name { font-size: 11px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase;}
-        .skin-btn { padding: 6px; font-size: 11px; margin: 0; width: 100%; background: #333; box-shadow: none; }
+        .skin-btn { padding: 6px; font-size: 11px; margin: 0; width: 100%; background: #333; box-shadow: none; animation: none;}
         .skin-btn.buy { background: var(--gold); color: #000; }
         .skin-btn.equip { background: var(--cyan); color: #000; }
         .skin-btn.equipped { background: #555; cursor: default; }
 
         /* IN-GAME HUD */
-        #hud { position: fixed; top: 15px; width: 100%; text-align: center; font-size: 55px; font-weight: 900; font-family: 'Orbitron', sans-serif; color: #fff; z-index: 50; display: none; pointer-events: none; text-shadow: 0 0 15px var(--primary), 0 0 30px var(--primary); }
+        #hud { position: fixed; top: 15px; width: 100%; text-align: center; font-size: 60px; font-weight: 900; font-family: 'Orbitron', sans-serif; color: #fff; z-index: 50; display: none; pointer-events: none; text-shadow: 0 0 15px var(--cyan), 0 0 30px var(--cyan); }
         #click-hud { position: fixed; top: 25px; left: 20px; font-size: 14px; font-family: 'Orbitron', sans-serif; color: #fff; z-index: 55; display: none; border-left: 4px solid var(--cyan); padding-left: 10px; text-shadow: 0 0 10px var(--cyan); background: rgba(0,0,0,0.6); padding: 5px 10px; border-radius: 0 6px 6px 0; }
-        #status-tag { position: fixed; top: 85px; width: 100%; text-align: center; font-size: 14px; font-family: 'Orbitron', sans-serif; z-index: 50; color: var(--cyan); display: none; font-weight: bold; pointer-events: none; text-shadow: 0 0 8px var(--cyan); letter-spacing: 2px; transition: color 0.2s; }
+        #status-tag { position: fixed; top: 95px; width: 100%; text-align: center; font-size: 16px; font-family: 'Orbitron', sans-serif; z-index: 50; color: var(--cyan); display: none; font-weight: bold; pointer-events: none; text-shadow: 0 0 10px var(--cyan); letter-spacing: 2px; transition: color 0.2s; }
         #danger-alert { position: fixed; bottom: 15%; width: 100%; text-align: center; color: #ffeb3b; font-weight: 900; font-family: 'Orbitron', sans-serif; font-size: 28px; z-index: 60; display: none; text-shadow: 0 0 20px #ff0000, 0 0 10px #ffeb3b; animation: dangerBlink 0.15s infinite; pointer-events: none; letter-spacing: 1px; }
-        @keyframes dangerBlink { 0% { opacity: 1; transform: scale(1) translate(0,0); } 50% { opacity: 0; transform: scale(1.1) translate(2px, -2px); } 100% { opacity: 1; transform: scale(1) translate(-2px, 2px); } }
-        #insult-text { color: #ffeb3b; font-style: italic; font-size: 14px; margin-bottom: 10px; min-height: 40px; display: flex; align-items: center; justify-content: center; text-shadow: 0 0 5px rgba(255, 235, 59, 0.5); }
+        @keyframes dangerBlink { 0% { opacity: 1; transform: scale(1) translate(0,0); } 50% { opacity: 0; transform: scale(1.1) translate(3px, -3px); } 100% { opacity: 1; transform: scale(1) translate(-3px, 3px); } }
+        
+        #insult-text { color: #ff003c; font-style: italic; font-size: 15px; margin-bottom: 10px; min-height: 40px; display: flex; align-items: center; justify-content: center; text-shadow: 0 0 8px rgba(255, 0, 60, 0.6); font-weight: bold; }
 
-        .lb-box { margin-top: 15px; text-align: left; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+        .lb-box { margin-top: 10px; text-align: left; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
         .lb-title { color: var(--gold); font-weight: bold; font-family: 'Orbitron', sans-serif; display: block; margin-bottom: 8px; text-align: center; font-size: 14px; text-transform: uppercase; text-shadow: 0 0 5px rgba(255,215,0,0.5); }
-        ol { padding: 0; list-style: none; margin: 0; max-height: 120px; overflow-y: auto; border-radius: 6px; scrollbar-width: thin; scrollbar-color: var(--primary) #111; }
+        ol { padding: 0; list-style: none; margin: 0; max-height: 120px; overflow-y: auto; border-radius: 6px; scrollbar-width: thin; scrollbar-color: var(--cyan) #111; }
         ol::-webkit-scrollbar { width: 6px; }
         ol::-webkit-scrollbar-track { background: #111; border-radius: 4px; }
-        ol::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
-        li { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; font-size: 13px; }
-        .rank-num { color: var(--cyan); font-weight: 700; width: 30px; display: inline-block; font-family: 'Orbitron', sans-serif;}
+        ol::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 4px; }
+        li { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-family: 'Orbitron', sans-serif; }
+        .lb-name { display: flex; align-items: center; gap: 8px; color: #fff;}
+        .rank-num { color: #888; font-weight: 700; width: 25px; display: inline-block; font-size: 11px;}
         
-        .switch-auth-link { font-size: 13px; margin-top: 15px; cursor: pointer; color: var(--cyan); text-decoration: underline; }
-        .switch-auth-link:hover { color: #fff; }
+        .switch-auth-link { font-size: 13px; margin-top: 15px; cursor: pointer; color: var(--cyan); text-decoration: underline; transition: 0.3s;}
+        .switch-auth-link:hover { color: #fff; text-shadow: 0 0 8px var(--cyan); }
     </style>
 </head>
 <body>
+
+<div class="crt-overlay"></div>
 
 <div id="hud">0.0s</div>
 <div id="click-hud">CLICKS: 0</div>
@@ -121,7 +151,7 @@
 <div id="authUI" class="ui-screen">
     <div class="container" id="loginBox">
         <h1>ĐĂNG NHẬP</h1>
-        <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">Tham gia để cày vàng và đua top!</p>
+        <p style="color: #aaa; font-size: 12px; margin-bottom: 15px;">Tham gia cày Rank và đua Top server!</p>
         <input type="text" id="loginUser" placeholder="Tên tài khoản..." maxlength="12">
         <input type="password" id="loginPass" placeholder="Mật khẩu...">
         <button onclick="handleLogin()">VÀO GAME</button>
@@ -143,19 +173,29 @@
 
 <div id="menuUI" class="ui-screen" style="display:none">
     <div class="container">
-        <h1 id="txt-title">SIÊU CÂN BẰNG</h1>
-        <div class="user-stats-box">
-            <button class="btn-logout" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</button>
-            <div class="stat-item"><i class="fa-solid fa-user"></i> <span id="ui-username">Player</span></div>
-            <div class="stat-item"><i class="fa-solid fa-coins"></i> <span id="ui-coins">0</span></div>
-            <div class="stat-item"><i class="fa-solid fa-trophy" style="color:#00f0ff"></i> <span id="ui-maxscore">0.0s</span></div>
+        <button class="btn-logout" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i></button>
+        <h1 id="txt-title" style="margin-top: 0;">SIÊU CÂN BẰNG</h1>
+        
+        <div class="rank-box">
+            <span class="rank-icon" id="ui-rank-icon"><i class="fa-solid fa-medal"></i></span>
+            <div class="rank-name" id="ui-rank-name">ĐỒNG</div>
+            <span style="font-size: 14px; color: #fff; font-weight: bold;" id="ui-username">Player</span>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="ui-rp-bar"></div></div>
+            <span class="rp-text"><span id="ui-rp-current">0</span> / <span id="ui-rp-next">1000</span> RP</span>
         </div>
+
+        <div class="user-stats-box">
+            <div class="stat-item"><i class="fa-solid fa-coins"></i> <span id="ui-coins">0</span></div>
+            <div class="stat-item"><i class="fa-solid fa-clock" style="color:var(--cyan)"></i> Kỷ lục: <span id="ui-maxscore">0.0s</span></div>
+        </div>
+
         <div class="btn-group">
             <button id="btn-start" onclick="startGame()">BẮT ĐẦU</button>
-            <button class="btn-shop" onclick="openShop()"><i class="fa-solid fa-cart-shopping"></i> CỬA HÀNG</button>
+            <button class="btn-shop" onclick="openShop()"><i class="fa-solid fa-cart-shopping"></i> SKIN</button>
         </div>
+        
         <div class="lb-box">
-            <span class="lb-title">🏆 TOP 10 CAO THỦ</span>
+            <span class="lb-title"><i class="fa-solid fa-trophy"></i> BẢNG XẾP HẠNG RANK</span>
             <ol id="leaderboardList"><li>Đang tải...</li></ol>
         </div>
     </div>
@@ -163,9 +203,9 @@
 
 <div id="shopUI" class="ui-screen" style="display:none">
     <div class="container">
-        <h2 style="color: var(--cyan); text-shadow: 0 0 15px var(--cyan);">CỬA HÀNG SKIN</h2>
+        <h2 style="color: var(--cyan); text-shadow: 0 0 15px var(--cyan);">KHO GIAO DIỆN</h2>
         <p style="color: var(--gold); font-family: 'Orbitron', sans-serif; margin-top: -5px; margin-bottom: 15px;">
-            <i class="fa-solid fa-coins"></i> Số vàng: <span id="shop-coins">0</span>
+            <i class="fa-solid fa-coins"></i> Vàng: <span id="shop-coins">0</span>
         </p>
         <div class="shop-grid" id="shopContainer"></div>
         <button onclick="closeShop()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; margin-top: 15px;">ĐÓNG CỬA HÀNG</button>
@@ -174,14 +214,17 @@
 
 <div id="gameOverUI" class="ui-screen" style="display:none">
     <div class="container">
-        <h2>GÀ QUÁ THUA RỒI!</h2>
+        <h2 style="color: #ff003c; text-shadow: 0 0 15px #ff003c;">GAME OVER!</h2>
         <div id="insult-text"></div>
-        <p style="font-size: 55px; margin: 10px 0; font-weight: 900; font-family: 'Orbitron', sans-serif; color: #fff; text-shadow: 0 0 15px var(--primary);"><span id="finalTime">0</span>s</p>
-        <div style="background: rgba(255,215,0,0.1); border: 1px dashed var(--gold); padding: 5px; border-radius: 6px; margin-bottom: 15px; font-family: 'Orbitron', sans-serif; color: var(--gold);">
-            + <span id="earnedCoins">0</span> VÀNG (Phí an ủi)
+        <p style="font-size: 50px; margin: 10px 0; font-weight: 900; font-family: 'Orbitron', sans-serif; color: #fff; text-shadow: 0 0 15px var(--cyan);"><span id="finalTime">0</span>s</p>
+        
+        <div style="background: rgba(0, 240, 255, 0.1); border: 1px solid var(--cyan); padding: 8px; border-radius: 6px; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">
+            <div style="color: var(--cyan); font-weight: bold; font-size: 18px;">+ <span id="earnedRP">0</span> RP</div>
+            <div style="color: var(--gold); font-size: 12px; margin-top: 4px;">+ <span id="earnedCoins">0</span> Vàng</div>
         </div>
-        <button id="btnRetry" onclick="startGame()">CAY CHƯA? CHƠI LẠI ĐI!</button>
-        <button id="btnMenu" onclick="backToMenu()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none;">VỀ MENU</button>
+        
+        <button id="btnRetry" onclick="startGame()" style="background: linear-gradient(135deg, #00f0ff, #005b66); box-shadow: 0 0 15px rgba(0,240,255,0.4);">CAY CHƯA? CHƠI LẠI!</button>
+        <button id="btnMenu" onclick="backToMenu()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; animation: none;">VỀ MENU</button>
     </div>
 </div>
 
@@ -206,8 +249,16 @@
     const dbRef = ref(db);
 
     let currentUser = null;
-    let userData = { password: "", coins: 0, maxScore: 0, unlockedSkins: [0, 1, 2], equippedSkin: 0 };
+    let userData = { password: "", coins: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1, 2], equippedSkin: 0 };
     
+    // --- HỆ THỐNG RANK (RP) ---
+    function getRankInfo(rp) {
+        if (rp >= 15000) return { name: "HUYỀN THOẠI", class: "rank-huyenthoai", icon: '<i class="fa-solid fa-crown"></i>', next: 15000, max: true };
+        if (rp >= 5000) return { name: "KIM CƯƠNG", class: "rank-kimcuong", icon: '<i class="fa-solid fa-gem"></i>', next: 15000, min: 5000 };
+        if (rp >= 1000) return { name: "BẠC", class: "rank-bac", icon: '<i class="fa-solid fa-star"></i>', next: 5000, min: 1000 };
+        return { name: "ĐỒNG", class: "rank-dong", icon: '<i class="fa-solid fa-medal"></i>', next: 1000, min: 0 };
+    }
+
     const skinData = [
         { id: 0, name: "CƠ BẢN", price: 0, orbColor: "#00f0ff", orbCore: "#ffffff", orbDark: "#005b66", barColor: "#ff1a4d", barGlow: "#ff003c" },
         { id: 1, name: "BĂNG GIÁ", price: 0, orbColor: "#00bfff", orbCore: "#e0ffff", orbDark: "#00008b", barColor: "#87cefa", barGlow: "#00bfff" },
@@ -235,86 +286,114 @@
         "Spam tay nữa đi bro! ⚡", "Tay chân bị đóng băng à? ❄️", "Trò này cho nít chơi, sao rớt hoài vậy? 😂",
         "Có cái thanh ngang cũng giữ không xong!", "Mắt lác à? Lệch thế kia!", "Run tay rồi kìa, yếu thế!",
         "Chắc do mạng lag đúng không? Đổ thừa đi 🤣", "Kỷ lục này con nít nhà bên còn làm tốt hơn!",
-        "Chơi dở thế này thì tắt máy học bài đi!", "Hình như bạn quên mang não khi chơi?"
+        "Chơi dở thế này thì tắt máy học bài đi!", "Điểm Rank lẹt đẹt thế, cày tiếp đi!"
     ];
 
-    // Auth logic
-    window.switchAuth = (type) => {
-        document.getElementById('loginBox').style.display = type === 'login' ? 'block' : 'none';
-        document.getElementById('registerBox').style.display = type === 'register' ? 'block' : 'none';
-        document.getElementById('loginError').style.display = 'none';
-        document.getElementById('regError').style.display = 'none';
-    };
+    // --- HỆ THỐNG ÂM THANH ---
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx; let beepingInterval = null;
+    function initAudio() { if (!audioCtx) audioCtx = new AudioContext(); if (audioCtx.state === 'suspended') audioCtx.resume(); }
 
-    function showError(formType, message) {
-        const errEl = document.getElementById(formType === 'login' ? 'loginError' : 'regError');
-        errEl.innerText = message; errEl.style.display = 'block';
+    function playSound(type) {
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination); const now = audioCtx.currentTime;
+        if (type === 'click') {
+            osc.type = 'sine'; osc.frequency.setValueAtTime(800, now); osc.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
+            gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+            osc.start(now); osc.stop(now + 0.1);
+        } else if (type === 'over') {
+            osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, now); osc.frequency.exponentialRampToValueAtTime(40, now + 0.5);
+            gain.gain.setValueAtTime(0.2, now); gain.gain.linearRampToValueAtTime(0, now + 0.5);
+            osc.start(now); osc.stop(now + 0.5);
+        } else if (type === 'danger') {
+            osc.type = 'square'; osc.frequency.setValueAtTime(300, now);
+            gain.gain.setValueAtTime(0.05, now); gain.gain.linearRampToValueAtTime(0, now + 0.1);
+            osc.start(now); osc.stop(now + 0.1);
+        }
     }
 
-    const savedUser = localStorage.getItem("scb_username");
-    const savedPass = localStorage.getItem("scb_password");
+    // --- Auth Logic ---
+    window.switchAuth = (type) => { document.getElementById('loginBox').style.display = type === 'login' ? 'block' : 'none'; document.getElementById('registerBox').style.display = type === 'register' ? 'block' : 'none'; document.getElementById('loginError').style.display = 'none'; document.getElementById('regError').style.display = 'none'; };
+    function showError(formType, message) { const errEl = document.getElementById(formType === 'login' ? 'loginError' : 'regError'); errEl.innerText = message; errEl.style.display = 'block'; }
+
+    function syncUserData(data) {
+        userData = data;
+        if(userData.rp === undefined) userData.rp = Math.floor(userData.maxScore * 10) || 0;
+        if(!userData.unlockedSkins) userData.unlockedSkins = [0, 1, 2];
+        [0, 1, 2].forEach(id => { if(!userData.unlockedSkins.includes(id)) userData.unlockedSkins.push(id); });
+    }
+
+    const savedUser = localStorage.getItem("scb_username"); const savedPass = localStorage.getItem("scb_password");
     if (savedUser && savedPass) {
         get(child(dbRef, `users/${savedUser}`)).then((snapshot) => {
             if (snapshot.exists() && snapshot.val().password === savedPass) {
-                currentUser = savedUser; userData = snapshot.val();
-                if(!userData.unlockedSkins) userData.unlockedSkins = [0, 1, 2];
-                [0, 1, 2].forEach(id => { if(!userData.unlockedSkins.includes(id)) userData.unlockedSkins.push(id); });
-                document.getElementById('authUI').style.display = 'none';
-                updateMenuUI(); document.getElementById('menuUI').style.display = 'flex';
+                currentUser = savedUser; syncUserData(snapshot.val());
+                document.getElementById('authUI').style.display = 'none'; updateMenuUI(); document.getElementById('menuUI').style.display = 'flex';
             }
         });
     }
 
     window.handleLogin = async () => {
-        const user = document.getElementById("loginUser").value.trim();
-        const pass = document.getElementById("loginPass").value;
+        initAudio();
+        const user = document.getElementById("loginUser").value.trim(); const pass = document.getElementById("loginPass").value;
         if (!user || !pass) return showError('login', 'Điền đủ thông tin đi!');
         try {
             const snapshot = await get(child(dbRef, `users/${user}`));
             if (snapshot.exists() && snapshot.val().password === pass) {
-                currentUser = user; userData = snapshot.val();
-                if(!userData.unlockedSkins) userData.unlockedSkins = [0, 1, 2];
-                [0, 1, 2].forEach(id => { if(!userData.unlockedSkins.includes(id)) userData.unlockedSkins.push(id); });
+                currentUser = user; syncUserData(snapshot.val());
                 localStorage.setItem("scb_username", user); localStorage.setItem("scb_password", pass);
-                document.getElementById('authUI').style.display = 'none';
-                updateMenuUI(); document.getElementById('menuUI').style.display = 'flex';
+                document.getElementById('authUI').style.display = 'none'; updateMenuUI(); document.getElementById('menuUI').style.display = 'flex';
             } else { showError('login', 'Sai tài khoản hoặc mật khẩu!'); }
         } catch (e) { showError('login', 'Lỗi mạng!'); }
     };
 
     window.handleRegister = async () => {
-        const user = document.getElementById("regUser").value.trim();
-        const pass = document.getElementById("regPass").value;
-        const confirmPass = document.getElementById("regConfirm").value;
-        if (user.length < 3) return showError('register', 'Tên quá ngắn!');
-        if (pass.length < 4) return showError('register', 'Mật khẩu quá ngắn!');
-        if (pass !== confirmPass) return showError('register', 'Mật khẩu không khớp!');
+        initAudio();
+        const user = document.getElementById("regUser").value.trim(); const pass = document.getElementById("regPass").value; const confirmPass = document.getElementById("regConfirm").value;
+        if (user.length < 3) return showError('register', 'Tên quá ngắn!'); if (pass.length < 4) return showError('register', 'Mật khẩu quá ngắn!'); if (pass !== confirmPass) return showError('register', 'Mật khẩu không khớp!');
         try {
             const snapshot = await get(child(dbRef, `users/${user}`));
             if (snapshot.exists()) return showError('register', 'Tên này có người đặt rồi!');
-            userData = { password: pass, coins: 0, maxScore: 0, unlockedSkins: [0, 1, 2], equippedSkin: 0 };
+            userData = { password: pass, coins: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1, 2], equippedSkin: 0 };
             await set(ref(db, `users/${user}`), userData);
             currentUser = user; localStorage.setItem("scb_username", user); localStorage.setItem("scb_password", pass);
             document.getElementById('authUI').style.display = 'none'; updateMenuUI(); document.getElementById('menuUI').style.display = 'flex';
         } catch (e) { showError('register', 'Lỗi mạng!'); }
     };
 
-    window.handleLogout = () => {
-        localStorage.removeItem("scb_username"); localStorage.removeItem("scb_password"); currentUser = null;
-        ['loginUser','loginPass','regUser','regPass','regConfirm'].forEach(id => document.getElementById(id).value = "");
-        document.getElementById('menuUI').style.display = 'none'; document.getElementById('authUI').style.display = 'flex'; switchAuth('login');
-    };
+    window.handleLogout = () => { localStorage.removeItem("scb_username"); localStorage.removeItem("scb_password"); currentUser = null; ['loginUser','loginPass','regUser','regPass','regConfirm'].forEach(id => document.getElementById(id).value = ""); document.getElementById('menuUI').style.display = 'none'; document.getElementById('authUI').style.display = 'flex'; switchAuth('login'); };
 
     async function saveUserData() { if(currentUser) { await update(ref(db, `users/${currentUser}`), userData); updateMenuUI(); } }
+    
     function updateMenuUI() {
-        if(currentUser) {
-            document.getElementById('ui-username').innerText = currentUser;
-            document.getElementById('ui-coins').innerText = userData.coins;
-            document.getElementById('ui-maxscore').innerText = userData.maxScore.toFixed(1) + 's';
+        if(!currentUser) return;
+        document.getElementById('ui-username').innerText = currentUser;
+        document.getElementById('ui-coins').innerText = userData.coins;
+        document.getElementById('ui-maxscore').innerText = userData.maxScore.toFixed(1) + 's';
+        
+        // Cập nhật Rank
+        const rank = getRankInfo(userData.rp);
+        const nameEl = document.getElementById('ui-rank-name');
+        const iconEl = document.getElementById('ui-rank-icon');
+        
+        nameEl.innerText = rank.name;
+        nameEl.className = "rank-name " + rank.class;
+        iconEl.innerHTML = rank.icon;
+        iconEl.className = "rank-icon " + rank.class;
+        
+        document.getElementById('ui-rp-current').innerText = userData.rp;
+        if(rank.max) {
+            document.getElementById('ui-rp-next').innerText = "MAX";
+            document.getElementById('ui-rp-bar').style.width = "100%";
+        } else {
+            document.getElementById('ui-rp-next').innerText = rank.next;
+            const progress = ((userData.rp - rank.min) / (rank.next - rank.min)) * 100;
+            document.getElementById('ui-rp-bar').style.width = progress + "%";
         }
     }
 
-    // Shop Logic
+    // --- Shop Logic ---
     window.openShop = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('shopUI').style.display = 'flex'; document.getElementById('shop-coins').innerText = userData.coins; renderShop(); };
     window.closeShop = () => { document.getElementById('shopUI').style.display = 'none'; document.getElementById('menuUI').style.display = 'flex'; updateMenuUI(); };
     function renderShop() {
@@ -334,19 +413,38 @@
                 </div>`;
         });
     }
-    window.buySkin = (id, price) => { if (userData.coins >= price) { userData.coins -= price; userData.unlockedSkins.push(id); userData.equippedSkin = id; saveUserData(); renderShop(); document.getElementById('shop-coins').innerText = userData.coins; } else { alert("Nghèo quá! Cày thêm vàng đi bạn."); } };
+    window.buySkin = (id, price) => { if (userData.coins >= price) { userData.coins -= price; userData.unlockedSkins.push(id); userData.equippedSkin = id; saveUserData(); renderShop(); document.getElementById('shop-coins').innerText = userData.coins; } else { alert("Chưa đủ Vàng! Vô cày Rank kiếm vàng tiếp đi."); } };
     window.equipSkin = (id) => { userData.equippedSkin = id; saveUserData(); renderShop(); };
 
-    // Leaderboard
+    // --- Leaderboard ---
     onValue(ref(db, "leaderboard"), (snap) => {
         const data = snap.val(); const listEl = document.getElementById("leaderboardList");
         if (!data) { listEl.innerHTML = `<li>Trống</li>`; return; }
-        const userScores = {}; Object.values(data).forEach(s => { if(!userScores[s.name] || s.score > userScores[s.name]) userScores[s.name] = s.score; });
-        const sorted = Object.entries(userScores).map(([name, score]) => ({name, score})).sort((a, b) => b.score - a.score).slice(0, 10);
-        listEl.innerHTML = sorted.map((s, i) => `<li><span><b class="rank-num">#${i+1}</b> ${s.name}</span><span style="color:var(--cyan); font-weight:bold; font-family: 'Orbitron', sans-serif;">${s.score.toFixed(1)}s</span></li>`).join('');
+        const userStats = {}; 
+        Object.values(data).forEach(s => { 
+            let rpCalc = s.rp || Math.floor(s.score * 10); // Hỗ trợ dữ liệu cũ
+            if(!userStats[s.name]) userStats[s.name] = { score: s.score, rp: rpCalc };
+            else {
+                if(s.score > userStats[s.name].score) userStats[s.name].score = s.score;
+                if(rpCalc > userStats[s.name].rp) userStats[s.name].rp = rpCalc;
+            }
+        });
+        // Sort by RP cho xếp hạng cày cuốc
+        const sorted = Object.entries(userStats).map(([name, d]) => ({name, ...d})).sort((a, b) => b.rp - a.rp).slice(0, 10);
+        
+        listEl.innerHTML = sorted.map((s, i) => {
+            const rank = getRankInfo(s.rp);
+            return `<li>
+                <div class="lb-name"><span class="rank-num">#${i+1}</span> <span class="${rank.class}" style="font-size: 14px;">${rank.icon}</span> <span style="${rank.class === 'rank-huyenthoai' ? 'color:#fff' : ''}" class="${rank.class === 'rank-huyenthoai' ? rank.class : ''}">${s.name}</span></div>
+                <div style="text-align: right;">
+                    <span style="color:var(--cyan); font-weight:bold;">${s.score.toFixed(1)}s</span><br>
+                    <span style="font-size: 10px; color: #888;">${s.rp} RP</span>
+                </div>
+            </li>`;
+        }).join('');
     });
 
-    // --- LOGIC GAME VẬT LÝ UPDATE & TROLL FEATURES ---
+    // --- LOGIC GAME VẬT LÝ (GIỮ NGUYÊN 100%) ---
     const canvas = document.getElementById("gameCanvas"); const ctx = canvas.getContext("2d");
     const hud = document.getElementById("hud"); const clickHud = document.getElementById("click-hud");
     const statusTag = document.getElementById("status-tag"); const dangerAlert = document.getElementById("danger-alert");
@@ -354,15 +452,12 @@
 
     let barAngle = 0, boxPos = 0, boxVel = 0, time = 0, clickCount = 0;
     let isGameOver = true, isGracePeriod = true;
-    let barWidth = 320; let currentEdgeDist = 0;
+    let barWidth = 320; let currentEdgeDist = 0; let isDanger = false;
     let animationId;
 
     const gravity = 0.006; const clickForce = 0.18; const friction = 0.965; const weightPower = 0.06; const shrinkSpeed = 0.45;
-    
-    // Các biến phục vụ Troll Mode
-    let windTimer = 2; let windForce = 0;
-    let floatingTexts = [];
-    const trollWords = ["GÀ!", "NON!", "CẨN THẬN!", "SẮP RỚT!", "MẮT LÁC À?", "YẾU!", "LỆCH KÌA!", "RUN TAY À?", "TRẢ ĐIỆN THOẠI ĐI!"];
+    let windTimer = 2; let windForce = 0; let floatingTexts = []; let particles = []; let orbTrail = [];
+    const trollWords = ["GÀ!", "NON!", "CẨN THẬN!", "SẮP RỚT!", "MẮT LÁC À?", "YẾU!", "LỆCH KÌA!", "RUN TAY À?", "TẬP TRUNG!"];
 
     function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resize); resize();
@@ -372,13 +467,13 @@
     window.addEventListener('pointerdown', (e) => {
         if (isGameOver || isGracePeriod) return;
         if (e.target.closest('.container')) return;
-        clickCount++;
         
-        // Troll Click Counter
-        let mỉaMai = "";
-        if(clickCount > 20) mỉaMai = " (Spam à?)";
-        if(clickCount > 50) mỉaMai = " (Mỏi tay chưa?)";
-        if(clickCount > 100) mỉaMai = " (Sắp hỏng màn hình!)";
+        clickCount++; playSound('click');
+        
+        const currentSkin = skinData.find(s => s.id === userData.equippedSkin) || skinData[0];
+        for(let i=0; i<8; i++) { particles.push({ x: e.clientX, y: e.clientY, vx: (Math.random()-0.5)*10, vy: (Math.random()-0.5)*10, life: 1, color: currentSkin.orbColor }); }
+        
+        let mỉaMai = ""; if(clickCount > 20) mỉaMai = " (Spam à?)"; if(clickCount > 50) mỉaMai = " (Mỏi tay chưa?)"; if(clickCount > 100) mỉaMai = " (Sắp hỏng màn hình!)";
         clickHud.innerText = `CLICKS: ${clickCount}${mỉaMai}`;
         
         if (currentEdgeDist < barWidth * 0.25) {
@@ -390,54 +485,45 @@
     });
 
     window.startGame = () => {
-        isGameOver = false; isGracePeriod = true;
-        time = 0; barAngle = 0; boxPos = 0; boxVel = 0; barWidth = 320; clickCount = 0; windTimer = 3; floatingTexts = [];
+        initAudio(); isGameOver = false; isGracePeriod = true;
+        time = 0; barAngle = 0; boxPos = 0; boxVel = 0; barWidth = 320; clickCount = 0; windTimer = 3; floatingTexts = []; particles = []; orbTrail = [];
         document.getElementById("menuUI").style.display = "none"; document.getElementById("gameOverUI").style.display = "none";
         hud.style.display = "block"; clickHud.style.display = "block"; statusTag.style.display = "block"; clickHud.innerText = "CLICKS: 0";
         statusTag.innerText = "SẴN SÀNG..."; statusTag.style.color = "var(--cyan)";
+        
+        if(beepingInterval) clearInterval(beepingInterval);
+        beepingInterval = setInterval(() => { if(!isGameOver && isDanger && !isGracePeriod) playSound('danger'); }, 200);
+
         setTimeout(() => { if (!isGameOver) { isGracePeriod = false; statusTag.innerText = "SỐNG SÓT ĐI!"; } }, 1000);
         gameLoop();
     };
 
     function updatePhysics() {
         if (isGameOver || isGracePeriod) return;
-        
-        // TROLL: Random Gió thổi
         windTimer -= 1/60;
         if (windTimer <= 0) {
             if (time > 5 && Math.random() < 0.4) {
-                windForce = (Math.random() - 0.5) * 0.5; // Lực tạt mạnh
-                windTimer = 2 + Math.random() * 4;
-                statusTag.innerText = "⚠️ GIÓ LỐC!";
-                statusTag.style.color = "#ffeb3b";
+                windForce = (Math.random() - 0.5) * 0.5; windTimer = 2 + Math.random() * 4;
+                statusTag.innerText = "⚠️ GIÓ LỐC!"; statusTag.style.color = "#ffeb3b";
                 setTimeout(() => { if(!isGameOver && statusTag.innerText === "⚠️ GIÓ LỐC!") { statusTag.innerText = "SỐNG SÓT ĐI!"; statusTag.style.color = "var(--cyan)"; } }, 1500);
             } else { windTimer = 1; windForce = 0; }
         }
         
-        barAngle += windForce * 0.05; // Áp dụng gió lốc
-        barAngle += (Math.random() - 0.5) * 0.02; // Rung nhẹ tự nhiên
-        barAngle += (boxPos / (barWidth / 2)) * weightPower;
+        barAngle += windForce * 0.05; barAngle += (Math.random() - 0.5) * 0.02; barAngle += (boxPos / (barWidth / 2)) * weightPower;
         barAngle = Math.max(-1.4, Math.min(1.4, barAngle)); 
         
-        let accel = Math.sin(barAngle) * gravity * 150;
-        boxVel += accel; boxVel *= friction; boxPos += boxVel;
+        let accel = Math.sin(barAngle) * gravity * 150; boxVel += accel; boxVel *= friction; boxPos += boxVel;
         time += 1/60; hud.innerText = time.toFixed(1) + "s";
         if (time > 3 && barWidth > 80) barWidth -= shrinkSpeed;
         
-        currentEdgeDist = (barWidth / 2) - Math.abs(boxPos);
-        if (currentEdgeDist < barWidth * 0.25) dangerAlert.style.display = "block"; else dangerAlert.style.display = "none";
+        currentEdgeDist = (barWidth / 2) - Math.abs(boxPos); isDanger = currentEdgeDist < barWidth * 0.25;
+        if (isDanger) dangerAlert.style.display = "block"; else dangerAlert.style.display = "none";
         
-        // TROLL: Khởi tạo chữ mỉa mai lơ lửng
-        if (Math.random() < 0.015 && time > 2) {
-            floatingTexts.push({
-                x: (Math.random() - 0.5) * canvas.width * 0.8,
-                y: (Math.random() - 0.5) * canvas.height * 0.5 - 50,
-                text: trollWords[Math.floor(Math.random() * trollWords.length)],
-                life: 1.0
-            });
-        }
-        floatingTexts.forEach(t => t.life -= 0.012);
-        floatingTexts = floatingTexts.filter(t => t.life > 0);
+        orbTrail.push({x: boxPos, a: barAngle}); if(orbTrail.length > 10) orbTrail.shift();
+        particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life -= 0.05; }); particles = particles.filter(p => p.life > 0);
+
+        if (Math.random() < 0.015 && time > 2) { floatingTexts.push({ x: (Math.random() - 0.5) * canvas.width * 0.8, y: (Math.random() - 0.5) * canvas.height * 0.5 - 50, text: trollWords[Math.floor(Math.random() * trollWords.length)], life: 1.0 }); }
+        floatingTexts.forEach(t => t.life -= 0.012); floatingTexts = floatingTexts.filter(t => t.life > 0);
 
         if (Math.abs(boxPos) > barWidth / 2 || Math.abs(barAngle) > 1.35) endGame();
     }
@@ -448,35 +534,30 @@
         ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, canvas.width, canvas.height);
         
         ctx.save();
-        // TROLL: Động đất (Screen Shake) khi sắp rớt
-        if (!isGameOver && currentEdgeDist < barWidth * 0.25 && !isGracePeriod) {
-            const shake = 8;
-            ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake);
-        }
+        if (!isGameOver && isDanger && !isGracePeriod) { const shake = 8; ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake); }
 
-        ctx.strokeStyle = "rgba(0, 255, 255, 0.06)"; ctx.lineWidth = 1; ctx.beginPath();
+        ctx.strokeStyle = (!isGameOver && isDanger && !isGracePeriod) ? "rgba(255, 0, 0, 0.4)" : "rgba(0, 255, 255, 0.06)"; 
+        ctx.lineWidth = (!isGameOver && isDanger && !isGracePeriod) ? 2 : 1; ctx.beginPath();
         const gridSize = 40; const offset = (time * 30) % gridSize;
         for (let x = 0; x <= canvas.width; x += gridSize) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); }
         for (let y = offset; y <= canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); }
         ctx.stroke();
         
+        particles.forEach(p => { ctx.fillStyle = p.color; ctx.globalAlpha = p.life; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill(); }); ctx.globalAlpha = 1;
+
         const cx = canvas.width / 2, cy = canvas.height / 2 + 50;
 
-        // Vẽ chữ lơ lửng khịa
-        ctx.save();
-        ctx.translate(cx, cy);
-        floatingTexts.forEach(t => {
-            ctx.fillStyle = `rgba(255, 0, 60, ${t.life})`; ctx.font = "900 24px Orbitron";
-            ctx.textAlign = "center"; ctx.fillText(t.text, t.x, t.y);
-        });
+        ctx.save(); ctx.translate(cx, cy);
+        floatingTexts.forEach(t => { ctx.fillStyle = `rgba(255, 0, 60, ${t.life})`; ctx.font = "900 24px Orbitron"; ctx.textAlign = "center"; ctx.fillText(t.text, t.x, t.y); });
         ctx.restore();
 
         ctx.shadowBlur = 10; ctx.shadowColor = "#ff003c"; ctx.fillStyle = "#1a0005"; ctx.strokeStyle = "#ff003c";
         ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx-25, cy+45); ctx.lineTo(cx+25, cy+45); ctx.closePath(); ctx.fill(); ctx.stroke();
         
         ctx.save(); ctx.translate(cx, cy); ctx.rotate(barAngle);
-        
         const currentSkin = skinData.find(s => s.id === userData.equippedSkin) || skinData[0];
+
+        orbTrail.forEach((t, i) => { ctx.save(); ctx.rotate(t.a - barAngle); ctx.fillStyle = currentSkin.orbColor; ctx.globalAlpha = (i / orbTrail.length) * 0.3; ctx.beginPath(); ctx.arc(t.x, -18, 18 - (10 - i)*0.5, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }); ctx.globalAlpha = 1;
 
         ctx.lineCap = "round"; ctx.shadowBlur = 25; ctx.shadowColor = currentSkin.barGlow; ctx.strokeStyle = currentSkin.barColor; ctx.lineWidth = 8;
         ctx.beginPath(); ctx.moveTo(-barWidth/2, 0); ctx.lineTo(barWidth/2, 0); ctx.stroke();
@@ -487,18 +568,31 @@
         ctx.fillStyle = orbGrad; ctx.beginPath(); ctx.arc(boxPos, -18, 18, 0, Math.PI * 2); ctx.fill();
         ctx.restore();
         
-        ctx.restore(); // Khôi phục trạng thái Shake
+        ctx.restore();
     }
 
     function gameLoop() { if (!isGameOver) { updatePhysics(); draw(); animationId = requestAnimationFrame(gameLoop); } }
 
     async function endGame() {
         isGameOver = true; cancelAnimationFrame(animationId); dangerAlert.style.display = "none";
+        if(beepingInterval) clearInterval(beepingInterval); playSound('over');
+
         const finalScore = Number(time.toFixed(1)); const earnedCoins = Math.floor(finalScore); 
+        const earnedRP = Math.floor(finalScore * 10); // 1s = 10 RP
+        
         userData.coins += earnedCoins;
-        if(finalScore > userData.maxScore) { userData.maxScore = finalScore; push(ref(db, "leaderboard"), { name: currentUser, score: finalScore, timestamp: Date.now() }); }
+        userData.rp += earnedRP;
+        
+        if(finalScore > userData.maxScore) userData.maxScore = finalScore;
+        
+        push(ref(db, "leaderboard"), { name: currentUser, score: userData.maxScore, rp: userData.rp, timestamp: Date.now() });
         await saveUserData();
-        document.getElementById("gameOverUI").style.display = "flex"; document.getElementById("finalTime").innerText = finalScore; document.getElementById("earnedCoins").innerText = earnedCoins;
+        
+        document.getElementById("gameOverUI").style.display = "flex"; 
+        document.getElementById("finalTime").innerText = finalScore; 
+        document.getElementById("earnedCoins").innerText = earnedCoins;
+        document.getElementById("earnedRP").innerText = earnedRP;
+        
         insultText.innerText = insults[Math.floor(Math.random() * insults.length)];
         hud.style.display = "none"; clickHud.style.display = "none"; statusTag.style.display = "none";
     }
