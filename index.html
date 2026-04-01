@@ -27,17 +27,22 @@
         .marquee-content i { color: var(--gold); margin: 0 5px; }
 
         .ui-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); text-align: center; overflow-y: auto; }
-        .container { padding: 25px 20px; border: 2px solid rgba(0, 240, 255, 0.4); border-radius: 16px; background: var(--dark-bg); width: 88%; max-width: 380px; box-shadow: 0 0 40px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 240, 255, 0.1); margin: 10px 0; position: relative; animation: fadeIn 0.4s ease-out; }
+        .container { padding: 25px 20px; border: 2px solid rgba(0, 240, 255, 0.4); border-radius: 16px; background: var(--dark-bg); width: 88%; max-width: 380px; box-shadow: 0 0 40px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 240, 255, 0.1); margin: 10px 0; position: relative; animation: fadeIn 0.4s ease-out; max-height: 90vh; overflow-y: auto; }
+        .container::-webkit-scrollbar { width: 4px; } .container::-webkit-scrollbar-thumb { background: var(--cyan); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
         
         h1, h2 { color: var(--cyan); font-family: 'Orbitron', sans-serif; font-size: 26px; margin: 5px 0 10px 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0,240,255,0.6); }
         
+        /* CẢI THIỆN RANK MÀU MÈ */
         .rank-dong { color: #cd7f32; text-shadow: 0 0 10px rgba(205, 127, 50, 0.6); }
-        .rank-bac { color: #c0c0c0; text-shadow: 0 0 10px rgba(192, 192, 192, 0.8); }
-        .rank-kimcuong { color: #00ffff; text-shadow: 0 0 15px rgba(0, 255, 255, 0.8); }
-        .rank-huyenthoai { color: #ff00ff; text-shadow: 0 0 15px rgba(255, 0, 255, 0.8); }
-        .rank-thachdau { background: linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #ff0000); background-size: 300% 300%; -webkit-background-clip: text; color: transparent; animation: rainbowGlow 2s ease infinite; font-weight: 900; text-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
-        @keyframes rainbowGlow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        .rank-bac { color: #e3e3e3; text-shadow: 0 0 10px #ffffff; }
+        .rank-kimcuong { color: #00ffff; text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff; animation: floatRank 2s infinite ease-in-out; }
+        .rank-huyenthoai { color: #ff00ff; text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff; animation: pulseGlow 1.5s infinite; }
+        .rank-thachdau { background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #00ffff, #ff00ff); background-size: 300% 300%; -webkit-background-clip: text; color: transparent; animation: rainbowGlow 2s linear infinite; font-weight: 900; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8)); text-transform: uppercase; letter-spacing: 2px;}
+        
+        @keyframes rainbowGlow { 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
+        @keyframes pulseGlow { 0%{ filter: brightness(1) drop-shadow(0 0 10px #ff00ff); } 50%{ filter: brightness(1.3) drop-shadow(0 0 25px #ff00ff); } 100%{ filter: brightness(1) drop-shadow(0 0 10px #ff00ff); } }
+        @keyframes floatRank { 0%{ transform: translateY(0); } 50%{ transform: translateY(-3px); } 100%{ transform: translateY(0); } }
 
         .rank-box { background: rgba(0,0,0,0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 8px; padding: 15px 10px; margin-bottom: 15px; position: relative; }
         .rank-icon { font-size: 35px; margin-bottom: 5px; display: block; }
@@ -49,12 +54,12 @@
         .user-stats-box { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 10px; margin-bottom: 15px; display: flex; justify-content: space-around; font-family: 'Orbitron', sans-serif; font-size: 12px; flex-wrap: wrap; gap: 5px; }
         .stat-item { color: #fff; display: flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.4); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); }
         
-        .btn-logout { position: absolute; top: -12px; right: -10px; background: #333; color: #fff; border: 1px solid #555; padding: 4px 8px; font-size: 10px; border-radius: 6px; cursor: pointer; font-family: 'Poppins', sans-serif; z-index: 10;}
-        .btn-logout:hover { background: #ff003c; border-color: #ff003c; }
-
+        .btn-logout { position: absolute; top: 10px; right: 10px; background: #333; color: #fff; border: 1px solid #555; padding: 4px 8px; font-size: 10px; border-radius: 6px; cursor: pointer; font-family: 'Poppins', sans-serif; z-index: 10;}
+        .btn-lang { position: absolute; top: 10px; left: 10px; background: transparent; color: #fff; border: none; font-size: 20px; cursor: pointer; z-index: 10; padding: 0; box-shadow: none; width: auto;}
+        
         .btn-group { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
         .btn-row { display: flex; gap: 10px; }
-        button { padding: 12px; font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--primary), #990024); color: #fff; border: none; border-radius: 8px; cursor: pointer; width: 100%; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); font-family: 'Orbitron', sans-serif; }
+        button { padding: 12px; font-size: 13px; font-weight: 700; background: linear-gradient(135deg, var(--primary), #990024); color: #fff; border: none; border-radius: 8px; cursor: pointer; width: 100%; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); font-family: 'Orbitron', sans-serif; }
         
         #btn-start { background: linear-gradient(135deg, #00f0ff, #005b66); box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3); }
         #btn-matchmake { animation: pulse 1.5s infinite; background: linear-gradient(135deg, #ff003c, #8b0000); box-shadow: 0 4px 15px rgba(255, 0, 60, 0.4); }
@@ -64,11 +69,14 @@
         button:active { transform: scale(0.96); }
         button.btn-shop { background: #333; box-shadow: none; border: 1px solid #555; }
         button.btn-pass { background: linear-gradient(135deg, var(--pass-vip), #8b6508); color: #000; box-shadow: 0 4px 15px rgba(255, 170, 0, 0.3); }
+        button.btn-friend { background: linear-gradient(135deg, #8a2be2, #4b0082); box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4); }
+        button.btn-mini { background: linear-gradient(135deg, #ff1493, #c71585); box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4); }
+        button.btn-donate { background: linear-gradient(135deg, #ff4500, #ff8c00); box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4); }
         
-        input { padding: 14px; margin: 8px 0; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: var(--cyan); width: 85%; text-align: center; font-size: 16px; font-family: 'Poppins', sans-serif; font-weight: 600; border-radius: 8px; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
+        input, select { padding: 14px; margin: 8px 0; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: var(--cyan); width: 85%; text-align: center; font-size: 16px; font-family: 'Poppins', sans-serif; font-weight: 600; border-radius: 8px; outline: none; transition: 0.3s; }
+        input:focus, select:focus { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
 
-        .pass-container { max-height: 300px; overflow-y: auto; padding-right: 5px; margin-bottom: 10px; text-align: left;}
+        .pass-container { max-height: 250px; overflow-y: auto; padding-right: 5px; margin-bottom: 10px; text-align: left;}
         .pass-container::-webkit-scrollbar { width: 4px; } .pass-container::-webkit-scrollbar-thumb { background: var(--pass-vip); }
         .pass-tier { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 8px; display: flex; align-items: center; padding: 10px; position: relative; }
         .pass-tier.unlocked { border-color: var(--cyan); background: rgba(0,240,255,0.05); }
@@ -93,18 +101,40 @@
         #danger-alert { position: fixed; bottom: 15%; width: 100%; text-align: center; color: #ffeb3b; font-weight: 900; font-family: 'Orbitron', sans-serif; font-size: 28px; z-index: 60; display: none; text-shadow: 0 0 20px #ff0000; animation: dangerBlink 0.15s infinite; pointer-events: none; }
         @keyframes dangerBlink { 0% { opacity: 1; transform: translate(0,0); } 50% { opacity: 0; transform: translate(3px, -3px); } 100% { opacity: 1; transform: translate(-3px, 3px); } }
         
-        .lb-box { margin-top: 10px; text-align: left; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .lb-box { margin-top: 10px; text-align: left; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); width: 100%; box-sizing: border-box;}
         .lb-title { color: var(--gold); font-weight: bold; font-family: 'Orbitron', sans-serif; display: block; margin-bottom: 8px; text-align: center; font-size: 14px; text-transform: uppercase; text-shadow: 0 0 5px rgba(255,215,0,0.5); }
         ol { padding: 0; list-style: none; margin: 0; max-height: 100px; overflow-y: auto; border-radius: 6px; scrollbar-width: thin; scrollbar-color: var(--cyan) #111; }
         ol::-webkit-scrollbar { width: 6px; } ol::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 4px; }
         li { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-family: 'Orbitron', sans-serif; }
+
+        /* Tabs cho cửa hàng và minigame */
+        .shop-tabs { display: flex; gap: 5px; margin-bottom: 15px; flex-wrap: wrap;}
+        .shop-tab { flex: 1; padding: 8px 5px; background: #222; border: 1px solid #444; color: #aaa; border-radius: 8px; cursor: pointer; font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 10px;}
+        .shop-tab.active { background: var(--cyan); color: #000; border-color: var(--cyan); box-shadow: 0 0 10px rgba(0,240,255,0.5); }
+
+        .skin-card { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;}
+        .skin-card.equipped { border-color: var(--cyan); box-shadow: 0 0 10px rgba(0,240,255,0.2); }
+        .skin-card.bg-card { flex-direction: column; gap: 8px; align-items: stretch; text-align: center; }
+        .bg-preview { height: 40px; border-radius: 6px; border: 1px solid #555; }
+        .skin-btn { width: auto; padding: 6px 12px; font-size: 11px; }
+        .skin-lvl-info { font-size: 10px; color: var(--gold); display: block; margin-top: 4px; font-family: 'Orbitron', sans-serif;}
+        
+        .warning-text { color: #ff003c; font-weight: bold; font-size: 12px; margin: 10px 0; border: 1px dashed #ff003c; padding: 8px; border-radius: 6px; background: rgba(255,0,60,0.1); animation: blinkWarning 1s infinite; }
+        @keyframes blinkWarning { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+
+        /* Minigame Mới */
+        .spin-wheel { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--gold); margin: 20px auto; position: relative; overflow: hidden; transition: transform 3s cubic-bezier(0.1, 0.7, 0.1, 1); background: conic-gradient(red 0 45deg, blue 45deg 60deg, green 60deg 90deg, orange 90deg 360deg); box-shadow: 0 0 20px var(--gold);}
+        .spin-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 20px solid #fff; z-index: 10; filter: drop-shadow(0 2px 2px #000);}
+        .friend-item { display: flex; justify-content: space-between; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 6px; margin-bottom: 5px; font-size: 12px;}
+        .chest-box { font-size: 45px; cursor: pointer; padding: 15px; background: rgba(0,0,0,0.6); border: 2px solid var(--gold); border-radius: 12px; transition: 0.2s; flex: 1;}
+        .chest-box:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--gold); }
     </style>
 </head>
 <body>
 
 <div class="server-announcement">
     <div class="marquee-content" id="marqueeText">
-        <i class="fa-solid fa-bullhorn"></i> <b>[Hệ thống]</b>: Chào mừng MÙA 2 - KỶ NGUYÊN THÁCH ĐẤU! Cập nhật đếm ngược bắt đầu trận!
+        <i class="fa-solid fa-bullhorn"></i> <b data-en="[System] Welcome to SS2!" data-vi="[Hệ thống]: Chào mừng MÙA 2!"></b>
     </div>
 </div>
 <div class="crt-overlay"></div>
@@ -121,35 +151,38 @@
 <div id="item-box">
     <button class="item-btn" onclick="useItem('magnet')" id="btn-magnet"><i class="fa-solid fa-magnet"></i><span class="item-count" id="count-magnet">0</span></button>
     <button class="item-btn" onclick="useItem('freeze')" id="btn-freeze" style="border-color: #00bfff; box-shadow: 0 0 10px #00bfff;"><i class="fa-regular fa-snowflake" style="color: #00bfff;"></i><span class="item-count" id="count-freeze">0</span></button>
+    <button class="item-btn" onclick="useItem('shield')" id="btn-shield" style="border-color: #32cd32; box-shadow: 0 0 10px #32cd32;"><i class="fa-solid fa-shield-halved" style="color: #32cd32;"></i><span class="item-count" id="count-shield">0</span></button>
 </div>
 
 <div id="status-tag" style="position: fixed; top: 105px; width: 100%; text-align: center; font-size: 20px; font-family: 'Orbitron', sans-serif; z-index: 50; color: var(--cyan); display: none; font-weight: bold; pointer-events: none; text-shadow: 0 0 10px var(--cyan); letter-spacing: 2px;">TRẠNG THÁI: CHUẨN BỊ</div>
-<div id="danger-alert">RỚT BÂY GIỜ!!! CỨU!!!</div>
+<div id="danger-alert" data-vi="RỚT BÂY GIỜ!!! CỨU!!!" data-en="FALLING!!! HELP!!!">RỚT BÂY GIỜ!!! CỨU!!!</div>
 
 <div id="authUI" class="ui-screen">
     <div class="container" id="loginBox">
-        <h1>ĐĂNG NHẬP</h1>
+        <h1 data-vi="ĐĂNG NHẬP" data-en="LOGIN">ĐĂNG NHẬP</h1>
         <input type="text" id="loginUser" placeholder="Tên tài khoản..." maxlength="12">
         <input type="password" id="loginPass" placeholder="Mật khẩu...">
-        <button onclick="handleLogin()">VÀO GAME</button>
+        <button onclick="handleLogin()" data-vi="VÀO GAME" data-en="PLAY">VÀO GAME</button>
         <p id="loginError" style="color: #ff003c; font-size: 13px; display: none; font-weight: bold; margin: 5px 0;"></p>
-        <p style="font-size: 13px; color: var(--cyan); text-decoration: underline; cursor:pointer;" onclick="switchAuth('register')">Chưa có tài khoản? Đăng ký</p>
+        <p style="font-size: 13px; color: var(--cyan); text-decoration: underline; cursor:pointer;" onclick="switchAuth('register')" data-vi="Chưa có tài khoản? Đăng ký" data-en="No account? Register">Chưa có tài khoản? Đăng ký</p>
     </div>
     <div class="container" id="registerBox" style="display:none;">
-        <h1>ĐĂNG KÝ</h1>
+        <h1 data-vi="ĐĂNG KÝ" data-en="REGISTER">ĐĂNG KÝ</h1>
         <input type="text" id="regUser" placeholder="Tên tài khoản..." maxlength="12">
         <input type="password" id="regPass" placeholder="Mật khẩu (Ít nhất 4 ký tự)">
         <input type="password" id="regConfirm" placeholder="Xác nhận mật khẩu">
-        <button onclick="handleRegister()" style="background: linear-gradient(135deg, #00b09b, #96c93d);">TẠO TÀI KHOẢN</button>
+        <button onclick="handleRegister()" style="background: linear-gradient(135deg, #00b09b, #96c93d);" data-vi="TẠO TÀI KHOẢN" data-en="CREATE ACCOUNT">TẠO TÀI KHOẢN</button>
         <p id="regError" style="color: #ff003c; font-size: 13px; display: none; font-weight: bold; margin: 5px 0;"></p>
-        <p style="font-size: 13px; color: var(--cyan); text-decoration: underline; cursor:pointer;" onclick="switchAuth('login')">Quay lại Đăng nhập</p>
+        <p style="font-size: 13px; color: var(--cyan); text-decoration: underline; cursor:pointer;" onclick="switchAuth('login')" data-vi="Quay lại Đăng nhập" data-en="Back to Login">Quay lại Đăng nhập</p>
     </div>
 </div>
 
 <div id="menuUI" class="ui-screen" style="display:none">
-    <div class="container">
-        <button class="btn-logout" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i></button>
-        <h1 id="txt-title" style="margin-top: 0; font-size: 24px;">SIÊU CÂN BẰNG</h1>
+    <div class="container" style="padding-top: 40px;">
+        <button class="btn-lang" onclick="toggleLanguage()" id="langBtn" title="Switch Language">🇻🇳</button>
+        <button class="btn-logout" onclick="handleLogout()" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+        
+        <h1 id="txt-title" style="margin-top: 0; font-size: 24px;" data-vi="SIÊU CÂN BẰNG" data-en="SUPER BALANCE">SIÊU CÂN BẰNG</h1>
         
         <div class="rank-box">
             <span class="rank-icon" id="ui-rank-icon"><i class="fa-solid fa-medal"></i></span>
@@ -165,19 +198,26 @@
             <div class="stat-item" title="Kim Cương"><i class="fa-solid fa-gem" style="color:var(--diamond)"></i> <span id="ui-diamonds">0</span></div>
             <div class="stat-item" title="Nam Châm"><i class="fa-solid fa-magnet" style="color:#aaa"></i> <span id="ui-magnet">0</span></div>
             <div class="stat-item" title="Đóng Băng"><i class="fa-regular fa-snowflake" style="color:#00bfff"></i> <span id="ui-freeze">0</span></div>
+            <div class="stat-item" title="Khiên"><i class="fa-solid fa-shield-halved" style="color:#32cd32"></i> <span id="ui-shield">0</span></div>
+            <div class="stat-item" title="Đá Nâng Cấp"><i class="fa-solid fa-caret-up" style="color:lime"></i> <span id="ui-stone">0</span></div>
         </div>
 
         <div class="btn-group">
-            <button id="btn-matchmake" onclick="startMatchmaking()"><i class="fa-solid fa-crosshairs"></i> ĐẤU KÍN 1v1</button>
-            <button id="btn-start" onclick="startGame(false)">CHƠI ĐƠN (LUYỆN TẬP)</button>
+            <button id="btn-matchmake" onclick="startMatchmaking()"><i class="fa-solid fa-crosshairs"></i> <span data-vi="ĐẤU KÍN 1v1" data-en="1v1 RANKED">ĐẤU KÍN 1v1</span></button>
+            <button id="btn-start" onclick="startGame(false)"><span data-vi="CHƠI ĐƠN (LUYỆN TẬP)" data-en="SOLO (PRACTICE)">CHƠI ĐƠN (LUYỆN TẬP)</span></button>
             <div class="btn-row">
                 <button class="btn-pass" onclick="openPass()"><i class="fa-solid fa-ticket"></i> ROYAL PASS</button>
-                <button class="btn-shop" onclick="openShop()"><i class="fa-solid fa-cart-shopping"></i> KHO ĐỒ</button>
+                <button class="btn-shop" onclick="openShop()"><i class="fa-solid fa-store"></i> <span data-vi="CỬA HÀNG" data-en="SHOP">CỬA HÀNG</span></button>
             </div>
+            <div class="btn-row">
+                <button class="btn-friend" onclick="openFriends()"><i class="fa-solid fa-user-group"></i> <span data-vi="BẠN BÈ" data-en="FRIENDS">BẠN BÈ</span></button>
+                <button class="btn-mini" onclick="openMinigame()"><i class="fa-solid fa-gamepad"></i> KHU VUI CHƠI</button>
+            </div>
+            <button class="btn-donate" onclick="openTopup()"><i class="fa-solid fa-heart"></i> <span data-vi="DONATE" data-en="DONATE">DONATE</span></button>
         </div>
         
         <div class="lb-box">
-            <span class="lb-title"><i class="fa-solid fa-trophy"></i> TOP THÁCH ĐẤU</span>
+            <span class="lb-title"><i class="fa-solid fa-trophy"></i> <span data-vi="TOP THÁCH ĐẤU" data-en="LEADERBOARD">TOP THÁCH ĐẤU</span></span>
             <ol id="leaderboardList"><li>Đang tải...</li></ol>
         </div>
     </div>
@@ -185,32 +225,131 @@
 
 <div id="matchmakingUI" class="ui-screen" style="display:none; background: rgba(0,0,0,0.95);">
     <div class="container" style="border-color: #ff003c; box-shadow: 0 0 50px rgba(255,0,60,0.5);">
-        <h2 style="color: #ff003c;">ĐANG TÌM ĐỐI THỦ...</h2>
+        <h2 style="color: #ff003c;" data-vi="ĐANG TÌM ĐỐI THỦ..." data-en="SEARCHING OPPONENT...">ĐANG TÌM ĐỐI THỦ...</h2>
         <i class="fa-solid fa-radar" style="font-size: 50px; color: #ff003c; animation: pulse 1s infinite; margin: 20px 0;"></i>
-        <p style="font-size: 12px; color: #888;">Hãy đảm bảo kết nối mạng ổn định.</p>
-        <button onclick="cancelMatchmaking()" style="background: #333; box-shadow: none;">HỦY BỎ</button>
+        <button onclick="cancelMatchmaking()" style="background: #333; box-shadow: none;" data-vi="HỦY BỎ" data-en="CANCEL">HỦY BỎ</button>
     </div>
 </div>
 
 <div id="passUI" class="ui-screen" style="display:none">
     <div class="container" style="max-width: 420px; border-color: var(--pass-vip);">
-        <h2 style="color: var(--pass-vip); text-shadow: 0 0 15px var(--pass-vip);"><i class="fa-solid fa-star"></i> ROYAL PASS MÙA 2</h2>
-        <p style="font-size: 12px; color: #aaa; margin-top: -5px;">Cấp Pass hiện tại: <b id="pass-level-display" style="color:#fff;">1</b> (Dựa trên RP)</p>
+        <h2 style="color: var(--pass-vip); text-shadow: 0 0 15px var(--pass-vip);"><i class="fa-solid fa-star"></i> ROYAL PASS 30</h2>
+        <p style="font-size: 12px; color: #aaa; margin-top: -5px;" data-vi="Cấp Pass hiện tại:" data-en="Current Pass Level:">Cấp Pass hiện tại: <b id="pass-level-display" style="color:#fff;">1</b></p>
         <div class="pass-container" id="passContainer"></div>
-        <button id="btn-buy-vip" onclick="buyVIPPass()" style="background: linear-gradient(135deg, var(--pass-vip), #ff4500); margin-top: 10px;">MỞ KHÓA VIP PASS (500 💎)</button>
-        <button onclick="closePass()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none;">ĐÓNG</button>
+        <button id="btn-buy-vip" onclick="buyVIPPass()" style="background: linear-gradient(135deg, var(--pass-vip), #ff4500); margin-top: 10px;" data-vi="MỞ KHÓA VIP PASS (500 💎)" data-en="UNLOCK VIP PASS (500 💎)">MỞ KHÓA VIP PASS (500 💎)</button>
+        <button onclick="closePass()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none;" data-vi="ĐÓNG" data-en="CLOSE">ĐÓNG</button>
+    </div>
+</div>
+
+<div id="topupUI" class="ui-screen" style="display:none">
+    <div class="container">
+        <h2 style="color: #ff4500; text-shadow: 0 0 15px #ff4500;"><i class="fa-solid fa-heart"></i> <span data-vi="DONATE" data-en="DONATE">DONATE</span></h2>
+        
+        <div class="warning-text" data-vi="CẢM ƠN BẠN ĐÃ ỦNG HỘ! TUY NHIÊN ĐÂY CHỈ LÀ GAME VUI LÀ CHÍNH, HÃY ƯU TIÊN CÀY CHAY VÀ CHỈ DONATE KHI THỰC SỰ DƯ DẢ NHÉ!" data-en="THANK YOU FOR SUPPORTING! THIS IS JUST A FUN GAME, PLEASE GRIND AND ONLY DONATE IF YOU CAN AFFORD IT!">
+            CẢM ƠN BẠN ĐÃ ỦNG HỘ! TUY NHIÊN ĐÂY CHỈ LÀ GAME VUI LÀ CHÍNH, HÃY ƯU TIÊN CÀY CHAY VÀ CHỈ DONATE KHI THỰC SỰ DƯ DẢ NHÉ!
+        </div>
+
+        <div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 8px; font-size: 13px; text-align: left; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1);">
+            <p style="margin: 5px 0;">Ngân hàng: <b>MB BANK</b></p>
+            <p style="margin: 5px 0;">Số tài khoản: <b style="color: var(--cyan);">08999081508888</b></p>
+            <p style="margin: 5px 0;">Chủ thẻ: <b>LE DANG BAO KHOI</b></p>
+            <p style="margin: 5px 0;">Nội dung: <b id="topup-code" style="color: var(--gold);"></b></p>
+        </div>
+
+        <select id="topupAmountBank">
+            <option value="20000">20.000 VNĐ (Nhận quà 250 💎)</option>
+            <option value="50000">50.000 VNĐ (Nhận quà 600 💎)</option>
+            <option value="100000">100.000 VNĐ (Nhận quà 1500 💎)</option>
+        </select>
+        
+        <button onclick="handleRealTopup()" style="background: linear-gradient(135deg, #ff4500, #ff8c00); color: #fff; margin-top: 10px;"><i class="fa-solid fa-check"></i> <span data-vi="TÔI ĐÃ DONATE" data-en="I HAVE DONATED">TÔI ĐÃ DONATE</span></button>
+        <button onclick="closeTopup()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; margin-top: 10px;" data-vi="ĐÓNG" data-en="CLOSE">ĐÓNG</button>
+    </div>
+</div>
+
+<div id="friendUI" class="ui-screen" style="display:none">
+    <div class="container">
+        <h2 style="color: #8a2be2; text-shadow: 0 0 15px #8a2be2;"><i class="fa-solid fa-user-group"></i> <span data-vi="BẠN BÈ" data-en="FRIENDS">BẠN BÈ</span></h2>
+        <div style="display:flex; gap: 5px; margin-bottom: 15px;">
+            <input type="text" id="friendSearch" placeholder="Tên người chơi..." style="margin:0; width: 70%;">
+            <button onclick="addFriend()" style="width: 30%; padding: 10px; font-size: 12px; background: var(--cyan); color: #000;" data-vi="THÊM" data-en="ADD">THÊM</button>
+        </div>
+        <div id="friendList" style="max-height: 200px; overflow-y: auto; text-align: left; padding: 5px; border: 1px solid #444; border-radius: 6px; margin-bottom: 15px;"></div>
+        <button onclick="closeFriends()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none;" data-vi="ĐÓNG" data-en="CLOSE">ĐÓNG</button>
+    </div>
+</div>
+
+<div id="minigameUI" class="ui-screen" style="display:none">
+    <div class="container">
+        <h2 style="color: #ff1493; text-shadow: 0 0 15px #ff1493;"><i class="fa-solid fa-gamepad"></i> KHU VUI CHƠI</h2>
+        
+        <div class="shop-tabs">
+            <div class="shop-tab active" onclick="switchMiniTab('spin-gold')" id="tab-mini-spin-gold">QUAY VÀNG</div>
+            <div class="shop-tab" onclick="switchMiniTab('spin-gem')" id="tab-mini-spin-gem">QUAY KC</div>
+            <div class="shop-tab" onclick="switchMiniTab('spin-skin')" id="tab-mini-spin-skin">QUAY SKIN</div>
+            <div class="shop-tab" onclick="switchMiniTab('chest')" id="tab-mini-chest">MỞ RƯƠNG</div>
+        </div>
+
+        <div id="sec-mini-spin-gold" style="display:block;">
+            <div style="position: relative;">
+                <div class="spin-pointer"></div>
+                <div class="spin-wheel" id="wheel-gold" style="background: conic-gradient(red 0 45deg, blue 45deg 60deg, green 60deg 90deg, orange 90deg 360deg);"></div>
+            </div>
+            <p style="font-size: 12px; color: var(--gold);" id="res-gold">Tỉ lệ: 75% Xịt, 15% Đồ ngon</p>
+            <button onclick="playSpin('gold')" style="background: linear-gradient(135deg, #ffd700, #ff8c00); color:#000;">QUAY (50 VÀNG)</button>
+        </div>
+
+        <div id="sec-mini-spin-gem" style="display:none;">
+            <div style="position: relative;">
+                <div class="spin-pointer"></div>
+                <div class="spin-wheel" id="wheel-gem" style="background: conic-gradient(purple 0 90deg, cyan 90deg 180deg, magenta 180deg 270deg, gold 270deg 360deg);"></div>
+            </div>
+            <p style="font-size: 12px; color: var(--diamond);" id="res-gem">Chắc chắn trúng vật phẩm xịn!</p>
+            <button onclick="playSpin('gem')" style="background: linear-gradient(135deg, #ff007f, #8b008b);">QUAY (20 KC)</button>
+        </div>
+
+        <div id="sec-mini-spin-skin" style="display:none;">
+            <div style="position: relative;">
+                <div class="spin-pointer"></div>
+                <div class="spin-wheel" id="wheel-skin" style="background: conic-gradient(lime 0 180deg, teal 180deg 360deg);"></div>
+            </div>
+            <p style="font-size: 12px; color: #00ff00;" id="res-skin">Trúng 1 Skin ngẫu nhiên chưa sở hữu!</p>
+            <button onclick="playSpin('skin')" style="background: linear-gradient(135deg, #00fa9a, #006400); color:#000;">QUAY (100 KC)</button>
+        </div>
+
+        <div id="sec-mini-chest" style="display:none;">
+            <p style="font-size:13px; color:#aaa; margin-bottom: 20px;">Tìm kho báu! Chọn 1 trong 3 rương dưới đây.</p>
+            <div style="display:flex; justify-content: center; gap: 10px;">
+                <div class="chest-box" onclick="openChest(0)" id="chest-0">🎁</div>
+                <div class="chest-box" onclick="openChest(1)" id="chest-1">🎁</div>
+                <div class="chest-box" onclick="openChest(2)" id="chest-2">🎁</div>
+            </div>
+            <p style="font-size: 14px; font-weight:bold; color:var(--gold); margin-top:15px;" id="res-chest"></p>
+            <button onclick="resetChest()" style="background: #444;">CHƠI (30 VÀNG)</button>
+        </div>
+
+        <button onclick="closeMinigame()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; margin-top: 15px;" data-vi="ĐÓNG" data-en="CLOSE">ĐÓNG</button>
     </div>
 </div>
 
 <div id="shopUI" class="ui-screen" style="display:none">
     <div class="container">
-        <h2 style="color: var(--cyan); text-shadow: 0 0 15px var(--cyan);">KHO GIAO DIỆN</h2>
-        <div style="display: flex; justify-content: center; gap: 15px; font-family: 'Orbitron', sans-serif; margin-bottom: 15px; font-size: 13px;">
+        <h2 style="color: var(--cyan); text-shadow: 0 0 15px var(--cyan);" data-vi="CỬA HÀNG" data-en="SHOP">CỬA HÀNG</h2>
+        <div style="display: flex; justify-content: center; gap: 15px; font-family: 'Orbitron', sans-serif; margin-bottom: 10px; font-size: 13px;">
             <div style="color: var(--gold);"><i class="fa-solid fa-coins"></i> <span id="shop-coins">0</span></div>
             <div style="color: var(--diamond);"><i class="fa-solid fa-gem"></i> <span id="shop-diamonds">0</span></div>
+            <div style="color: lime;"><i class="fa-solid fa-caret-up"></i> <span id="shop-stones">0</span></div>
         </div>
-        <div class="shop-grid" id="shopContainer"></div>
-        <button onclick="closeShop()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; margin-top: 15px;">ĐÓNG</button>
+        
+        <div class="shop-tabs">
+            <div class="shop-tab active" onclick="switchShopTab('skins')" id="tab-skins" data-vi="GIAO DIỆN" data-en="SKINS">GIAO DIỆN</div>
+            <div class="shop-tab" onclick="switchShopTab('effects')" id="tab-effects" data-vi="HIỆU ỨNG" data-en="EFFECTS">HIỆU ỨNG</div>
+            <div class="shop-tab" onclick="switchShopTab('backgrounds')" id="tab-backgrounds" data-vi="HÌNH NỀN" data-en="BACKGROUNDS">HÌNH NỀN</div>
+            <div class="shop-tab" onclick="switchShopTab('items')" id="tab-items" data-vi="VẬT PHẨM" data-en="ITEMS">VẬT PHẨM</div>
+        </div>
+
+        <div class="shop-grid" id="shopContainer" style="max-height: 250px; overflow-y: auto; padding-right: 5px;"></div>
+        <button onclick="closeShop()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; margin-top: 15px;" data-vi="ĐÓNG" data-en="CLOSE">ĐÓNG</button>
     </div>
 </div>
 
@@ -222,12 +361,12 @@
         
         <div style="background: rgba(0, 240, 255, 0.1); border: 1px solid var(--cyan); padding: 8px; border-radius: 6px; margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">
             <div id="go-rp" style="color: var(--cyan); font-weight: bold; font-size: 18px;">+ <span id="earnedRP">0</span> RP</div>
-            <div style="color: var(--gold); font-size: 12px; margin-top: 4px;">+ <span id="earnedCoins">0</span> Vàng</div>
+            <div style="color: var(--gold); font-size: 12px; margin-top: 4px;">+ <span id="earnedCoins">0</span> Vàng (Gồm thưởng trận)</div>
         </div>
         
-        <button id="btnRetry" onclick="startMatchmaking()" style="background: linear-gradient(135deg, #00f0ff, #005b66); box-shadow: 0 0 15px rgba(0,240,255,0.4); display: none;">TÌM ĐỐI THỦ MỚI</button>
-        <button id="btnRetrySolo" onclick="startGame(false)" style="background: linear-gradient(135deg, #00f0ff, #005b66); box-shadow: 0 0 15px rgba(0,240,255,0.4);">CHƠI LẠI</button>
-        <button id="btnMenu" onclick="backToMenu()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; animation: none;">VỀ MENU</button>
+        <button id="btnRetry" onclick="startMatchmaking()" style="background: linear-gradient(135deg, #00f0ff, #005b66); box-shadow: 0 0 15px rgba(0,240,255,0.4); display: none;" data-vi="TÌM ĐỐI THỦ MỚI" data-en="FIND NEW MATCH">TÌM ĐỐI THỦ MỚI</button>
+        <button id="btnRetrySolo" onclick="startGame(false)" style="background: linear-gradient(135deg, #00f0ff, #005b66); box-shadow: 0 0 15px rgba(0,240,255,0.4);" data-vi="CHƠI LẠI" data-en="RETRY">CHƠI LẠI</button>
+        <button id="btnMenu" onclick="backToMenu()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; animation: none;" data-vi="VỀ MENU" data-en="MENU">VỀ MENU</button>
     </div>
 </div>
 
@@ -252,31 +391,91 @@
     const dbRef = ref(db);
 
     let currentUser = null;
-    let userData = { password: "", coins: 0, diamonds: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1], equippedSkin: 0, isPassVIP: false, passClaimed: [], items: { magnet: 2, freeze: 2 } };
+    let userData = { password: "", coins: 0, diamonds: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1], equippedSkin: 0, skinLevels: {}, unlockedEffects: [0], equippedEffect: 0, unlockedBgs: [0], equippedBg: 0, isPassVIP: false, passClaimed: [], friends: [], items: { magnet: 2, freeze: 2, shield: 2, stone: 0 } };
     
+    // Ngôn ngữ
+    let currentLang = 'vi';
+    window.toggleLanguage = () => {
+        currentLang = currentLang === 'vi' ? 'en' : 'vi';
+        document.getElementById('langBtn').innerText = currentLang === 'vi' ? '🇻🇳' : '🇬🇧';
+        document.querySelectorAll('[data-vi]').forEach(el => {
+            el.innerText = el.getAttribute(`data-${currentLang}`);
+        });
+    };
+
     function getRankInfo(rp) {
-        if (rp >= 20000) return { name: "THÁCH ĐẤU", class: "rank-thachdau", icon: '<i class="fa-solid fa-dragon"></i>', next: 20000, max: true };
-        if (rp >= 10000) return { name: "HUYỀN THOẠI", class: "rank-huyenthoai", icon: '<i class="fa-solid fa-crown"></i>', next: 20000, min: 10000 };
-        if (rp >= 5000) return { name: "KIM CƯƠNG", class: "rank-kimcuong", icon: '<i class="fa-solid fa-gem"></i>', next: 10000, min: 5000 };
+        if (rp >= 50000) return { name: "THÁCH ĐẤU", class: "rank-thachdau", icon: '<i class="fa-solid fa-dragon"></i>', next: 50000, max: true };
+        if (rp >= 20000) return { name: "HUYỀN THOẠI", class: "rank-huyenthoai", icon: '<i class="fa-solid fa-crown"></i>', next: 50000, min: 20000 };
+        if (rp >= 5000) return { name: "KIM CƯƠNG", class: "rank-kimcuong", icon: '<i class="fa-solid fa-gem"></i>', next: 20000, min: 5000 };
         if (rp >= 1000) return { name: "BẠC", class: "rank-bac", icon: '<i class="fa-solid fa-star"></i>', next: 5000, min: 1000 };
         return { name: "ĐỒNG", class: "rank-dong", icon: '<i class="fa-solid fa-medal"></i>', next: 1000, min: 0 };
     }
 
-    const passData = [
-        { lvl: 1, rp: 0, free: { t: 'gold', a: 100, n: '100 Vàng' }, vip: { t: 'diamond', a: 50, n: '50 KC' } },
-        { lvl: 2, rp: 500, free: { t: 'item_magnet', a: 1, n: '1 Nam Châm' }, vip: { t: 'item_freeze', a: 3, n: '3 Đóng Băng' } },
-        { lvl: 3, rp: 1500, free: { t: 'gold', a: 200, n: '200 Vàng' }, vip: { t: 'skin', id: 2, n: 'Skin Lục Bảo' } },
-        { lvl: 4, rp: 3000, free: { t: 'item_freeze', a: 1, n: '1 Đóng Băng' }, vip: { t: 'diamond', a: 150, n: '150 KC' } },
-        { lvl: 5, rp: 5000, free: { t: 'skin', id: 3, n: 'Skin Độc Tố' }, vip: { t: 'skin', id: 20, n: 'Skin VIP Sát Thủ' } }
-    ];
+    const passData = [];
+    for(let i=1; i<=30; i++) {
+        let rpReq = (i-1) * 800;
+        let fRew = {t: 'gold', a: 50*i, n: `${50*i} Vàng`};
+        let vRew = {t: 'diamond', a: 10*i, n: `${10*i} KC`};
+        
+        if(i%5 === 0) { vRew = {t: 'item_freeze', a: 5, n: '5 Đóng Băng'}; fRew = {t: 'item_magnet', a: 2, n: '2 Nam Châm'}; }
+        if(i === 10) { vRew = {t: 'skin', id: 4, n: 'Skin Hỏa Ngục'}; fRew = {t: 'item_shield', a: 5, n: '5 Khiên'}; }
+        if(i === 20) { vRew = {t: 'skin', id: 5, n: 'Skin Hư Không'}; fRew = {t: 'effect', id: 1, n: 'Hiệu ứng Máu'}; }
+        if(i === 30) { vRew = {t: 'skin', id: 21, n: 'Skin Hoàng Kim'}; fRew = {t: 'effect', id: 2, n: 'Hiệu ứng Ma Trận'}; }
+        
+        passData.push({ lvl: i, rp: rpReq, free: fRew, vip: vRew });
+    }
 
     const skinData = [
         { id: 0, name: "CƠ BẢN", price: 0, curr: 'gold', orbColor: "#00f0ff", orbCore: "#ffffff", orbDark: "#005b66", barColor: "#ff1a4d", barGlow: "#ff003c" },
         { id: 1, name: "BĂNG GIÁ", price: 0, curr: 'gold', orbColor: "#00bfff", orbCore: "#e0ffff", orbDark: "#00008b", barColor: "#87cefa", barGlow: "#00bfff" },
         { id: 2, name: "LỤC BẢO", price: 0, curr: 'gold', orbColor: "#39ff14", orbCore: "#eaffea", orbDark: "#0f5e00", barColor: "#32cd32", barGlow: "#00ff00" },
         { id: 3, name: "ĐỘC TỐ", price: 50, curr: 'gold', orbColor: "#adff2f", orbCore: "#ffff00", orbDark: "#556b2f", barColor: "#9932cc", barGlow: "#8a2be2" },
-        { id: 20, name: "SÁT THỦ", price: 50, curr: 'diamond', vip: true, orbColor: "#ff003c", orbCore: "#000000", orbDark: "#330000", barColor: "#000000", barGlow: "#ff003c" }
+        { id: 4, name: "HỎA NGỤC", price: 100, curr: 'gold', orbColor: "#ff4500", orbCore: "#ffff00", orbDark: "#8b0000", barColor: "#ff0000", barGlow: "#ff4500" },
+        { id: 5, name: "HƯ KHÔNG", price: 200, curr: 'diamond', orbColor: "#9400d3", orbCore: "#ffffff", orbDark: "#4b0082", barColor: "#8a2be2", barGlow: "#9400d3" },
+        { id: 6, name: "THỦY THẦN", price: 150, curr: 'gold', orbColor: "#1e90ff", orbCore: "#87cefa", orbDark: "#0000cd", barColor: "#00bfff", barGlow: "#1e90ff" },
+        { id: 7, name: "LÔI THẦN", price: 250, curr: 'gold', orbColor: "#ffd700", orbCore: "#ffffff", orbDark: "#daa520", barColor: "#ffff00", barGlow: "#ffd700" },
+        { id: 8, name: "PHONG THẦN", price: 250, curr: 'gold', orbColor: "#98fb98", orbCore: "#ffffff", orbDark: "#2e8b57", barColor: "#00fa9a", barGlow: "#98fb98" },
+        { id: 9, name: "ÁNH SÁNG", price: 100, curr: 'diamond', orbColor: "#ffffe0", orbCore: "#ffffff", orbDark: "#f0e68c", barColor: "#fffacd", barGlow: "#ffffff" },
+        { id: 10, name: "BÓNG TỐI", price: 100, curr: 'diamond', orbColor: "#2f4f4f", orbCore: "#000000", orbDark: "#000000", barColor: "#696969", barGlow: "#000000" },
+        { id: 11, name: "DUNG NHAM", price: 350, curr: 'gold', orbColor: "#ff8c00", orbCore: "#ffff00", orbDark: "#8b0000", barColor: "#ff4500", barGlow: "#ff8c00" },
+        { id: 12, name: "NGÂN HÀ", price: 150, curr: 'diamond', orbColor: "#e6e6fa", orbCore: "#ffffff", orbDark: "#4b0082", barColor: "#9370db", barGlow: "#dda0dd" },
+        { id: 13, name: "TINH TÚ", price: 400, curr: 'gold', orbColor: "#ff69b4", orbCore: "#ffb6c1", orbDark: "#c71585", barColor: "#ff1493", barGlow: "#ff69b4" },
+        { id: 14, name: "HUYẾT NGUYỆT", price: 200, curr: 'diamond', orbColor: "#dc143c", orbCore: "#ff0000", orbDark: "#800000", barColor: "#b22222", barGlow: "#dc143c" },
+        { id: 15, name: "BĂNG TUYẾT", price: 450, curr: 'gold', orbColor: "#afeeee", orbCore: "#f0ffff", orbDark: "#5f9ea0", barColor: "#40e0d0", barGlow: "#afeeee" },
+        { id: 16, name: "BÓNG MA", price: 250, curr: 'diamond', orbColor: "#778899", orbCore: "#dcdcdc", orbDark: "#2f4f4f", barColor: "#708090", barGlow: "#778899" },
+        { id: 17, name: "CẦU VỒNG", price: 500, curr: 'gold', orbColor: "#ff00ff", orbCore: "#00ffff", orbDark: "#ffff00", barColor: "#ff0000", barGlow: "#00ff00" },
+        { id: 20, name: "SÁT THỦ", price: 50, curr: 'diamond', vip: true, orbColor: "#ff003c", orbCore: "#000000", orbDark: "#330000", barColor: "#000000", barGlow: "#ff003c" },
+        { id: 21, name: "HOÀNG KIM", price: 150, curr: 'diamond', vip: true, orbColor: "#ffd700", orbCore: "#ffffff", orbDark: "#b8860b", barColor: "#daa520", barGlow: "#ffd700" }
     ];
+
+    const effectData = [
+        { id: 0, name: "VỠ HẠT", price: 0, curr: 'gold', icon: '<i class="fa-solid fa-bomb"></i>' },
+        { id: 1, name: "MÁU CHẢY", price: 100, curr: 'gold', icon: '<i class="fa-solid fa-droplet" style="color:red;"></i>' },
+        { id: 2, name: "MA TRẬN CODE", price: 150, curr: 'diamond', icon: '<i class="fa-solid fa-code" style="color:lime;"></i>' },
+        { id: 3, name: "PHÁO HOA", price: 300, curr: 'diamond', icon: '<i class="fa-solid fa-sparkles" style="color:gold;"></i>' }
+    ];
+
+    const bgData = [
+        { id: 0, name: "VŨ TRỤ ĐEN", price: 0, curr: 'gold', type: 'color', val1: '#050011' },
+        { id: 1, name: "VŨ TRỤ SAO", price: 100, curr: 'gold', type: 'radial', val1: '#110022', val2: '#000000' },
+        { id: 2, name: "ĐẠI DƯƠNG SÂU", price: 150, curr: 'gold', type: 'linear', val1: '#001a33', val2: '#000011' },
+        { id: 3, name: "RỪNG ĐÊM", price: 200, curr: 'diamond', type: 'linear', val1: '#001100', val2: '#000000' },
+        { id: 4, name: "HOÀNG HÔN TỐI", price: 300, curr: 'diamond', type: 'linear', val1: '#2a0000', val2: '#0a0000' },
+        { id: 5, name: "HẮC ÁM", price: 500, curr: 'diamond', type: 'linear', val1: '#111111', val2: '#000000' }
+    ];
+
+    const shopItemsData = [
+        { id: 'stone', name: 'ĐÁ NÂNG CẤP', price: 50, curr: 'diamond', icon: '<i class="fa-solid fa-caret-up" style="color:lime"></i>', desc: 'Dùng để nâng cấp Skin tăng chỉ số' },
+        { id: 'magnet', name: 'NAM CHÂM', price: 500, curr: 'diamond', icon: '<i class="fa-solid fa-magnet" style="color:#aaa"></i>', desc: 'Hút bóng về giữa' },
+        { id: 'freeze', name: 'ĐÓNG BĂNG', price: 500, curr: 'diamond', icon: '<i class="fa-regular fa-snowflake" style="color:#00bfff"></i>', desc: 'Đóng băng thanh ngang' },
+        { id: 'shield', name: 'KHIÊN BẢO VỆ', price: 500, curr: 'diamond', icon: '<i class="fa-solid fa-shield-halved" style="color:#32cd32"></i>', desc: 'Bảo vệ không bị rớt bóng' }
+    ];
+
+    function getCSSBg(bg) {
+        if(bg.type === 'color') return bg.val1;
+        if(bg.type === 'linear') return `linear-gradient(to bottom, ${bg.val1}, ${bg.val2})`;
+        if(bg.type === 'radial') return `radial-gradient(circle, ${bg.val1}, ${bg.val2})`;
+    }
 
     const AudioContext = window.AudioContext || window.webkitAudioContext; 
     let audioCtx;
@@ -323,10 +522,16 @@
     }
     
     function syncUserData(data) {
-        userData = { ...{ coins: 0, diamonds: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1], equippedSkin: 0, isPassVIP: false, passClaimed: [], items: {magnet: 2, freeze: 2} }, ...data };
-        if(!userData.items) userData.items = { magnet: 2, freeze: 2 };
-        if(userData.items.magnet === undefined) userData.items.magnet = 2;
-        if(userData.items.freeze === undefined) userData.items.freeze = 2;
+        userData = { ...{ coins: 0, diamonds: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1], equippedSkin: 0, skinLevels: {}, unlockedEffects: [0], equippedEffect: 0, unlockedBgs: [0], equippedBg: 0, isPassVIP: false, passClaimed: [], friends: [], items: {magnet: 2, freeze: 2, shield: 2, stone: 0} }, ...data };
+        if(!userData.items) userData.items = { magnet: 2, freeze: 2, shield: 2, stone: 0 };
+        if(userData.items.shield === undefined) userData.items.shield = 2;
+        if(userData.items.stone === undefined) userData.items.stone = 0;
+        if(!userData.skinLevels) userData.skinLevels = {};
+        if(!userData.unlockedEffects) userData.unlockedEffects = [0];
+        if(userData.equippedEffect === undefined) userData.equippedEffect = 0;
+        if(!userData.unlockedBgs) userData.unlockedBgs = [0];
+        if(userData.equippedBg === undefined) userData.equippedBg = 0;
+        if(!userData.friends) userData.friends = [];
     }
 
     const savedUser = localStorage.getItem("scb_user"); 
@@ -361,9 +566,9 @@
                 updateMenuUI(); 
                 document.getElementById('menuUI').style.display = 'flex'; 
             } else { 
-                showError('login', 'Sai tài khoản/mật khẩu!'); 
+                showError('login', currentLang==='vi'?'Sai tài khoản/mật khẩu!':'Wrong credentials!'); 
             }
-        } catch(e) { showError('login', 'Lỗi mạng!'); }
+        } catch(e) { showError('login', 'Error!'); }
     };
     
     window.handleRegister = async () => { 
@@ -375,9 +580,9 @@
         
         try {
             const snap = await get(child(dbRef, `users/${u}`)); 
-            if (snap.exists()) return showError('register', 'Tên đã tồn tại!');
+            if (snap.exists()) return showError('register', currentLang==='vi'?'Tên đã tồn tại!':'Name exists!');
             
-            userData = { password: p, coins: 0, diamonds: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1], equippedSkin: 0, isPassVIP: false, passClaimed: [], items: { magnet: 2, freeze: 2 } };
+            userData = { password: p, coins: 0, diamonds: 0, maxScore: 0, rp: 0, unlockedSkins: [0, 1], equippedSkin: 0, skinLevels: {}, unlockedEffects: [0], equippedEffect: 0, unlockedBgs: [0], equippedBg: 0, isPassVIP: false, passClaimed: [], friends: [], items: { magnet: 2, freeze: 2, shield: 2, stone: 0 } };
             await set(ref(db, `users/${u}`), userData); 
             
             currentUser = u; 
@@ -386,7 +591,7 @@
             document.getElementById('authUI').style.display = 'none'; 
             updateMenuUI(); 
             document.getElementById('menuUI').style.display = 'flex';
-        } catch(e) { showError('register', 'Lỗi mạng!'); }
+        } catch(e) { showError('register', 'Error!'); }
     };
     
     window.handleLogout = () => { 
@@ -409,6 +614,8 @@
         
         document.getElementById('ui-magnet').innerText = userData.items.magnet || 0; 
         document.getElementById('ui-freeze').innerText = userData.items.freeze || 0;
+        document.getElementById('ui-shield').innerText = userData.items.shield || 0;
+        document.getElementById('ui-stone').innerText = userData.items.stone || 0;
         
         const rank = getRankInfo(userData.rp);
         document.getElementById('ui-rank-name').innerText = rank.name; 
@@ -426,15 +633,172 @@
         }
     }
 
+    // Topup/Donate Feature
+    window.openTopup = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('topupUI').style.display = 'flex'; document.getElementById('topup-code').innerText = `DONATESCB ${currentUser}`; };
+    window.closeTopup = () => { document.getElementById('topupUI').style.display = 'none'; document.getElementById('menuUI').style.display = 'flex'; updateMenuUI(); };
+    window.handleRealTopup = () => {
+        alert(currentLang==='vi' ? "Đã ghi nhận yêu cầu Donate! Vui lòng chờ Admin kiểm tra và duyệt để nhận Kim Cương nhé." : "Donation request recorded! Please wait for Admin approval to receive Diamonds.");
+        closeTopup();
+    };
+
+    // Friend System
+    window.openFriends = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('friendUI').style.display = 'flex'; renderFriends(); };
+    window.closeFriends = () => { document.getElementById('friendUI').style.display = 'none'; document.getElementById('menuUI').style.display = 'flex'; updateMenuUI(); };
+    window.addFriend = async () => {
+        const friendName = document.getElementById('friendSearch').value.trim();
+        if(!friendName || friendName === currentUser) return;
+        if((userData.friends || []).includes(friendName)) {
+            alert(currentLang==='vi'?'Đã là bạn bè!':'Already friends!'); return;
+        }
+        const snap = await get(child(dbRef, `users/${friendName}`));
+        if(snap.exists()) {
+            if(!userData.friends) userData.friends = [];
+            userData.friends.push(friendName);
+            saveUserData();
+            document.getElementById('friendSearch').value = "";
+            renderFriends();
+            alert(currentLang==='vi'?'Đã thêm bạn thành công!':'Friend added!');
+        } else {
+            alert(currentLang==='vi'?'Không tìm thấy người chơi!':'Player not found!');
+        }
+    };
+    function renderFriends() {
+        const list = document.getElementById('friendList'); list.innerHTML = '';
+        if(!userData.friends || userData.friends.length === 0) {
+            list.innerHTML = `<p style="text-align:center; color:#888; font-size:12px;">${currentLang==='vi'?'Chưa có bạn bè':'No friends yet'}</p>`;
+            return;
+        }
+        userData.friends.forEach(f => {
+            list.innerHTML += `<div class="friend-item"><span><i class="fa-solid fa-user" style="color:var(--cyan)"></i> ${f}</span> <button style="padding: 2px 8px; width: auto; background: #ff003c; border-radius: 4px; font-size: 10px;" onclick="removeFriend('${f}')"><i class="fa-solid fa-xmark"></i></button></div>`;
+        });
+    }
+    window.removeFriend = (name) => {
+        userData.friends = userData.friends.filter(f => f !== name);
+        saveUserData(); renderFriends();
+    };
+
+    // --- Mini games Khu vui chơi ---
+    let currentMiniTab = 'spin-gold';
+    window.switchMiniTab = (tab) => {
+        currentMiniTab = tab;
+        document.getElementById('tab-mini-spin-gold').className = `shop-tab ${tab==='spin-gold'?'active':''}`;
+        document.getElementById('tab-mini-spin-gem').className = `shop-tab ${tab==='spin-gem'?'active':''}`;
+        document.getElementById('tab-mini-spin-skin').className = `shop-tab ${tab==='spin-skin'?'active':''}`;
+        document.getElementById('tab-mini-chest').className = `shop-tab ${tab==='chest'?'active':''}`;
+
+        document.getElementById('sec-mini-spin-gold').style.display = tab==='spin-gold'?'block':'none';
+        document.getElementById('sec-mini-spin-gem').style.display = tab==='spin-gem'?'block':'none';
+        document.getElementById('sec-mini-spin-skin').style.display = tab==='spin-skin'?'block':'none';
+        document.getElementById('sec-mini-chest').style.display = tab==='chest'?'block':'none';
+    };
+
+    window.openMinigame = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('minigameUI').style.display = 'flex'; };
+    window.closeMinigame = () => { document.getElementById('minigameUI').style.display = 'none'; document.getElementById('menuUI').style.display = 'flex'; updateMenuUI(); };
+    
+    let isSpinning = false;
+    window.playSpin = (type) => {
+        if(isSpinning) return;
+        let cost = 0; let curr = '';
+        if(type === 'gold') { cost = 50; curr = 'coins'; }
+        if(type === 'gem') { cost = 20; curr = 'diamonds'; }
+        if(type === 'skin') { cost = 100; curr = 'diamonds'; }
+
+        if(userData[curr] < cost) { alert(currentLang==='vi'?'Không đủ tiền!':'Not enough currency!'); return; }
+        userData[curr] -= cost; saveUserData();
+        isSpinning = true;
+        playSound('click');
+
+        const wheel = document.getElementById(`wheel-${type}`);
+        const deg = Math.floor(Math.random() * 360) + 1440; 
+        wheel.style.transform = `rotate(${deg}deg)`;
+        
+        setTimeout(() => {
+            isSpinning = false;
+            wheel.style.transition = 'none';
+            const actualDeg = deg % 360;
+            wheel.style.transform = `rotate(${actualDeg}deg)`;
+            setTimeout(() => wheel.style.transition = 'transform 3s cubic-bezier(0.1, 0.7, 0.1, 1)', 50);
+
+            let rewardMsg = "";
+            if(type === 'gold') {
+                // Tỉ lệ: 75% ra 10 vàng hoặc xịt, 15% ra đồ ngon
+                let rand = Math.random();
+                if(rand < 0.1) { userData.coins += 100; rewardMsg = "+100 Vàng"; }
+                else if (rand < 0.13) { userData.diamonds += 5; rewardMsg = "+5 Kim Cương"; }
+                else if (rand < 0.15) { userData.items.shield++; rewardMsg = "+1 Khiên"; }
+                else if (rand < 0.5) { userData.coins += 10; rewardMsg = "+10 Vàng (An ủi)"; }
+                else { rewardMsg = currentLang==='vi'?"Trượt rồi! Chúc may mắn lần sau!":"Missed! Better luck next time!"; }
+            } else if (type === 'gem') {
+                if(actualDeg < 90) { userData.items.freeze += 2; rewardMsg = "+2 Đóng Băng"; }
+                else if (actualDeg < 180) { userData.items.shield += 2; rewardMsg = "+2 Khiên"; }
+                else if (actualDeg < 270) { userData.items.magnet += 3; rewardMsg = "+3 Nam Châm"; }
+                else { userData.diamonds += 30; rewardMsg = "+30 Kim Cương (Lãi 10 KC)"; }
+            } else if (type === 'skin') {
+                let lockedSkins = skinData.filter(s => !userData.unlockedSkins.includes(s.id));
+                if(lockedSkins.length > 0) {
+                    let winSkin = lockedSkins[Math.floor(Math.random() * lockedSkins.length)];
+                    userData.unlockedSkins.push(winSkin.id);
+                    rewardMsg = `🎉 Trúng Skin: ${winSkin.name}! 🎉`;
+                } else {
+                    userData.diamonds += 100;
+                    rewardMsg = "Đã có hết Skin! Hoàn trả 100 KC.";
+                }
+            }
+            
+            playSound('win');
+            saveUserData();
+            document.getElementById(`res-${type}`).innerText = rewardMsg;
+        }, 3000);
+    };
+
+    let chestPlaying = false;
+    window.resetChest = () => {
+        if(chestPlaying) return;
+        if(userData.coins < 30) { alert(currentLang==='vi'?'Không đủ 30 Vàng!':'Not enough 30 Gold!'); return; }
+        userData.coins -= 30; saveUserData();
+        document.getElementById('chest-0').innerText = '🎁'; document.getElementById('chest-0').style.pointerEvents = 'auto';
+        document.getElementById('chest-1').innerText = '🎁'; document.getElementById('chest-1').style.pointerEvents = 'auto';
+        document.getElementById('chest-2').innerText = '🎁'; document.getElementById('chest-2').style.pointerEvents = 'auto';
+        document.getElementById('res-chest').innerText = currentLang==='vi'?'Hãy chọn 1 rương!':'Pick a chest!';
+        chestPlaying = true;
+    };
+
+    window.openChest = (index) => {
+        if(!chestPlaying) { alert(currentLang==='vi'?'Vui lòng bấm CHƠI trước!':'Click PLAY first!'); return; }
+        playSound('item');
+        chestPlaying = false;
+        
+        document.getElementById('chest-0').style.pointerEvents = 'none';
+        document.getElementById('chest-1').style.pointerEvents = 'none';
+        document.getElementById('chest-2').style.pointerEvents = 'none';
+
+        let prizes = [
+            { type: 'bomb', icon: '💣', msg: currentLang==='vi'?'Trúng Bom! Bay mất tiêu!':'Bomb! You lost it!' },
+            { type: 'coin', val: 50, icon: '🪙', msg: '+50 Vàng' },
+            { type: 'gem', val: 2, icon: '💎', msg: '+2 Kim Cương' }
+        ];
+        prizes = prizes.sort(() => Math.random() - 0.5);
+
+        for(let i=0; i<3; i++) {
+            document.getElementById(`chest-${i}`).innerText = prizes[i].icon;
+        }
+
+        let myPrize = prizes[index];
+        document.getElementById('res-chest').innerText = myPrize.msg;
+        if(myPrize.type === 'coin') userData.coins += myPrize.val;
+        if(myPrize.type === 'gem') userData.diamonds += myPrize.val;
+        saveUserData();
+    };
+
     // Pass
     window.openPass = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('passUI').style.display = 'flex'; renderPass(); };
     window.closePass = () => { document.getElementById('passUI').style.display = 'none'; document.getElementById('menuUI').style.display = 'flex'; updateMenuUI(); };
     window.buyVIPPass = () => { 
         if(userData.diamonds >= 500 && !userData.isPassVIP) { 
             userData.diamonds -= 500; userData.isPassVIP = true; saveUserData(); renderPass(); 
-            alert("Đã nâng cấp VIP Pass!"); document.getElementById('btn-buy-vip').style.display = 'none'; 
+            alert(currentLang==='vi'?"Đã nâng cấp VIP Pass!":"VIP Pass Upgraded!"); document.getElementById('btn-buy-vip').style.display = 'none'; 
             pushMarquee(`${currentUser} vừa nâng cấp VIP Pass!`); 
-        } else alert("Không đủ Kim Cương!"); 
+        } else alert(currentLang==='vi'?"Không đủ Kim Cương!":"Not enough Diamonds!"); 
     };
     
     function renderPass() {
@@ -448,8 +812,8 @@
             const claimedFree = (userData.passClaimed || []).includes(`f${p.lvl}`); 
             const claimedVIP = (userData.passClaimed || []).includes(`v${p.lvl}`);
             
-            let btnFree = claimedFree ? `<button class="claim-btn" disabled>Đã nhận</button>` : (unlocked ? `<button class="claim-btn" onclick="claimPass(${p.lvl}, 'free')">Nhận</button>` : `<button class="claim-btn" disabled>Khóa</button>`);
-            let btnVIP = claimedVIP ? `<button class="claim-btn" disabled>Đã nhận</button>` : (unlocked && userData.isPassVIP ? `<button class="claim-btn" onclick="claimPass(${p.lvl}, 'vip')">Nhận</button>` : `<button class="claim-btn" disabled><i class="fa-solid fa-lock"></i> VIP</button>`);
+            let btnFree = claimedFree ? `<button class="claim-btn" disabled>${currentLang==='vi'?'Đã nhận':'Claimed'}</button>` : (unlocked ? `<button class="claim-btn" onclick="claimPass(${p.lvl}, 'free')">${currentLang==='vi'?'Nhận':'Claim'}</button>` : `<button class="claim-btn" disabled>${currentLang==='vi'?'Khóa':'Locked'}</button>`);
+            let btnVIP = claimedVIP ? `<button class="claim-btn" disabled>${currentLang==='vi'?'Đã nhận':'Claimed'}</button>` : (unlocked && userData.isPassVIP ? `<button class="claim-btn" onclick="claimPass(${p.lvl}, 'vip')">${currentLang==='vi'?'Nhận':'Claim'}</button>` : `<button class="claim-btn" disabled><i class="fa-solid fa-lock"></i> VIP</button>`);
             
             c.innerHTML += `<div class="pass-tier ${unlocked ? 'unlocked' : ''}"><div class="pass-level">${p.lvl}</div><div class="pass-rewards"><div class="reward-item"><span><i class="fa-solid fa-gift"></i> ${p.free.n}</span> ${btnFree}</div><div class="reward-item vip-reward"><span><i class="fa-solid fa-crown" style="color:var(--pass-vip)"></i> ${p.vip.n}</span> ${btnVIP}</div></div></div>`;
         });
@@ -462,7 +826,9 @@
         if(reward.t === 'diamond') userData.diamonds += reward.a;
         if(reward.t === 'item_magnet') userData.items.magnet = (userData.items.magnet || 0) + reward.a;
         if(reward.t === 'item_freeze') userData.items.freeze = (userData.items.freeze || 0) + reward.a;
+        if(reward.t === 'item_shield') userData.items.shield = (userData.items.shield || 0) + reward.a;
         if(reward.t === 'skin' && !userData.unlockedSkins.includes(reward.id)) userData.unlockedSkins.push(reward.id);
+        if(reward.t === 'effect' && !userData.unlockedEffects.includes(reward.id)) userData.unlockedEffects.push(reward.id);
         
         if(!userData.passClaimed) userData.passClaimed = [];
         userData.passClaimed.push(`${type === 'free' ? 'f' : 'v'}${lvl}`);
@@ -470,45 +836,132 @@
     };
 
     // Shop
-    window.openShop = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('shopUI').style.display = 'flex'; document.getElementById('shop-coins').innerText = userData.coins; document.getElementById('shop-diamonds').innerText = userData.diamonds; renderShop(); };
+    let currentShopTab = 'skins';
+    window.openShop = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('shopUI').style.display = 'flex'; document.getElementById('shop-coins').innerText = userData.coins; document.getElementById('shop-diamonds').innerText = userData.diamonds; document.getElementById('shop-stones').innerText = userData.items.stone; renderShop(); };
     window.closeShop = () => { document.getElementById('shopUI').style.display = 'none'; document.getElementById('menuUI').style.display = 'flex'; updateMenuUI(); };
     
+    window.switchShopTab = (tab) => {
+        currentShopTab = tab;
+        document.getElementById('tab-skins').className = `shop-tab ${tab==='skins'?'active':''}`;
+        document.getElementById('tab-effects').className = `shop-tab ${tab==='effects'?'active':''}`;
+        document.getElementById('tab-backgrounds').className = `shop-tab ${tab==='backgrounds'?'active':''}`;
+        document.getElementById('tab-items').className = `shop-tab ${tab==='items'?'active':''}`;
+        renderShop();
+    };
+
+    window.upgradeSkin = (id, cost) => {
+        if(userData.items.stone >= cost) {
+            userData.items.stone -= cost;
+            if(!userData.skinLevels[id]) userData.skinLevels[id] = 1;
+            userData.skinLevels[id]++;
+            playSound('win');
+            saveUserData();
+            document.getElementById('shop-stones').innerText = userData.items.stone;
+            renderShop();
+        } else {
+            alert(currentLang==='vi'?'Không đủ Đá Nâng Cấp!':'Not enough Upgrade Stones!');
+        }
+    };
+
     function renderShop() {
         const container = document.getElementById('shopContainer'); container.innerHTML = '';
-        skinData.forEach(skin => {
-            const isUnlocked = userData.unlockedSkins.includes(skin.id); 
-            const isEquipped = userData.equippedSkin === skin.id; let btnHTML = '';
-            
-            if (isEquipped) { 
-                btnHTML = `<button class="skin-btn equipped" disabled>ĐANG DÙNG</button>`; 
-            } else if (isUnlocked) { 
-                btnHTML = `<button class="skin-btn equip" onclick="equipSkin(${skin.id})">TRANG BỊ</button>`; 
-            } else { 
-                if(skin.curr === 'diamond') btnHTML = `<button class="skin-btn buy-diamond" onclick="buySkin(${skin.id}, ${skin.price}, 'diamond')">MUA ${skin.price} 💎</button>`;
-                else btnHTML = `<button class="skin-btn buy-gold" onclick="buySkin(${skin.id}, ${skin.price}, 'gold')">MUA ${skin.price} <i class="fa-solid fa-coins"></i></button>`;
-            }
-            
-            container.innerHTML += `<div class="skin-card ${isEquipped ? 'equipped' : ''} ${skin.vip ? 'vip' : ''}"><div class="skin-preview-box"><div class="skin-preview-orb" style="background: radial-gradient(circle, ${skin.orbCore} 0%, ${skin.orbColor} 50%, ${skin.orbDark} 100%); box-shadow: 0 0 10px ${skin.orbColor};"></div><div class="skin-preview-bar" style="background: ${skin.barColor}; box-shadow: 0 0 10px ${skin.barGlow};"></div></div><div class="skin-name" style="color: ${skin.orbColor}">${skin.name}</div>${btnHTML}</div>`;
-        });
+        const txtEquipped = currentLang === 'vi' ? 'ĐANG DÙNG' : 'EQUIPPED';
+        const txtEquip = currentLang === 'vi' ? 'TRANG BỊ' : 'EQUIP';
+        const txtBuy = currentLang === 'vi' ? 'MUA' : 'BUY';
+
+        if(currentShopTab === 'skins') {
+            skinData.forEach(skin => {
+                const isUnlocked = userData.unlockedSkins.includes(skin.id); 
+                const isEquipped = userData.equippedSkin === skin.id; 
+                let btnHTML = '';
+                
+                let lv = userData.skinLevels[skin.id] || 1;
+                let upgradeBtn = '';
+                if(isUnlocked) {
+                    if(lv < 10) {
+                        let cost = lv;
+                        upgradeBtn = `<button class="skin-btn" style="background:#008080; margin-top:5px; width:100%; font-size:10px;" onclick="upgradeSkin(${skin.id}, ${cost})"><i class="fa-solid fa-arrow-up"></i> NÂNG LV${lv+1} (${cost} ĐÁ)</button>`;
+                    } else {
+                        upgradeBtn = `<button class="skin-btn" style="background:#ffd700; color:#000; margin-top:5px; width:100%; font-size:10px;" disabled><i class="fa-solid fa-star"></i> MAX CẤP</button>`;
+                    }
+                }
+
+                if (isEquipped) { btnHTML = `<button class="skin-btn equipped" disabled>${txtEquipped}</button>`; }
+                else if (isUnlocked) { btnHTML = `<button class="skin-btn equip" onclick="equipSkin(${skin.id})">${txtEquip}</button>`; }
+                else { 
+                    if(skin.curr === 'diamond') btnHTML = `<button class="skin-btn buy-diamond" onclick="buyShopItem('${skin.id}', ${skin.price}, 'diamond', 'skin')">${txtBuy} ${skin.price} 💎</button>`;
+                    else btnHTML = `<button class="skin-btn buy-gold" onclick="buyShopItem('${skin.id}', ${skin.price}, 'gold', 'skin')">${txtBuy} ${skin.price} <i class="fa-solid fa-coins"></i></button>`;
+                }
+                
+                container.innerHTML += `<div class="skin-card ${isEquipped ? 'equipped' : ''} ${skin.vip ? 'vip' : ''}" style="flex-direction:column; align-items: stretch; text-align:center;">
+                    <div class="skin-preview-box" style="margin: 0 auto 5px auto;">
+                        <div class="skin-preview-orb" style="background: radial-gradient(circle, ${skin.orbCore} 0%, ${skin.orbColor} 50%, ${skin.orbDark} 100%); box-shadow: 0 0 10px ${skin.orbColor};"></div>
+                        <div class="skin-preview-bar" style="background: ${skin.barColor}; box-shadow: 0 0 10px ${skin.barGlow};"></div>
+                    </div>
+                    <div class="skin-name" style="color: ${skin.orbColor}; font-weight:bold;">${skin.name}</div>
+                    ${isUnlocked ? `<span class="skin-lvl-info">Cấp: ${lv}/10 (Trọng lực -${(lv-1)*2}%)</span>` : ''}
+                    <div style="margin-top: 5px;">${btnHTML}</div>
+                    ${upgradeBtn}
+                </div>`;
+            });
+        } else if(currentShopTab === 'effects') {
+            effectData.forEach(eff => {
+                const isUnlocked = userData.unlockedEffects.includes(eff.id); 
+                const isEquipped = userData.equippedEffect === eff.id; let btnHTML = '';
+                
+                if (isEquipped) { btnHTML = `<button class="skin-btn equipped" disabled>${txtEquipped}</button>`; }
+                else if (isUnlocked) { btnHTML = `<button class="skin-btn equip" onclick="equipEffect(${eff.id})">${txtEquip}</button>`; }
+                else { 
+                    if(eff.curr === 'diamond') btnHTML = `<button class="skin-btn buy-diamond" onclick="buyShopItem('${eff.id}', ${eff.price}, 'diamond', 'effect')">${txtBuy} ${eff.price} 💎</button>`;
+                    else btnHTML = `<button class="skin-btn buy-gold" onclick="buyShopItem('${eff.id}', ${eff.price}, 'gold', 'effect')">${txtBuy} ${eff.price} <i class="fa-solid fa-coins"></i></button>`;
+                }
+                container.innerHTML += `<div class="skin-card ${isEquipped ? 'equipped' : ''}"><div style="font-size:24px;">${eff.icon}</div><div class="skin-name" style="color: #fff; font-weight:bold;">${eff.name}</div>${btnHTML}</div>`;
+            });
+        } else if(currentShopTab === 'backgrounds') {
+            bgData.forEach(bg => {
+                const isUnlocked = userData.unlockedBgs.includes(bg.id); 
+                const isEquipped = userData.equippedBg === bg.id; let btnHTML = '';
+                
+                if (isEquipped) { btnHTML = `<button class="skin-btn equipped" disabled>${txtEquipped}</button>`; }
+                else if (isUnlocked) { btnHTML = `<button class="skin-btn equip" onclick="equipBg(${bg.id})">${txtEquip}</button>`; }
+                else { 
+                    if(bg.curr === 'diamond') btnHTML = `<button class="skin-btn buy-diamond" onclick="buyShopItem('${bg.id}', ${bg.price}, 'diamond', 'bg')">${txtBuy} ${bg.price} 💎</button>`;
+                    else btnHTML = `<button class="skin-btn buy-gold" onclick="buyShopItem('${bg.id}', ${bg.price}, 'gold', 'bg')">${txtBuy} ${bg.price} <i class="fa-solid fa-coins"></i></button>`;
+                }
+                container.innerHTML += `<div class="skin-card bg-card ${isEquipped ? 'equipped' : ''}"><div class="bg-preview" style="background: ${getCSSBg(bg)}"></div><div class="skin-name" style="color: #fff; font-weight:bold;">${bg.name}</div>${btnHTML}</div>`;
+            });
+        } else if(currentShopTab === 'items') {
+            shopItemsData.forEach(it => {
+                let btnHTML = `<button class="skin-btn buy-diamond" onclick="buyShopItem('${it.id}', ${it.price}, 'diamond', 'item')">${txtBuy} ${it.price} 💎</button>`;
+                container.innerHTML += `<div class="skin-card"><div style="font-size:24px;">${it.icon}</div><div style="flex:1; margin-left:10px;"><div class="skin-name" style="color: #fff; font-weight:bold; margin:0;">${it.name}</div><div style="font-size:10px; color:#aaa;">${it.desc}</div></div>${btnHTML}</div>`;
+            });
+        }
     }
     
-    window.buySkin = (id, price, curr) => {
+    window.buyShopItem = (id, price, curr, type) => {
         initAudio();
         if (curr === 'gold') { 
-            if (userData.coins >= price) { userData.coins -= price; unlockSkin(id); } else alert("Chưa đủ Vàng!"); 
+            if (userData.coins >= price) { userData.coins -= price; unlockItem(id, type); } else alert(currentLang==='vi'?"Chưa đủ Vàng!":"Not enough Gold!"); 
         } else { 
-            if (userData.diamonds >= price) { userData.diamonds -= price; unlockSkin(id); } else alert("Chưa đủ Kim Cương!"); 
+            if (userData.diamonds >= price) { userData.diamonds -= price; unlockItem(id, type); } else alert(currentLang==='vi'?"Chưa đủ Kim Cương!":"Not enough Diamonds!"); 
         }
     };
     
-    function unlockSkin(id) { 
-        playSound('click'); userData.unlockedSkins.push(id); userData.equippedSkin = id; 
+    function unlockItem(id, type) { 
+        playSound('click');
+        if(type === 'skin') { userData.unlockedSkins.push(parseInt(id)); userData.equippedSkin = parseInt(id); }
+        if(type === 'effect') { userData.unlockedEffects.push(parseInt(id)); userData.equippedEffect = parseInt(id); }
+        if(type === 'bg') { userData.unlockedBgs.push(parseInt(id)); userData.equippedBg = parseInt(id); }
+        if(type === 'item') { userData.items[id]++; document.getElementById('shop-stones').innerText = userData.items.stone;}
+        
         saveUserData(); renderShop(); 
         document.getElementById('shop-coins').innerText = userData.coins; 
         document.getElementById('shop-diamonds').innerText = userData.diamonds; 
     }
     
     window.equipSkin = (id) => { userData.equippedSkin = id; saveUserData(); renderShop(); };
+    window.equipEffect = (id) => { userData.equippedEffect = id; saveUserData(); renderShop(); };
+    window.equipBg = (id) => { userData.equippedBg = id; saveUserData(); renderShop(); };
 
     onValue(ref(db, "leaderboard"), (snap) => {
         const data = snap.val(); 
@@ -547,10 +1000,10 @@
     
     const gravity = 0.006; const clickForce = 0.18; const friction = 0.965; const weightPower = 0.06; const shrinkSpeed = 0.45;
     let windTimer = 2; let windForce = 0; 
-    let floatingTexts = []; let explosionParticles = []; let orbTrail = []; let particles = [];
+    let floatingTexts = []; let explosionParticles = []; let orbTrail = []; let particles = []; let dropGifts = [];
     const trollWords = ["GÀ!", "NON!", "CẨN THẬN!", "SẮP RỚT!", "MẮT LÁC À?", "YẾU!", "LỆCH KÌA!", "RUN TAY À?", "TẬP TRUNG!"];
     
-    let activeMagnet = 0; let activeFreeze = 0;
+    let activeMagnet = 0; let activeFreeze = 0; let activeShield = 0;
     let isMultiplayer = false; let currentMatchId = null; let matchRef = null; let oppTime = 0; let oppDead = false; let matchListener = null; let beepingInterval = null;
 
     function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; } 
@@ -561,21 +1014,19 @@
         document.getElementById("gameOverUI").style.display = "none"; document.getElementById("menuUI").style.display = "flex"; 
         document.getElementById("hud").style.display = "none"; document.getElementById("click-hud").style.display = "none"; 
         document.getElementById("match-hud").style.display = "none"; document.getElementById("item-box").style.display = "none"; document.getElementById("status-tag").style.display = "none"; 
+        
+        if(matchListener) { matchListener(); matchListener = null; }
         if(matchRef) { remove(matchRef); matchRef = null; } 
         updateMenuUI(); 
     };
 
     function listenToMatch() {
-        if(matchListener) return;
+        if(matchListener) { matchListener(); matchListener = null; }
         matchListener = onValue(matchRef, (snap) => {
             const data = snap.val(); 
             if(!data) return;
 
-            // Trigger game start for both when state becomes 'playing'
-            if (data.state === 'playing' && !matchStarted) {
-                matchStarted = true;
-                startGame(true, data);
-            }
+            if (data.state === 'playing' && !matchStarted) { matchStarted = true; startGame(true, data); }
 
             if (data.state === 'playing') {
                 const isP1 = data.p1 === currentUser; 
@@ -587,9 +1038,7 @@
                 document.getElementById('my-name').innerText = currentUser;
                 document.getElementById('opp-match-time').innerText = (oppTime || 0).toFixed(1);
                 
-                if(oppDead && !isGameOver && !isGracePeriod) { 
-                    triggerWin(); 
-                }
+                if(oppDead && !isGameOver && !isGracePeriod) { triggerWin(); }
             }
         });
     }
@@ -624,6 +1073,7 @@
     };
 
     window.cancelMatchmaking = () => { 
+        if(matchListener) { matchListener(); matchListener = null; }
         if(matchRef) { remove(matchRef); matchRef = null; } 
         document.getElementById('matchmakingUI').style.display = 'none'; document.getElementById('menuUI').style.display = 'flex'; 
     };
@@ -634,22 +1084,25 @@
         isGameOver = false; isGracePeriod = true; isMultiplayer = multi;
         document.getElementById('matchmakingUI').style.display = 'none'; document.getElementById("menuUI").style.display = "none"; document.getElementById("gameOverUI").style.display = "none";
         
-        time = 0; visualTime = 0; barAngle = 0; boxPos = 0; boxVel = 0; barWidth = 320; clickCount = 0; activeMagnet = 0; activeFreeze = 0; 
-        explosionParticles = []; orbTrail = []; particles = []; floatingTexts = [];
+        time = 0; visualTime = 0; barAngle = 0; boxPos = 0; boxVel = 0; barWidth = 320; clickCount = 0; 
+        activeMagnet = 0; activeFreeze = 0; activeShield = 0;
+        explosionParticles = []; orbTrail = []; particles = []; floatingTexts = []; dropGifts = [];
         
         document.getElementById("status-tag").style.display = "block"; 
         
+        document.getElementById("item-box").style.display = "flex";
+        document.getElementById("count-magnet").innerText = userData.items.magnet || 0; 
+        document.getElementById("count-freeze").innerText = userData.items.freeze || 0;
+        document.getElementById("count-shield").innerText = userData.items.shield || 0;
+
         if (isMultiplayer) {
-            document.getElementById("match-hud").style.display = "flex"; document.getElementById("item-box").style.display = "flex";
-            document.getElementById("count-magnet").innerText = userData.items.magnet || 0; document.getElementById("count-freeze").innerText = userData.items.freeze || 0;
+            document.getElementById("match-hud").style.display = "flex"; 
             document.getElementById("my-match-time").innerText = "0.0"; document.getElementById("opp-match-time").innerText = "0.0";
-            
             if (matchData) {
                 const isP1 = matchData.p1 === currentUser;
                 document.getElementById('opp-name').innerText = isP1 ? matchData.p2 : matchData.p1;
                 document.getElementById('my-name').innerText = currentUser;
             }
-
             document.getElementById("btnRetry").style.display = "block"; document.getElementById("btnRetrySolo").style.display = "none";
         } else {
             document.getElementById("hud").style.display = "block"; document.getElementById("click-hud").style.display = "block"; 
@@ -657,29 +1110,29 @@
             document.getElementById("btnRetry").style.display = "none"; document.getElementById("btnRetrySolo").style.display = "block";
         }
         
-        // ĐẾM NGƯỢC 5 GIÂY ĐỒNG BỘ
-        let countdown = 5;
-        document.getElementById("status-tag").innerText = `TRẬN ĐẤU BẮT ĐẦU SAU ${countdown}s...`;
+        // 5s cho multiplayer, 1s cho chơi đơn
+        let countdown = isMultiplayer ? 5 : 1;
+        document.getElementById("status-tag").innerText = currentLang === 'vi' ? `TRẬN ĐẤU BẮT ĐẦU SAU ${countdown}s...` : `MATCH STARTS IN ${countdown}s...`;
         document.getElementById("status-tag").style.color = "#ffeb3b";
         document.getElementById("status-tag").style.fontSize = "20px";
 
         let countInterval = setInterval(() => {
             countdown--;
             if (countdown > 0) {
-                document.getElementById("status-tag").innerText = `TRẬN ĐẤU BẮT ĐẦU SAU ${countdown}s...`;
+                document.getElementById("status-tag").innerText = currentLang === 'vi' ? `TRẬN ĐẤU BẮT ĐẦU SAU ${countdown}s...` : `MATCH STARTS IN ${countdown}s...`;
                 playSound('click');
             } else {
                 clearInterval(countInterval);
                 if (!isGameOver) {
                     isGracePeriod = false;
-                    document.getElementById("status-tag").innerText = "SỐNG SÓT ĐI!";
+                    document.getElementById("status-tag").innerText = currentLang === 'vi' ? "SỐNG SÓT ĐI!" : "SURVIVE!";
                     document.getElementById("status-tag").style.color = "var(--cyan)";
                     document.getElementById("status-tag").style.fontSize = "16px";
                     playSound('win');
 
                     if(beepingInterval) clearInterval(beepingInterval);
                     beepingInterval = setInterval(() => { 
-                        if(!isGameOver && isDanger && !isGracePeriod && activeFreeze <= 0) playSound('danger'); 
+                        if(!isGameOver && isDanger && !isGracePeriod && activeFreeze <= 0 && activeShield <= 0) playSound('danger'); 
                     }, 200);
                 }
             }
@@ -691,15 +1144,31 @@
     window.addEventListener('pointerdown', (e) => {
         if (isGameOver || isGracePeriod || e.target.closest('.item-btn') || e.target.closest('.container')) return;
         
+        if(!isMultiplayer) {
+            const rect = canvas.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+            for(let i = dropGifts.length - 1; i >= 0; i--) {
+                let g = dropGifts[i];
+                let dist = Math.hypot(clickX - g.x, clickY - g.y);
+                if(dist < 35) {
+                    dropGifts.splice(i, 1);
+                    userData.diamonds++; saveUserData();
+                    floatingTexts.push({x: clickX, y: clickY, text: "+1 💎", life: 1.5});
+                    playSound('item');
+                    return; 
+                }
+            }
+        }
+
         clickCount++; playSound('click');
         const currentSkin = skinData.find(s => s.id === userData.equippedSkin) || skinData[0];
-        
         for(let i=0; i<8; i++) { particles.push({ x: e.clientX, y: e.clientY, vx: (Math.random()-0.5)*10, vy: (Math.random()-0.5)*10, life: 1, color: currentSkin.orbColor }); }
         
         let miaMai = ""; if(clickCount > 20) miaMai = " (Spam à?)"; if(clickCount > 50) miaMai = " (Mỏi tay chưa?)"; if(clickCount > 100) miaMai = " (Hỏng màn hình!)";
         if(!isMultiplayer) document.getElementById("click-hud").innerText = `CLICKS: ${clickCount}${miaMai}`;
         
-        if (activeFreeze <= 0) {
+        if (activeFreeze <= 0 && activeShield <= 0) {
             if (currentEdgeDist < barWidth * 0.25) { 
                 if (boxPos > 0) boxVel -= 0.6; else boxVel += 0.6; 
                 if (barAngle > 0) barAngle = Math.max(0, barAngle - 0.3); else barAngle = Math.min(0, barAngle + 0.3); 
@@ -715,6 +1184,7 @@
             userData.items[type]--; saveUserData(); playSound('item');
             if(type === 'magnet') { activeMagnet = 3; document.getElementById("count-magnet").innerText = userData.items.magnet; }
             if(type === 'freeze') { activeFreeze = 3; document.getElementById("count-freeze").innerText = userData.items.freeze; document.getElementById("status-tag").innerText = "❄️ ĐÓNG BĂNG!"; }
+            if(type === 'shield') { activeShield = 3; document.getElementById("count-shield").innerText = userData.items.shield; document.getElementById("status-tag").innerText = "🛡️ KHIÊN BẢO VỆ!"; }
         }
     };
 
@@ -724,42 +1194,55 @@
 
         if (isGameOver) return; 
         
-        // Hiệu ứng visual chạy ngay cả khi đếm ngược
         particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life -= 0.05; }); particles = particles.filter(p => p.life > 0);
         floatingTexts.forEach(t => t.life -= 0.012); floatingTexts = floatingTexts.filter(t => t.life > 0);
 
-        if (isGracePeriod) {
-            barAngle = 0; boxPos = 0; boxVel = 0;
-            return; // Dừng xử lý vật lý bóng khi đếm ngược
-        }
-        
+        if (isGracePeriod) { barAngle = 0; boxPos = 0; boxVel = 0; return; }
         time += delta;
 
-        if(activeMagnet > 0) { activeMagnet -= delta; boxVel -= boxPos * 0.05; } 
-        if(activeFreeze > 0) { activeFreeze -= delta; windForce = 0; barAngle *= 0.9; } 
-        else {
-            windTimer -= delta;
-            if (windTimer <= 0) {
-                if (time > 5 && Math.random() < 0.4) { 
-                    windForce = (Math.random() - 0.5) * 0.5; windTimer = 2 + Math.random() * 4; document.getElementById("status-tag").innerText = "⚠️ GIÓ LỐC!"; 
-                } else { 
-                    windTimer = 1; windForce = 0; document.getElementById("status-tag").innerText = ""; 
-                }
-            }
-            barAngle += windForce * 0.05; barAngle += (Math.random() - 0.5) * 0.02; barAngle += (boxPos / (barWidth / 2)) * weightPower;
+        if(!isMultiplayer && Math.random() < 0.003 && time > 3) {
+            dropGifts.push({ x: Math.random() * (canvas.width - 60) + 30, y: -30, speed: Math.random() * 2 + 1 });
         }
-        
-        barAngle = Math.max(-1.4, Math.min(1.4, barAngle)); 
-        let accel = Math.sin(barAngle) * gravity * 150; boxVel += accel; boxVel *= friction; boxPos += boxVel;
-        
-        if(time > 3 && barWidth > 80) barWidth -= shrinkSpeed;
-        
-        currentEdgeDist = (barWidth / 2) - Math.abs(boxPos); isDanger = currentEdgeDist < barWidth * 0.25;
-        if (isDanger && activeFreeze <= 0) document.getElementById("danger-alert").style.display = "block"; else document.getElementById("danger-alert").style.display = "none";
+        dropGifts.forEach(g => { g.y += g.speed; });
+        dropGifts = dropGifts.filter(g => g.y < canvas.height + 50);
+
+        // SKIN UPGRADE MODIFIER (Giảm trọng lực)
+        let currentSkinLevel = userData.skinLevels[userData.equippedSkin] || 1;
+        let gravityMod = 1 - ((currentSkinLevel - 1) * 0.02); // Tối đa giảm 18% ở cấp 10
+
+        // Vật lý
+        if(activeShield > 0) {
+            activeShield -= delta; boxPos = 0; boxVel = 0; barAngle *= 0.8;
+        } else {
+            if(activeMagnet > 0) { activeMagnet -= delta; boxVel -= boxPos * 0.05; } 
+            if(activeFreeze > 0) { activeFreeze -= delta; windForce = 0; barAngle *= 0.9; } 
+            else {
+                windTimer -= delta;
+                if (windTimer <= 0) {
+                    if (time > 5 && Math.random() < 0.4) { 
+                        windForce = (Math.random() - 0.5) * 0.5; windTimer = 2 + Math.random() * 4; document.getElementById("status-tag").innerText = "⚠️ GIÓ LỐC!"; 
+                    } else { 
+                        windTimer = 1; windForce = 0; document.getElementById("status-tag").innerText = ""; 
+                    }
+                }
+                barAngle += windForce * 0.05; barAngle += (Math.random() - 0.5) * 0.02; barAngle += (boxPos / (barWidth / 2)) * weightPower;
+            }
+            
+            barAngle = Math.max(-1.4, Math.min(1.4, barAngle)); 
+            let accel = Math.sin(barAngle) * gravity * 150 * gravityMod; 
+            boxVel += accel; boxVel *= friction; boxPos += boxVel;
+            
+            if(time > 3 && barWidth > 80) barWidth -= shrinkSpeed;
+            
+            currentEdgeDist = (barWidth / 2) - Math.abs(boxPos); isDanger = currentEdgeDist < barWidth * 0.25;
+            if (isDanger && activeFreeze <= 0 && activeShield <= 0) document.getElementById("danger-alert").style.display = "block"; else document.getElementById("danger-alert").style.display = "none";
+            
+            if (Math.abs(boxPos) > barWidth / 2 || Math.abs(barAngle) > 1.35) triggerDeath();
+        }
         
         orbTrail.push({x: boxPos, a: barAngle}); if(orbTrail.length > 10) orbTrail.shift();
         
-        if (Math.random() < 0.015 && time > 2) { floatingTexts.push({ x: (Math.random() - 0.5) * canvas.width * 0.8, y: (Math.random() - 0.5) * canvas.height * 0.5 - 50, text: trollWords[Math.floor(Math.random() * trollWords.length)], life: 1.0 }); }
+        if (Math.random() < 0.015 && time > 2 && activeShield <= 0) { floatingTexts.push({ x: (Math.random() - 0.5) * canvas.width * 0.8, y: (Math.random() - 0.5) * canvas.height * 0.5 - 50, text: trollWords[Math.floor(Math.random() * trollWords.length)], life: 1.0 }); }
 
         if(isMultiplayer) {
             document.getElementById("my-match-time").innerText = time.toFixed(1);
@@ -771,8 +1254,6 @@
         } else {
             document.getElementById("hud").innerText = time.toFixed(1) + "s";
         }
-
-        if (Math.abs(boxPos) > barWidth / 2 || Math.abs(barAngle) > 1.35) triggerDeath();
     }
 
     function triggerDeath() {
@@ -783,8 +1264,19 @@
         const cx = canvas.width/2; const cy = canvas.height/2 + 50;
         const absX = cx + Math.cos(barAngle)*boxPos - Math.sin(barAngle)*(-18); const absY = cy + Math.sin(barAngle)*boxPos + Math.cos(barAngle)*(-18);
         
-        for(let i=0; i<100; i++) { 
-            explosionParticles.push({ x: absX, y: absY, vx: (Math.random()-0.5)*20, vy: (Math.random()-0.5)*20, life: 1.5, color: skin.orbColor, size: Math.random()*5 }); 
+        let effectId = userData.equippedEffect || 0;
+        
+        for(let i=0; i<150; i++) { 
+            let color = skin.orbColor;
+            let vx = (Math.random()-0.5)*25; let vy = (Math.random()-0.5)*25;
+            let size = Math.random()*5 + 2;
+            let type = 'circle';
+
+            if(effectId === 1) { color = "red"; vy = Math.random()*15; vx = (Math.random()-0.5)*15; size = Math.random()*8; } 
+            if(effectId === 2) { color = "#00ff00"; type = 'square'; vx = 0; vy = Math.random()*10 + 5; size = 4; } 
+            if(effectId === 3) { const colors = ["gold", "red", "blue", "lime", "magenta"]; color = colors[Math.floor(Math.random()*colors.length)]; size = Math.random()*6;} 
+            
+            explosionParticles.push({ x: absX, y: absY, vx: vx, vy: vy, life: 2.0, color: color, size: size, type: type }); 
         }
         
         if(isMultiplayer && matchRef) {
@@ -792,35 +1284,72 @@
                 if(snap.exists()) { const isP1 = snap.val().p1 === currentUser; update(matchRef, isP1 ? { p1Dead: true } : { p2Dead: true }); } 
             });
         }
-        setTimeout(() => showGameOverUI(false), 1500);
+        setTimeout(() => showGameOverUI(false), 2000);
     }
     
     function triggerWin() { isGameOver = true; playSound('win'); setTimeout(() => showGameOverUI(true), 500); }
 
     function draw() {
-        ctx.fillStyle = "#050011"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Vẽ Hình nền (Background)
+        const bg = bgData.find(b => b.id === userData.equippedBg) || bgData[0];
+        if(bg.type === 'color') {
+            ctx.fillStyle = bg.val1;
+        } else if(bg.type === 'linear') {
+            let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            grad.addColorStop(0, bg.val1);
+            grad.addColorStop(1, bg.val2);
+            ctx.fillStyle = grad;
+        } else if(bg.type === 'radial') {
+            let grad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.height);
+            grad.addColorStop(0, bg.val1);
+            grad.addColorStop(1, bg.val2);
+            ctx.fillStyle = grad;
+        }
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
         ctx.save();
         
-        if (!isGameOver && isDanger && activeFreeze <= 0 && !isGracePeriod) { const shake = 8; ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake); }
+        if (!isGameOver && isDanger && activeFreeze <= 0 && activeShield <= 0 && !isGracePeriod) { const shake = 8; ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake); }
         
-        ctx.strokeStyle = (!isGameOver && isDanger && activeFreeze <= 0 && !isGracePeriod) ? "rgba(255, 0, 0, 0.4)" : "rgba(0, 255, 255, 0.06)"; 
+        ctx.strokeStyle = (!isGameOver && isDanger && activeFreeze <= 0 && activeShield <= 0 && !isGracePeriod) ? "rgba(255, 0, 0, 0.4)" : "rgba(0, 255, 255, 0.06)"; 
         ctx.lineWidth = 1; ctx.beginPath();
-        const gs = 40; const off = (visualTime * 30) % gs; // Sử dụng visualTime để lưới chạy mượt mà ngay cả khi đếm ngược
+        const gs = 40; const off = (visualTime * 30) % gs;
         for (let x = 0; x <= canvas.width; x += gs) { ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); }
         for (let y = off; y <= canvas.height; y += gs) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); } 
         ctx.stroke();
         
         const cx = canvas.width / 2, cy = canvas.height / 2 + 50;
 
+        if(!isGameOver) {
+            ctx.font = "30px Arial"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+            dropGifts.forEach(g => {
+                ctx.fillText("🎁", g.x, g.y);
+            });
+        }
+
         if (isGameOver) {
-            explosionParticles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life -= 0.02; }); explosionParticles = explosionParticles.filter(p => p.life > 0);
-            explosionParticles.forEach(p => { ctx.fillStyle = p.color; ctx.globalAlpha = p.life; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill(); }); ctx.globalAlpha = 1;
+            let effId = userData.equippedEffect || 0;
+            explosionParticles.forEach(p => { 
+                p.x += p.vx; p.y += p.vy; p.life -= 0.02;
+                if(effId === 1) p.vy += 0.5; 
+                if(effId === 3) p.vy += 0.2; 
+            }); 
+            explosionParticles = explosionParticles.filter(p => p.life > 0);
+            
+            explosionParticles.forEach(p => { 
+                ctx.fillStyle = p.color; ctx.globalAlpha = p.life; 
+                ctx.beginPath(); 
+                if(p.type === 'square') { ctx.rect(p.x, p.y, p.size, p.size); ctx.fill(); }
+                else { ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill(); }
+            }); ctx.globalAlpha = 1;
         }
 
         particles.forEach(p => { ctx.fillStyle = p.color; ctx.globalAlpha = p.life; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill(); }); ctx.globalAlpha = 1;
 
         ctx.save(); ctx.translate(cx, cy);
-        floatingTexts.forEach(t => { ctx.fillStyle = `rgba(255, 0, 60, ${t.life})`; ctx.font = "900 24px Orbitron"; ctx.textAlign = "center"; ctx.fillText(t.text, t.x, t.y); });
+        floatingTexts.forEach(t => { ctx.fillStyle = `rgba(255, 215, 0, ${t.life})`; ctx.font = "900 24px Orbitron"; ctx.textAlign = "center"; ctx.fillText(t.text, t.x, t.y); });
         ctx.restore();
 
         ctx.shadowBlur = 10; ctx.shadowColor = "#ff003c"; ctx.fillStyle = "#1a0005"; ctx.strokeStyle = "#ff003c"; 
@@ -830,9 +1359,18 @@
         const skin = skinData.find(s => s.id === userData.equippedSkin) || skinData[0];
 
         if (!isGameOver) {
+            // Hiệu ứng Max Level Độc Quyền
+            let currentSkinLevel = userData.skinLevels[userData.equippedSkin] || 1;
+            if(currentSkinLevel >= 10) {
+                ctx.shadowBlur = 15; ctx.shadowColor = "gold";
+                ctx.strokeStyle = "gold"; ctx.lineWidth = 2;
+                ctx.beginPath(); ctx.arc(boxPos, -18, 25 + Math.sin(time*5)*5, 0, Math.PI*2); ctx.stroke();
+            }
+
             orbTrail.forEach((t, i) => { ctx.save(); ctx.rotate(t.a - barAngle); ctx.fillStyle = skin.orbColor; ctx.globalAlpha = (i / orbTrail.length) * 0.3; ctx.beginPath(); ctx.arc(t.x, -18, 18 - (10 - i)*0.5, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }); ctx.globalAlpha = 1;
             
-            if(activeFreeze > 0) { ctx.shadowBlur = 30; ctx.shadowColor = "#00bfff"; ctx.strokeStyle = "#00bfff"; } 
+            if(activeShield > 0) { ctx.shadowBlur = 40; ctx.shadowColor = "#32cd32"; ctx.strokeStyle = "#32cd32"; }
+            else if(activeFreeze > 0) { ctx.shadowBlur = 30; ctx.shadowColor = "#00bfff"; ctx.strokeStyle = "#00bfff"; } 
             else { ctx.shadowBlur = 25; ctx.shadowColor = skin.barGlow; ctx.strokeStyle = skin.barColor; }
             
             ctx.lineCap = "round"; ctx.lineWidth = 8; ctx.beginPath(); ctx.moveTo(-barWidth/2, 0); ctx.lineTo(barWidth/2, 0); ctx.stroke();
@@ -843,6 +1381,7 @@
             ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(boxPos, -18, 18, 0, Math.PI * 2); ctx.fill();
             
             if(activeMagnet > 0) { ctx.strokeStyle = "rgba(255, 215, 0, 0.5)"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(boxPos, -18); ctx.lineTo(0, -18); ctx.stroke(); }
+            if(activeShield > 0) { ctx.strokeStyle = "rgba(50, 205, 50, 0.8)"; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(boxPos, -18, 30, 0, Math.PI*2); ctx.stroke(); }
         }
         
         ctx.restore(); ctx.restore();
@@ -856,7 +1395,11 @@
     async function showGameOverUI(isWin) {
         document.getElementById("danger-alert").style.display = "none";
         const finalScore = Number(time.toFixed(1)); 
-        let earnedCoins = Math.floor(finalScore); 
+        
+        // CỘNG THÊM 3 - 5 VÀNG MỖI TRẬN
+        let extraCoins = Math.floor(Math.random() * 3) + 3;
+        let earnedCoins = Math.floor(finalScore) + extraCoins; 
+        
         let earnedRP = Math.floor(finalScore * 10);
         
         if(isMultiplayer) {
@@ -864,17 +1407,17 @@
                 earnedRP += 500; 
                 document.getElementById("go-title").innerText = "VICTORY!"; 
                 document.getElementById("go-title").style.color = "var(--cyan)"; 
-                document.getElementById("go-desc").innerText = "Bạn đã sống sót lâu hơn đối thủ!";
+                document.getElementById("go-desc").innerText = currentLang === 'vi' ? "Bạn đã sống sót lâu hơn đối thủ!" : "You outlasted your opponent!";
             } else {
                 earnedRP -= 200; 
                 document.getElementById("go-title").innerText = "DEFEAT!"; 
                 document.getElementById("go-title").style.color = "#ff003c"; 
-                document.getElementById("go-desc").innerText = "Đối thủ trâu bò hơn bạn!";
+                document.getElementById("go-desc").innerText = currentLang === 'vi' ? "Đối thủ trâu bò hơn bạn!" : "Your opponent was stronger!";
             }
         } else {
-            document.getElementById("go-title").innerText = "HẠ GỤC!"; 
+            document.getElementById("go-title").innerText = currentLang === 'vi' ? "HẠ GỤC!" : "WASTED!"; 
             document.getElementById("go-title").style.color = "#ff003c"; 
-            document.getElementById("go-desc").innerText = "Chơi cẩn thận chút đi!";
+            document.getElementById("go-desc").innerText = currentLang === 'vi' ? "Chơi cẩn thận chút đi!" : "Be careful next time!";
         }
         
         userData.coins += earnedCoins; 
@@ -897,6 +1440,7 @@
         document.getElementById("match-hud").style.display = "none"; 
         document.getElementById("item-box").style.display = "none";
         
+        if(matchListener) { matchListener(); matchListener = null; }
         if(matchRef) { remove(matchRef); matchRef = null; matchStarted = false;} 
     }
 </script>
