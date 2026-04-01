@@ -33,7 +33,6 @@
         
         h1, h2 { color: var(--cyan); font-family: 'Orbitron', sans-serif; font-size: 26px; margin: 5px 0 10px 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px rgba(0,240,255,0.6); }
         
-        /* CẢI THIỆN RANK MÀU MÈ */
         .rank-dong { color: #cd7f32; text-shadow: 0 0 10px rgba(205, 127, 50, 0.6); }
         .rank-bac { color: #e3e3e3; text-shadow: 0 0 10px #ffffff; }
         .rank-kimcuong { color: #00ffff; text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff; animation: floatRank 2s infinite ease-in-out; }
@@ -107,7 +106,6 @@
         ol::-webkit-scrollbar { width: 6px; } ol::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 4px; }
         li { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-family: 'Orbitron', sans-serif; }
 
-        /* Tabs cho cửa hàng và minigame */
         .shop-tabs { display: flex; gap: 5px; margin-bottom: 15px; flex-wrap: wrap;}
         .shop-tab { flex: 1; padding: 8px 5px; background: #222; border: 1px solid #444; color: #aaa; border-radius: 8px; cursor: pointer; font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 10px;}
         .shop-tab.active { background: var(--cyan); color: #000; border-color: var(--cyan); box-shadow: 0 0 10px rgba(0,240,255,0.5); }
@@ -123,11 +121,9 @@
         @keyframes blinkWarning { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
         /* Minigame Mới */
-        .spin-wheel { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--gold); margin: 20px auto; position: relative; overflow: hidden; transition: transform 3s cubic-bezier(0.1, 0.7, 0.1, 1); background: conic-gradient(red 0 45deg, blue 45deg 60deg, green 60deg 90deg, orange 90deg 360deg); box-shadow: 0 0 20px var(--gold);}
+        .spin-wheel { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--gold); margin: 20px auto; position: relative; overflow: hidden; transition: transform 3s cubic-bezier(0.1, 0.7, 0.1, 1); box-shadow: 0 0 20px var(--gold);}
         .spin-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 20px solid #fff; z-index: 10; filter: drop-shadow(0 2px 2px #000);}
         .friend-item { display: flex; justify-content: space-between; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 6px; margin-bottom: 5px; font-size: 12px;}
-        .chest-box { font-size: 45px; cursor: pointer; padding: 15px; background: rgba(0,0,0,0.6); border: 2px solid var(--gold); border-radius: 12px; transition: 0.2s; flex: 1;}
-        .chest-box:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--gold); }
     </style>
 </head>
 <body>
@@ -245,24 +241,16 @@
     <div class="container">
         <h2 style="color: #ff4500; text-shadow: 0 0 15px #ff4500;"><i class="fa-solid fa-heart"></i> <span data-vi="DONATE" data-en="DONATE">DONATE</span></h2>
         
-        <div class="warning-text" data-vi="CẢM ƠN BẠN ĐÃ ỦNG HỘ! TUY NHIÊN ĐÂY CHỈ LÀ GAME VUI LÀ CHÍNH, HÃY ƯU TIÊN CÀY CHAY VÀ CHỈ DONATE KHI THỰC SỰ DƯ DẢ NHÉ!" data-en="THANK YOU FOR SUPPORTING! THIS IS JUST A FUN GAME, PLEASE GRIND AND ONLY DONATE IF YOU CAN AFFORD IT!">
-            CẢM ƠN BẠN ĐÃ ỦNG HỘ! TUY NHIÊN ĐÂY CHỈ LÀ GAME VUI LÀ CHÍNH, HÃY ƯU TIÊN CÀY CHAY VÀ CHỈ DONATE KHI THỰC SỰ DƯ DẢ NHÉ!
+        <div class="warning-text" data-vi="CẢM ƠN BẠN ĐÃ ỦNG HỘ! TUY NHIÊN ĐÂY CHỈ LÀ GAME VUI LÀ CHÍNH, KHUYẾN CÁO ƯU TIÊN CÀY CHAY!" data-en="THANK YOU FOR SUPPORTING! THIS IS JUST A FUN GAME, WE RECOMMEND FREE-TO-PLAY!">
+            CẢM ƠN BẠN ĐÃ ỦNG HỘ! TUY NHIÊN ĐÂY CHỈ LÀ GAME VUI LÀ CHÍNH, KHUYẾN CÁO ƯU TIÊN CÀY CHAY!
         </div>
 
-        <div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 8px; font-size: 13px; text-align: left; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1);">
-            <p style="margin: 5px 0;">Ngân hàng: <b>MB BANK</b></p>
-            <p style="margin: 5px 0;">Số tài khoản: <b style="color: var(--cyan);">08999081508888</b></p>
-            <p style="margin: 5px 0;">Chủ thẻ: <b>LE DANG BAO KHOI</b></p>
-            <p style="margin: 5px 0;">Nội dung: <b id="topup-code" style="color: var(--gold);"></b></p>
+        <div style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 8px; font-size: 13px; text-align: left; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); color: #fff;">
+            <p style="margin: 5px 0;">Mọi thắc mắc hoặc hỗ trợ vui lòng liên hệ Admin:</p>
+            <p style="margin: 5px 0;"><i class="fa-solid fa-envelope" style="color: var(--cyan);"></i> Gmail: <b style="color: var(--gold);">khoieryk07a@gmail.com</b></p>
+            <p style="margin: 5px 0;"><i class="fa-brands fa-x-twitter" style="color: var(--cyan);"></i> X (Twitter): <a href="https://x.com/Erykle1blp" target="_blank" style="color: var(--gold); text-decoration: none;"><b>@Erykle1blp</b></a></p>
         </div>
-
-        <select id="topupAmountBank">
-            <option value="20000">20.000 VNĐ (Nhận quà 250 💎)</option>
-            <option value="50000">50.000 VNĐ (Nhận quà 600 💎)</option>
-            <option value="100000">100.000 VNĐ (Nhận quà 1500 💎)</option>
-        </select>
         
-        <button onclick="handleRealTopup()" style="background: linear-gradient(135deg, #ff4500, #ff8c00); color: #fff; margin-top: 10px;"><i class="fa-solid fa-check"></i> <span data-vi="TÔI ĐÃ DONATE" data-en="I HAVE DONATED">TÔI ĐÃ DONATE</span></button>
         <button onclick="closeTopup()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; margin-top: 10px;" data-vi="ĐÓNG" data-en="CLOSE">ĐÓNG</button>
     </div>
 </div>
@@ -281,51 +269,21 @@
 
 <div id="minigameUI" class="ui-screen" style="display:none">
     <div class="container">
-        <h2 style="color: #ff1493; text-shadow: 0 0 15px #ff1493;"><i class="fa-solid fa-gamepad"></i> KHU VUI CHƠI</h2>
-        
-        <div class="shop-tabs">
-            <div class="shop-tab active" onclick="switchMiniTab('spin-gold')" id="tab-mini-spin-gold">QUAY VÀNG</div>
-            <div class="shop-tab" onclick="switchMiniTab('spin-gem')" id="tab-mini-spin-gem">QUAY KC</div>
-            <div class="shop-tab" onclick="switchMiniTab('spin-skin')" id="tab-mini-spin-skin">QUAY SKIN</div>
-            <div class="shop-tab" onclick="switchMiniTab('chest')" id="tab-mini-chest">MỞ RƯƠNG</div>
-        </div>
+        <h2 style="color: #ff1493; text-shadow: 0 0 15px #ff1493;"><i class="fa-solid fa-gamepad"></i> VÒNG QUAY NHÂN PHẨM</h2>
 
-        <div id="sec-mini-spin-gold" style="display:block;">
+        <div id="sec-mini-spin">
             <div style="position: relative;">
                 <div class="spin-pointer"></div>
-                <div class="spin-wheel" id="wheel-gold" style="background: conic-gradient(red 0 45deg, blue 45deg 60deg, green 60deg 90deg, orange 90deg 360deg);"></div>
+                <div class="spin-wheel" id="wheel-mini" style="background: conic-gradient(#8b4513 0 90deg, #c0c0c0 90deg 180deg, #ffd700 180deg 270deg, #00ffff 270deg 360deg);"></div>
             </div>
-            <p style="font-size: 12px; color: var(--gold);" id="res-gold">Tỉ lệ: 75% Xịt, 15% Đồ ngon</p>
-            <button onclick="playSpin('gold')" style="background: linear-gradient(135deg, #ffd700, #ff8c00); color:#000;">QUAY (50 VÀNG)</button>
-        </div>
-
-        <div id="sec-mini-spin-gem" style="display:none;">
-            <div style="position: relative;">
-                <div class="spin-pointer"></div>
-                <div class="spin-wheel" id="wheel-gem" style="background: conic-gradient(purple 0 90deg, cyan 90deg 180deg, magenta 180deg 270deg, gold 270deg 360deg);"></div>
+            <div style="display: flex; justify-content: space-around; font-size: 11px; margin-bottom: 10px; color: #fff; margin-top: 15px; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 6px;">
+                <span><b style="color:#8b4513">Nâu:</b> 5 Vàng</span>
+                <span><b style="color:#c0c0c0">Bạc:</b> 15 Vàng</span>
+                <span><b style="color:#ffd700">Vàng:</b> 30 Vàng</span>
+                <span><b style="color:#00ffff">Xanh:</b> 2 KC</span>
             </div>
-            <p style="font-size: 12px; color: var(--diamond);" id="res-gem">Chắc chắn trúng vật phẩm xịn!</p>
-            <button onclick="playSpin('gem')" style="background: linear-gradient(135deg, #ff007f, #8b008b);">QUAY (20 KC)</button>
-        </div>
-
-        <div id="sec-mini-spin-skin" style="display:none;">
-            <div style="position: relative;">
-                <div class="spin-pointer"></div>
-                <div class="spin-wheel" id="wheel-skin" style="background: conic-gradient(lime 0 180deg, teal 180deg 360deg);"></div>
-            </div>
-            <p style="font-size: 12px; color: #00ff00;" id="res-skin">Trúng 1 Skin ngẫu nhiên chưa sở hữu!</p>
-            <button onclick="playSpin('skin')" style="background: linear-gradient(135deg, #00fa9a, #006400); color:#000;">QUAY (100 KC)</button>
-        </div>
-
-        <div id="sec-mini-chest" style="display:none;">
-            <p style="font-size:13px; color:#aaa; margin-bottom: 20px;">Tìm kho báu! Chọn 1 trong 3 rương dưới đây.</p>
-            <div style="display:flex; justify-content: center; gap: 10px;">
-                <div class="chest-box" onclick="openChest(0)" id="chest-0">🎁</div>
-                <div class="chest-box" onclick="openChest(1)" id="chest-1">🎁</div>
-                <div class="chest-box" onclick="openChest(2)" id="chest-2">🎁</div>
-            </div>
-            <p style="font-size: 14px; font-weight:bold; color:var(--gold); margin-top:15px;" id="res-chest"></p>
-            <button onclick="resetChest()" style="background: #444;">CHƠI (30 VÀNG)</button>
+            <p style="font-size: 12px; color: var(--gold);" id="res-mini">Quay 1 lần tốn 20 Vàng!</p>
+            <button onclick="playSpin()" style="background: linear-gradient(135deg, #ffd700, #ff8c00); color:#000;">QUAY (20 VÀNG)</button>
         </div>
 
         <button onclick="closeMinigame()" style="background: rgba(255,255,255,0.1); color: #ccc; box-shadow: none; margin-top: 15px;" data-vi="ĐÓNG" data-en="CLOSE">ĐÓNG</button>
@@ -634,12 +592,8 @@
     }
 
     // Topup/Donate Feature
-    window.openTopup = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('topupUI').style.display = 'flex'; document.getElementById('topup-code').innerText = `DONATESCB ${currentUser}`; };
+    window.openTopup = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('topupUI').style.display = 'flex'; };
     window.closeTopup = () => { document.getElementById('topupUI').style.display = 'none'; document.getElementById('menuUI').style.display = 'flex'; updateMenuUI(); };
-    window.handleRealTopup = () => {
-        alert(currentLang==='vi' ? "Đã ghi nhận yêu cầu Donate! Vui lòng chờ Admin kiểm tra và duyệt để nhận Kim Cương nhé." : "Donation request recorded! Please wait for Admin approval to receive Diamonds.");
-        closeTopup();
-    };
 
     // Friend System
     window.openFriends = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('friendUI').style.display = 'flex'; renderFriends(); };
@@ -678,116 +632,53 @@
     };
 
     // --- Mini games Khu vui chơi ---
-    let currentMiniTab = 'spin-gold';
-    window.switchMiniTab = (tab) => {
-        currentMiniTab = tab;
-        document.getElementById('tab-mini-spin-gold').className = `shop-tab ${tab==='spin-gold'?'active':''}`;
-        document.getElementById('tab-mini-spin-gem').className = `shop-tab ${tab==='spin-gem'?'active':''}`;
-        document.getElementById('tab-mini-spin-skin').className = `shop-tab ${tab==='spin-skin'?'active':''}`;
-        document.getElementById('tab-mini-chest').className = `shop-tab ${tab==='chest'?'active':''}`;
-
-        document.getElementById('sec-mini-spin-gold').style.display = tab==='spin-gold'?'block':'none';
-        document.getElementById('sec-mini-spin-gem').style.display = tab==='spin-gem'?'block':'none';
-        document.getElementById('sec-mini-spin-skin').style.display = tab==='spin-skin'?'block':'none';
-        document.getElementById('sec-mini-chest').style.display = tab==='chest'?'block':'none';
-    };
-
     window.openMinigame = () => { document.getElementById('menuUI').style.display = 'none'; document.getElementById('minigameUI').style.display = 'flex'; };
     window.closeMinigame = () => { document.getElementById('minigameUI').style.display = 'none'; document.getElementById('menuUI').style.display = 'flex'; updateMenuUI(); };
     
     let isSpinning = false;
-    window.playSpin = (type) => {
+    window.playSpin = () => {
         if(isSpinning) return;
-        let cost = 0; let curr = '';
-        if(type === 'gold') { cost = 50; curr = 'coins'; }
-        if(type === 'gem') { cost = 20; curr = 'diamonds'; }
-        if(type === 'skin') { cost = 100; curr = 'diamonds'; }
-
-        if(userData[curr] < cost) { alert(currentLang==='vi'?'Không đủ tiền!':'Not enough currency!'); return; }
-        userData[curr] -= cost; saveUserData();
+        if(userData.coins < 20) { alert(currentLang==='vi'?'Không đủ 20 Vàng!':'Not enough 20 Gold!'); return; }
+        userData.coins -= 20; saveUserData();
         isSpinning = true;
         playSound('click');
 
-        const wheel = document.getElementById(`wheel-${type}`);
-        const deg = Math.floor(Math.random() * 360) + 1440; 
-        wheel.style.transform = `rotate(${deg}deg)`;
+        const wheel = document.getElementById(`wheel-mini`);
+        
+        let rand = Math.random();
+        let outcome, rewardMsg;
+        let targetAngle;
+
+        // Xác suất: 5% (2 KC), 15% (30 Vàng), 30% (15 Vàng), 50% (5 Vàng)
+        if(rand < 0.05) { 
+            outcome = 'gem'; targetAngle = 315; // 270-360 Xanh
+        } else if (rand < 0.20) { 
+            outcome = 'coin30'; targetAngle = 225; // 180-270 Vàng
+        } else if (rand < 0.50) { 
+            outcome = 'coin15'; targetAngle = 135; // 90-180 Bạc
+        } else { 
+            outcome = 'coin5'; targetAngle = 45; // 0-90 Nâu
+        }
+
+        const totalDeg = 1440 + (360 - targetAngle);
+
+        wheel.style.transition = 'transform 3s cubic-bezier(0.1, 0.7, 0.1, 1)';
+        wheel.style.transform = `rotate(${totalDeg}deg)`;
         
         setTimeout(() => {
             isSpinning = false;
             wheel.style.transition = 'none';
-            const actualDeg = deg % 360;
-            wheel.style.transform = `rotate(${actualDeg}deg)`;
-            setTimeout(() => wheel.style.transition = 'transform 3s cubic-bezier(0.1, 0.7, 0.1, 1)', 50);
-
-            let rewardMsg = "";
-            if(type === 'gold') {
-                // Tỉ lệ: 75% ra 10 vàng hoặc xịt, 15% ra đồ ngon
-                let rand = Math.random();
-                if(rand < 0.1) { userData.coins += 100; rewardMsg = "+100 Vàng"; }
-                else if (rand < 0.13) { userData.diamonds += 5; rewardMsg = "+5 Kim Cương"; }
-                else if (rand < 0.15) { userData.items.shield++; rewardMsg = "+1 Khiên"; }
-                else if (rand < 0.5) { userData.coins += 10; rewardMsg = "+10 Vàng (An ủi)"; }
-                else { rewardMsg = currentLang==='vi'?"Trượt rồi! Chúc may mắn lần sau!":"Missed! Better luck next time!"; }
-            } else if (type === 'gem') {
-                if(actualDeg < 90) { userData.items.freeze += 2; rewardMsg = "+2 Đóng Băng"; }
-                else if (actualDeg < 180) { userData.items.shield += 2; rewardMsg = "+2 Khiên"; }
-                else if (actualDeg < 270) { userData.items.magnet += 3; rewardMsg = "+3 Nam Châm"; }
-                else { userData.diamonds += 30; rewardMsg = "+30 Kim Cương (Lãi 10 KC)"; }
-            } else if (type === 'skin') {
-                let lockedSkins = skinData.filter(s => !userData.unlockedSkins.includes(s.id));
-                if(lockedSkins.length > 0) {
-                    let winSkin = lockedSkins[Math.floor(Math.random() * lockedSkins.length)];
-                    userData.unlockedSkins.push(winSkin.id);
-                    rewardMsg = `🎉 Trúng Skin: ${winSkin.name}! 🎉`;
-                } else {
-                    userData.diamonds += 100;
-                    rewardMsg = "Đã có hết Skin! Hoàn trả 100 KC.";
-                }
-            }
+            wheel.style.transform = `rotate(${totalDeg % 360}deg)`;
             
+            if(outcome === 'gem') { userData.diamonds += 2; rewardMsg = "+2 Kim Cương (Nhân phẩm bùng nổ!)"; }
+            if(outcome === 'coin30') { userData.coins += 30; rewardMsg = "+30 Vàng (Lời to!)"; }
+            if(outcome === 'coin15') { userData.coins += 15; rewardMsg = "+15 Vàng (Hơi lỗ)"; }
+            if(outcome === 'coin5') { userData.coins += 5; rewardMsg = "+5 Vàng (Đen thôi!)"; }
+
             playSound('win');
             saveUserData();
-            document.getElementById(`res-${type}`).innerText = rewardMsg;
+            document.getElementById(`res-mini`).innerText = rewardMsg;
         }, 3000);
-    };
-
-    let chestPlaying = false;
-    window.resetChest = () => {
-        if(chestPlaying) return;
-        if(userData.coins < 30) { alert(currentLang==='vi'?'Không đủ 30 Vàng!':'Not enough 30 Gold!'); return; }
-        userData.coins -= 30; saveUserData();
-        document.getElementById('chest-0').innerText = '🎁'; document.getElementById('chest-0').style.pointerEvents = 'auto';
-        document.getElementById('chest-1').innerText = '🎁'; document.getElementById('chest-1').style.pointerEvents = 'auto';
-        document.getElementById('chest-2').innerText = '🎁'; document.getElementById('chest-2').style.pointerEvents = 'auto';
-        document.getElementById('res-chest').innerText = currentLang==='vi'?'Hãy chọn 1 rương!':'Pick a chest!';
-        chestPlaying = true;
-    };
-
-    window.openChest = (index) => {
-        if(!chestPlaying) { alert(currentLang==='vi'?'Vui lòng bấm CHƠI trước!':'Click PLAY first!'); return; }
-        playSound('item');
-        chestPlaying = false;
-        
-        document.getElementById('chest-0').style.pointerEvents = 'none';
-        document.getElementById('chest-1').style.pointerEvents = 'none';
-        document.getElementById('chest-2').style.pointerEvents = 'none';
-
-        let prizes = [
-            { type: 'bomb', icon: '💣', msg: currentLang==='vi'?'Trúng Bom! Bay mất tiêu!':'Bomb! You lost it!' },
-            { type: 'coin', val: 50, icon: '🪙', msg: '+50 Vàng' },
-            { type: 'gem', val: 2, icon: '💎', msg: '+2 Kim Cương' }
-        ];
-        prizes = prizes.sort(() => Math.random() - 0.5);
-
-        for(let i=0; i<3; i++) {
-            document.getElementById(`chest-${i}`).innerText = prizes[i].icon;
-        }
-
-        let myPrize = prizes[index];
-        document.getElementById('res-chest').innerText = myPrize.msg;
-        if(myPrize.type === 'coin') userData.coins += myPrize.val;
-        if(myPrize.type === 'gem') userData.diamonds += myPrize.val;
-        saveUserData();
     };
 
     // Pass
