@@ -41,33 +41,45 @@
         }
         .navbar a {
             color: #fff; text-decoration: none; font-weight: 800; padding: 12px 25px;
-            border-radius: 100px; transition: 0.4s; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;
+            border-radius: 100px; transition: 0.4s; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
         }
         .navbar a:hover, .navbar a.active { background: var(--primary); color: #000; box-shadow: 0 0 25px var(--primary-glow); }
 
         .container { max-width: 1100px; margin: 180px auto 80px; padding: 0 25px; }
 
-        /* --- LOGO MCWDLK NEON --- */
+        /* --- LOGO MCWDLK SHINE --- */
         .logo-wrap { text-align: center; margin-bottom: 70px; }
+        .server-label {
+            font-size: 1.2rem; color: #cbd5e1; letter-spacing: 6px; font-weight: 900; 
+            margin-bottom: 0; text-transform: uppercase; opacity: 0.9;
+        }
         .pixel-text {
             font-family: 'Minecraft-ia', sans-serif; font-size: 6rem; display: block;
-            background: linear-gradient(180deg, #fff 40%, var(--primary) 100%);
+            background: linear-gradient(90deg, #fff 0%, var(--primary) 50%, #fff 100%);
+            background-size: 200% auto;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px var(--primary-glow));
-            animation: textFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 25px var(--primary-glow));
+            animation: textShine 3s linear infinite, textFloat 4s ease-in-out infinite;
+            letter-spacing: 4px;
+            margin-top: -10px;
         }
+        @keyframes textShine { to { background-position: 200% center; } }
         @keyframes textFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* --- ANNOUNCEMENT BANNER --- */
+        /* --- ANNOUNCEMENT --- */
         .announcement {
-            background: rgba(0, 255, 136, 0.1);
-            border: 2px dashed var(--primary);
-            padding: 20px; border-radius: 20px;
-            margin-bottom: 50px; text-align: center;
-            backdrop-filter: blur(10px);
-            animation: pulse 2s infinite;
+            position: relative; margin: 0 auto 60px; max-width: 800px; border-radius: 25px; text-align: center; overflow: hidden; z-index: 1; padding: 3px;
         }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(0, 255, 136, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); } }
+        .announcement::before {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, var(--primary));
+            animation: rotateGlow 4s linear infinite; z-index: -2;
+        }
+        .announcement::after {
+            content: ""; position: absolute; inset: 3px; background: rgba(10, 15, 25, 0.95); border-radius: 22px; z-index: -1;
+        }
+        .announcement-content { padding: 30px 20px; z-index: 2; }
+        @keyframes rotateGlow { 100% { transform: rotate(360deg); } }
 
         /* --- MODE CARDS --- */
         .grid-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
@@ -88,22 +100,32 @@
 
         /* --- DONATE --- */
         .donate-box { background: #080c14; padding: 50px; border-radius: 40px; border: 1px solid var(--border-color); max-width: 750px; margin: 0 auto; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
-        .warning-label { background: rgba(239, 68, 68, 0.1); border-left: 5px solid #ef4444; padding: 20px; border-radius: 12px; margin-bottom: 30px; }
-        .form-input { width: 100%; padding: 18px; margin-top: 10px; background: #000; border: 1px solid #1e293b; border-radius: 12px; color: #fff; font-size: 1rem; }
+        .warning-label { background: rgba(239, 68, 68, 0.1); border-left: 5px solid #ef4444; padding: 25px; border-radius: 12px; margin-bottom: 30px; }
+        .form-input { width: 100%; padding: 18px; margin-top: 10px; background: #000; border: 1px solid #1e293b; border-radius: 12px; color: #fff; font-size: 1rem; box-sizing: border-box; }
+        
         .btn-shine {
-            width: 100%; padding: 22px; background: var(--primary); border: none; border-radius: 15px;
+            position: relative; overflow: hidden; width: 100%; padding: 22px; background: var(--primary); border: none; border-radius: 15px;
             font-weight: 900; color: #000; cursor: pointer; font-size: 1.2rem; margin-top: 20px; transition: 0.3s;
-            text-transform: uppercase; letter-spacing: 1px;
+            text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
         }
+        .btn-shine::before {
+            content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            transform: skewX(-20deg); animation: btnSweep 3s infinite;
+        }
+        @keyframes btnSweep { 0% { left: -100%; } 20%, 100% { left: 200%; } }
         .btn-shine:hover { transform: scale(1.03); box-shadow: 0 0 40px var(--primary-glow); }
-        .btn-confirm { width: 100%; padding: 18px; background: var(--secondary); border: none; border-radius: 12px; font-weight: 800; color: #fff; cursor: pointer; margin-top: 25px; display: none; }
+        
+        .btn-confirm { width: 100%; padding: 18px; background: var(--secondary); border: none; border-radius: 12px; font-weight: 800; color: #fff; cursor: pointer; margin-top: 15px; display: none; transition: 0.3s;}
+        .btn-confirm:hover { background: #2563eb; transform: scale(1.02); }
 
         .section-content { display: none; }
         .section-content.active { display: block; animation: zoomIn 0.5s ease; }
-        @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
         @media (max-width: 600px) {
-            .pixel-text { font-size: 3rem; }
+            .pixel-text { font-size: 3.5rem; letter-spacing: 2px; }
+            .server-label { font-size: 1rem; letter-spacing: 4px; }
             .navbar { width: 95%; top: 10px; } .navbar a { padding: 8px 12px; font-size: 11px; }
             .announcement h2 { font-size: 1.2rem; }
         }
@@ -117,23 +139,27 @@
         <a class="nav-link active" onclick="showSection('home', this)">🏠 Trang chủ</a>
         <a class="nav-link" onclick="showSection('about', this)">✨ Chế độ</a>
         <a class="nav-link" onclick="showSection('guide', this)">📜 Lệnh Game</a>
-        <a class="nav-link" onclick="showSection('donate', this)">💎 Đóng góp</a>
+        <a class="nav-link" onclick="showSection('donate', this)">💎 DONATE</a>
     </nav>
 
     <div class="container">
         
         <div id="section-home" class="section-content active" style="text-align: center;">
             <div class="logo-wrap">
+                <p class="server-label">SERVER MINECRAFT</p>
                 <span class="pixel-text">MCWDLK</span>
+                <p style="font-size: 1.6rem; color: var(--primary); font-weight: 900; letter-spacing: 3px; margin-top: 15px;">SMP CHILL</p>
             </div>
             
             <div class="announcement">
-                <h2 style="color: #fff; margin: 0; font-family: 'Minecraft-ia';">🚀 SERVER CHÍNH THỨC OPEN!</h2>
-                <p style="color: var(--primary); font-weight: 900; margin-top: 10px; font-size: 1.3rem;">NHIỀU QUÀ TẶNG HẤP DẪN - CHƠI NGAY THÔI!</p>
-                <p style="color: #cbd5e1;">Nhập <strong>/kit tanthu</strong> để nhận bộ trang bị khởi đầu cực xịn!</p>
+                <div class="announcement-content">
+                    <h2 style="color: #fff; margin: 0; font-family: 'Minecraft-ia';">🚀 SERVER CHÍNH THỨC OPEN!</h2>
+                    <p style="color: var(--primary); font-weight: 900; margin-top: 15px; font-size: 1.4rem; text-shadow: 0 0 15px var(--primary-glow); text-transform: uppercase;">🏆 Đua Top Nhận Quà Khủng 🏆</p>
+                    <p style="color: #cbd5e1; margin-bottom: 0; font-size: 1.1rem;">Nhập <strong>/kit tanthu</strong> để nhận bộ trang bị và tham gia đua top ngay!</p>
+                </div>
             </div>
 
-            <button class="btn-shine" style="width:auto; padding: 15px 50px;" onclick="copyIP()">🎮 COPY IP: MC.MCWDLK.NET</button>
+            <button class="btn-shine" style="width:auto; padding: 18px 50px;" onclick="copyIP()">🎮 COPY IP: MC.MCWDLK.NET</button>
         </div>
 
         <div id="section-about" class="section-content">
@@ -185,20 +211,24 @@
 
         <div id="section-donate" class="section-content">
             <div class="donate-box">
-                <h2 style="text-align: center; font-family: 'Minecraft-ia'; margin-top: 0;">💎 ỦNG HỘ MÁY CHỦ</h2>
+                <h2 style="text-align: center; font-family: 'Minecraft-ia'; margin-top: 0;">💎 DONATE ỦNG HỘ</h2>
                 <div class="warning-label">
-                    <strong style="color: #ef4444;">Lưu ý quan trọng:</strong> Chụp bill sau khi chuyển và gửi Zalo Ad: <strong>0334478903</strong> để nhận ngay <strong>+10 XU FREE</strong>.
+                    <strong style="color: #ef4444; display: block; margin-bottom: 10px; font-size: 1.1rem;">⚠️ LƯU Ý QUAN TRỌNG:</strong>
+                    <p style="margin: 0; line-height: 1.6;">Server hoạt động hoàn toàn phi lợi nhuận và không bắt buộc nạp thẻ. Bạn chỉ nên Donate khi tài chính thực sự thoải mái và muốn ủng hộ server phát triển thêm. Chân thành cảm ơn tình cảm của bạn!</p>
                 </div>
                 
-                <label>Tên nhân vật In-game:</label>
+                <label style="display:block; font-weight:bold;">Tên nhân vật In-game:</label>
                 <input type="text" id="qr-name" class="form-input" placeholder="Ví dụ: Steve_Khoi">
                 
-                <label style="margin-top: 20px; display: block;">Chọn gói nạp:</label>
+                <label style="margin-top: 20px; display: block; font-weight:bold;">Chọn gói nạp:</label>
                 <select id="qr-amount" class="form-input">
                     <option value="20000">20.000 VNĐ - 20 Xu</option>
                     <option value="50000">50.000 VNĐ - 50 Xu</option>
                     <option value="100000">100.000 VNĐ - 100 Xu</option>
                     <option value="200000">200.000 VNĐ - 200 Xu</option>
+                    <option value="500000">500.000 VNĐ - 500 Xu</option>
+                    <option value="1000000">1.000.000 VNĐ - 1000 Xu</option>
+                    <option value="2000000">2.000.000 VNĐ - 2000 Xu</option>
                 </select>
 
                 <button class="btn-shine" onclick="generateQR()">⚡ TẠO MÃ THANH TOÁN</button>
@@ -206,7 +236,9 @@
                 <div id="qr-result-box" style="display:none; margin-top:35px; text-align:center;">
                     <img id="qr-image" src="" style="width: 250px; border: 6px solid #fff; border-radius: 20px; box-shadow: 0 0 40px var(--primary-glow);">
                     <p style="font-size: 1.3rem; font-weight: 900; margin: 25px 0;">NỘI DUNG: <span id="qr-content" style="color: var(--primary);"></span></p>
-                    <button id="confirm-btn" class="btn-confirm" onclick="finalStep()">✅ ĐÃ CHUYỂN - NHẬN +10 XU QUA ZALO</button>
+                    
+                    <p style="color: #cbd5e1; margin-bottom: 15px; font-size: 1.05rem; line-height: 1.6;">Hãy chụp gửi bill qua Zalo Ad <strong style="color: #fff;">0334478903</strong> để xác nhận và nhận thêm <strong style="color: var(--primary);">20 XU FREE</strong> nhé!</p>
+                    <button id="confirm-btn" class="btn-confirm" onclick="finalStep()">✅ GỬI BILL QUA ZALO NGAY</button>
                 </div>
             </div>
         </div>
