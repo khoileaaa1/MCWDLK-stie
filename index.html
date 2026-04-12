@@ -5,421 +5,326 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MCWDLK SMP - Minecraft Server</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/minecraft-ia" rel="stylesheet">
     <style>
-        /* BẢNG MÀU & BIẾN CƠ BẢN */
         :root {
-            --primary: #22c55e; /* Xanh lá Minecraft */
-            --primary-glow: rgba(34, 197, 94, 0.4);
-            --secondary: #3b82f6; /* Xanh kim cương */
-            --bg-dark: #0f172a;
-            --bg-card: rgba(30, 41, 59, 0.7);
-            --text-light: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-radius: 16px;
+            /* Màu xanh lục bảo chủ đạo (Emerald) */
+            --primary: #00ff88;
+            --primary-glow: rgba(0, 255, 136, 0.4);
+            --bg-dark: #00040a; /* Đen sâu hơn để nổi bật chữ */
+            --bg-card: rgba(10, 20, 30, 0.6);
+            --text-light: #ffffff;
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
         body {
             font-family: 'Nunito', sans-serif;
             margin: 0;
-            padding: 0;
             background-color: var(--bg-dark);
             color: var(--text-light);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(34, 197, 94, 0.1), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.1), transparent 25%);
+            /* Nền radial gradient sâu hơn */
+            background-image: radial-gradient(circle at 50% 50%, #0a1f3a 0%, #00040a 100%);
             background-attachment: fixed;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* THANH MENU KÍNH MỜ */
+        /* --- NAVBAR --- */
         .navbar {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(12px);
+            background: rgba(10, 20, 35, 0.9);
+            backdrop-filter: blur(15px);
             position: fixed;
-            top: 0; left: 0; right: 0;
-            padding: 15px 0;
+            top: 20px; left: 50%;
+            transform: translateX(-50%);
+            width: 90%; max-width: 600px;
+            padding: 10px;
             display: flex;
-            justify-content: center;
-            gap: 20px;
+            justify-content: space-around;
+            border-radius: 100px;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
         }
 
         .navbar a {
-            color: var(--text-muted);
+            color: #fff;
             text-decoration: none;
             font-weight: 700;
-            font-size: 16px;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 12px 22px;
+            border-radius: 100px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            transition: 0.3s ease;
+            display: flex; align-items: center; gap: 8px;
         }
 
         .navbar a:hover, .navbar a.active {
-            color: var(--primary);
-            background: rgba(34, 197, 94, 0.1);
-            box-shadow: 0 0 15px var(--primary-glow);
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 25px var(--primary-glow);
         }
 
-        /* KHUNG CHỨA NỘI DUNG */
         .container {
             max-width: 1000px;
-            margin: 100px auto 40px; /* Cách menu ở trên */
+            margin: 160px auto 80px;
             padding: 0 20px;
         }
 
-        /* HIỆU ỨNG CHUYỂN TRANG MƯỢT MÀ */
-        .section-content {
-            display: none;
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        .section-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- TRANG CHỦ --- */
+        /* --- HERO (THAY THẾ LOGO BẰNG CHỮ M 3D) --- */
         .hero-section {
             text-align: center;
-            padding: 40px 0;
+            margin-bottom: 100px;
         }
 
-        .server-logo {
-            width: 300px;
-            max-width: 100%;
-            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5));
-            animation: float 4s ease-in-out infinite;
-            margin-bottom: 20px;
+        /* KHỐI CHỮ M LỤC BẢO 3D (MÔ PHỎNG DÙNG CSS) */
+        .emerald-m-cube {
+            width: 200px; height: 160px;
+            margin: 0 auto 30px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: cubeRotate 8s linear infinite;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
+        /* Tạo khối Emerald block (CSS giả lập block game) */
+        .emerald-block {
+            width: 40px; height: 40px;
+            position: absolute;
+            background-color: #008f4c;
+            border: 2px solid #005a31;
+            box-shadow: inset 0 0 10px rgba(0,255,136,0.5);
+            animation: blockPulse 2s ease-in-out infinite alternate;
         }
+        
+        /* Cấu hình vị trí block game để xếp thành chữ M */
+        /* Cột trái */
+        .e1 { top: 0; left: 0; } .e2 { top: 40px; left: 0; } .e3 { top: 80px; left: 0; } .e4 { top: 120px; left: 0; }
+        /* V gạch chéo M */
+        .e5 { top: 40px; left: 40px; } .e6 { top: 80px; left: 80px; } .e7 { top: 40px; left: 120px; }
+        /* Cột phải */
+        .e8 { top: 0; left: 160px; } .e9 { top: 40px; left: 160px; } .e10 { top: 80px; left: 160px; } .e11 { top: 120px; left: 160px; }
 
-        h1 {
+        @keyframes cubeRotate { 0% { transform: rotateY(0deg) rotateX(5deg); } 100% { transform: rotateY(360deg) rotateX(5deg); } }
+        @keyframes blockPulse { from { background-color: #008f4c; } to { background-color: #00ff88; box-shadow: 0 0 15px rgba(0,255,136,0.8); } }
+
+        /* Chữ MCWDLK (Font game) */
+        .game-title {
+            font-family: 'Minecraft-ia', sans-serif;
             font-size: 3rem;
-            margin: 10px 0;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 900;
+            margin: 0;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 10px rgba(0,255,136,1);
+            letter-spacing: 1px;
         }
 
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 30px;
+        .subtitle {
+            font-size: 1.3rem; margin-top: 15px; color: var(--text-muted);
+            background: linear-gradient(to right, #00ff88, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            font-size: 16px;
-            font-weight: 700;
-            color: white;
-            background: #2a2a2a;
-            border: 2px solid transparent;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-transform: uppercase;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 20px var(--primary-glow);
-        }
-        .btn-primary:hover {
-            background: #1ea04c;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 25px rgba(34, 197, 94, 0.6);
-        }
-
-        .btn-discord {
-            background: #5865F2;
-            box-shadow: 0 0 20px rgba(88, 101, 242, 0.3);
-        }
-        .btn-discord:hover {
-            background: #4752C4;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 25px rgba(88, 101, 242, 0.5);
-        }
-
-        /* --- DẠNG LƯỚI CARD (GIỚI THIỆU & HƯỚNG DẪN) --- */
-        .grid-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
+        /* --- CARDS & LỆNH GAME --- */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .card {
-            background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: var(--border-radius);
-            padding: 25px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            background: var(--bg-card); border-radius: 20px; padding: 35px; border: 1px solid var(--border-color);
+            transition: 0.3s ease; position: relative; overflow: hidden;
+        }
+        
+        .card:hover { border-color: var(--primary); transform: translateY(-8px); background: rgba(20, 30, 50, 0.8); }
+
+        .card::before {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at center, var(--primary-glow) 0%, transparent 60%);
+            opacity: 0; transition: 0.5s;
+        }
+        .card:hover::before { opacity: 0.3; }
+
+        .card h3 { color: var(--primary); margin-top: 0; font-size: 1.6rem; font-family: 'Minecraft-ia', sans-serif; letter-spacing: 1px; }
+        
+        .cmd-list { background: rgba(0,0,0,0.4); padding: 20px; border-radius: 12px; margin-top: 20px; }
+        .cmd-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .cmd-item strong { color: #4ade80; font-family: monospace; font-size: 1.1rem; }
+
+        /* --- DONATE BOX --- */
+        .donate-box {
+            background: #111827; padding: 50px; border-radius: 30px; border: 2px solid var(--border-color);
+            max-width: 700px; margin: 0 auto; color: #ffffff;
+        }
+        
+        .warning-label {
+            background: rgba(239, 68, 68, 0.15); border: 2px solid #ef4444; padding: 20px; border-radius: 15px; margin-bottom: 35px;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px var(--primary-glow);
+        .form-input {
+            width: 100%; padding: 18px; margin-top: 12px; background: #000; border: 1px solid #334155;
+            border-radius: 15px; color: #fff; font-size: 1rem; box-sizing: border-box;
         }
 
-        .card h3 {
-            color: var(--primary);
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.3rem;
+        .btn-pay {
+            width: 100%; padding: 20px; background: var(--primary); border: none; border-radius: 15px;
+            font-weight: 900; color: #000; cursor: pointer; font-size: 1.2rem; margin-top: 25px;
+            transition: 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-pay:hover { filter: brightness(1.2); transform: scale(1.05); box-shadow: 0 0 30px var(--primary-glow); }
+
+        .btn-confirm {
+            width: 100%; padding: 18px; background: #3b82f6; border: none; border-radius: 15px;
+            font-weight: 800; color: #fff; cursor: pointer; margin-top: 25px; display: none;
+            animation: pulseConfirm 2s infinite;
         }
 
-        /* --- PHẦN DONATE --- */
-        .donate-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--bg-card);
-            padding: 30px;
-            border-radius: var(--border-radius);
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+        @keyframes pulseConfirm {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
         }
 
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--text-light); }
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            background: rgba(0,0,0,0.3);
-            color: white;
-            font-size: 16px;
-            font-family: inherit;
-            box-sizing: border-box;
-            transition: 0.3s;
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 10px var(--primary-glow);
+        .qr-display {
+            display: none; margin-top: 35px; text-align: center; background: #000; padding: 35px;
+            border-radius: 25px; border: 2px dashed var(--primary);
         }
 
-        .qr-result {
-            text-align: center;
-            margin-top: 25px;
-            display: none;
-            background: rgba(0,0,0,0.4);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px dashed var(--primary);
-            animation: fadeIn 0.5s;
-        }
+        .section-content { display: none; }
+        .section-content.active { display: block; animation: fadeInSlide 0.6s ease; }
+        @keyframes fadeInSlide { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .qr-result img {
-            max-width: 220px;
-            border: 4px solid white;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        @media (max-width: 600px) {
+            .game-title { font-size: 2rem; }
+            .emerald-m-cube { width: 140px; height: 110px; } .emerald-block { width: 30px; height: 30px; }
+            .e1, .e2, .e3, .e4 { left: 0; } .e5 { left: 30px; top: 30px; } .e6 { left: 60px; top: 60px; } .e7 { left: 90px; top: 30px; } .e8, .e9, .e10, .e11 { left: 120px; }
+            .navbar span { display: none; } .navbar { width: 90%; } .container { margin-top: 120px; }
         }
-
-        .qr-highlight { color: var(--primary); font-weight: 900; font-size: 1.2rem; background: rgba(34, 197, 94, 0.1); padding: 5px 10px; border-radius: 6px; display: inline-block; margin-top: 5px;}
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <a class="nav-link active" onclick="showSection('home', this)">Trang Chủ</a>
-        <a class="nav-link" onclick="showSection('about', this)">Giới Thiệu</a>
-        <a class="nav-link" onclick="showSection('guide', this)">Hướng Dẫn</a>
-        <a class="nav-link" onclick="showSection('donate', this)">Donate</a>
+        <a class="nav-link active" onclick="showSection('home', this)">🏠 <span>Home</span></a>
+        <a class="nav-link" onclick="showSection('guide', this)">📜 <span>Lệnh Game</span></a>
+        <a class="nav-link" onclick="showSection('donate', this)">💎 <span>Ủng hộ</span></a>
     </nav>
 
     <div class="container">
         
-        <div id="section-home" class="section-content active hero-section">
-            <img src="logo.jpg" alt="MCWDLK Logo" class="server-logo" onerror="this.src='https://via.placeholder.com/300x300/1e293b/22c55e?text=MCWDLK+LOGO'">
-            
-            <h1>MCWDLK SMP</h1>
-            <p class="hero-subtitle">Sinh tồn Đỉnh cao - Cộng đồng Thân thiện - Kinh tế Tự do</p>
-            
-            <div class="action-buttons">
-                <button class="btn btn-primary" onclick="copyIP()">
-                    🎮 IP: mc.mcwdlk.net
-                </button>
-                <button class="btn btn-discord" onclick="window.open('https://discord.gg/yourlink', '_blank')">
-                    💬 Tham Gia Discord
-                </button>
-            </div>
-        </div>
-
-        <div id="section-about" class="section-content">
-            <h1 style="text-align: center; margin-bottom: 40px;">HỆ THỐNG ĐẶC SẮC</h1>
-            <div class="grid-cards">
-                <div class="card">
-                    <h3>🛡️ Bảo vệ tài sản (Claim)</h3>
-                    <p>Sử dụng Xẻng Vàng để tự khoanh vùng đất của riêng bạn. Bảo vệ 100% khỏi griefers, không lo mất đồ, không sợ bị phá nhà.</p>
+        <div id="section-home" class="section-content active">
+            <div class="hero-section">
+                <div class="emerald-m-cube">
+                    <div class="emerald-block e1"></div><div class="emerald-block e2"></div><div class="emerald-block e3"></div><div class="emerald-block e4"></div>
+                    <div class="emerald-block e5"></div><div class="emerald-block e6"></div><div class="emerald-block e7"></div>
+                    <div class="emerald-block e8"></div><div class="emerald-block e9"></div><div class="emerald-block e10"></div><div class="emerald-block e11"></div>
                 </div>
-                <div class="card">
-                    <h3>💎 Kinh tế mở (Economy)</h3>
-                    <p>Hệ thống tiền tệ liền mạch. Bạn có thể mở shop cá nhân (ChestShop), đấu giá vật phẩm (Auction House) hoặc trao đổi trực tiếp với người khác.</p>
-                </div>
-                <div class="card">
-                    <h3>⚔️ Boss & Sự kiện</h3>
-                    <p>Hàng tuần sẽ có các event đánh Boss Thế Giới, săn phần thưởng độc quyền. PvP tại khu vực Arena để thể hiện trình độ kỹ năng.</p>
-                </div>
-                <div class="card">
-                    <h3>🛠️ Tính năng hỗ trợ</h3>
-                    <p>Hỗ trợ /tpa (dịch chuyển tới người chơi), /sethome (lưu điểm hồi sinh), /spawn và nhiều lệnh tiện ích khác giúp trải nghiệm sinh tồn mượt mà hơn.</p>
+                <h1 class="game-title">MCWDLK SMP</h1>
+                <p class="subtitle">Máy chủ Sinh Tồn Lục Bảo - Nơi cộng đồng tụ hội</p>
+                <div style="margin-top: 40px;">
+                    <button class="btn-pay" style="width:auto; padding: 14px 40px;" onclick="copyIP()">🎮 COPY IP: MC.MCWDLK.NET</button>
                 </div>
             </div>
         </div>
 
         <div id="section-guide" class="section-content">
-            <h1 style="text-align: center; margin-bottom: 40px;">CẨM NANG TÂN THỦ</h1>
+            <h2 style="text-align: center; margin-bottom: 50px; font-size: 2rem;">CÁC LỆNH CẦN BIẾT</h2>
             <div class="grid-cards">
                 <div class="card">
-                    <h3>1. Cách kiếm tiền</h3>
-                    <p>- Tham gia nghề nghiệp bằng lệnh <strong>/jobs join</strong>.<br>- Khai thác quặng, trồng trọt và đem bán tại chợ <strong>/ah</strong>.<br>- Tiêu diệt quái vật vào ban đêm.</p>
+                    <h3>🛠️ Tiện ích</h3>
+                    <div class="cmd-list">
+                        <div class="cmd-item"><strong>/menu</strong> <span>Bảng điều khiển</span></div>
+                        <div class="cmd-item"><strong>/rtp</strong> <span>Random Teleport</span></div>
+                        <div class="cmd-item"><strong>/spawn</strong> <span>Về khu vực sảnh</span></div>
+                    </div>
                 </div>
                 <div class="card">
-                    <h3>2. Cách Claim Đất</h3>
-                    <p>Cầm <strong>Xẻng Vàng</strong> trên tay:<br>1. Chuột phải vào góc thứ nhất.<br>2. Chạy ra góc đối diện, chuột phải vào góc thứ hai.<br>Vùng sáng hiện lên là đất của bạn!</p>
+                    <h3>💰 Kinh tế</h3>
+                    <div class="cmd-list">
+                        <div class="cmd-item"><strong>/shop</strong> <span>Cửa hàng Server</span></div>
+                        <div class="cmd-item"><strong>/ah</strong> <span>Chợ người chơi</span></div>
+                        <div class="cmd-item"><strong>/money</strong> <span>Xem tiền</span></div>
+                    </div>
                 </div>
                 <div class="card">
-                    <h3>3. Các lệnh cơ bản</h3>
-                    <p><strong>/spawn</strong>: Về điểm hồi sinh<br><strong>/sethome [tên]</strong>: Lưu nhà<br><strong>/home [tên]</strong>: Biến về nhà<br><strong>/tpa [tên]</strong>: Gửi yêu cầu dịch chuyển</p>
-                </div>
-                <div class="card">
-                    <h3>4. Quy định Server</h3>
-                    <p>Nghiêm cấm sử dụng Hack/Cheat/X-ray. Tôn trọng người chơi khác. Cố tình phá hoại kinh tế hoặc lừa đảo sẽ bị Ban vĩnh viễn.</p>
+                    <h3>🛡️ Bảo vệ</h3>
+                    <div class="cmd-list">
+                        <div class="cmd-item"><strong>/claim</strong> <span>HD Giữ đất</span></div>
+                        <div class="cmd-item"><strong>/trust [tên]</strong> <span>Cho phép xây</span></div>
+                        <div class="cmd-item"><strong>/sethome</strong> <span>Lưu điểm nhà</span></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="section-donate" class="section-content">
-            <div class="donate-container">
-                <h1 style="text-align: center; margin-bottom: 10px;">DONATE MÁY CHỦ</h1>
-                <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Cảm ơn bạn đã đóng góp để duy trì server MCWDLK!</p>
+            <div class="donate-box">
+                <h2 style="text-align: center; font-size: 2.2rem; margin-top: 0;">💎 DONATE ỦNG HỘ</h2>
                 
-                <div class="form-group">
-                    <label>Tên nhân vật trong game (In-game Name):</label>
-                    <input type="text" id="qr-name" class="form-control" placeholder="Ví dụ: Steve, Alex...">
+                <div class="warning-label">
+                    <strong style="color: #ef4444; font-size: 1.1rem;">⚠️ LƯU Ý QUAN TRỌNG:</strong> 
+                    Server không khuyến khích nạp. Hãy chỉ nạp khi bạn dư dả và muốn ủng hộ.
+                    <br><br>
+                    <strong>Bắt buộc chụp Bill</strong> và gửi qua Zalo Admin (<strong>0334478903</strong>) để nhận ngay <strong>+10 XU FREE</strong>.
                 </div>
-                <div class="form-group">
-                    <label>Chọn gói Donate (10.000 VNĐ = 10 Xu):</label>
-                    <select id="qr-amount" class="form-control">
-                        <option value="10000">Gói 10.000 VNĐ (Nhận 10 Xu)</option>
-                        <option value="20000">Gói 20.000 VNĐ (Nhận 20 Xu)</option>
-                        <option value="50000">Gói 50.000 VNĐ (Nhận 50 Xu)</option>
-                        <option value="100000">Gói 100.000 VNĐ (Nhận 100 Xu)</option>
-                        <option value="200000">Gói 200.000 VNĐ (Nhận 200 Xu)</option>
-                        <option value="500000">Gói 500.000 VNĐ (Nhận 500 Xu)</option>
+
+                <div style="margin-bottom: 25px;">
+                    <label style="font-weight: bold;">Tên in-game nhân vật:</label>
+                    <input type="text" id="qr-name" class="form-input" placeholder="Ví dụ: KhoiDepTrai">
+                </div>
+
+                <div style="margin-bottom: 25px;">
+                    <label style="font-weight: bold;">Gói ủng hộ:</label>
+                    <select id="qr-amount" class="form-input">
+                        <option value="20000">20.000 VNĐ - 20 Xu</option>
+                        <option value="50000">50.000 VNĐ - 50 Xu</option>
+                        <option value="100000">100.000 VNĐ - 100 Xu</option>
+                        <option value="200000">200.000 VNĐ - 200 Xu</option>
+                        <option value="500000">500.000 VNĐ - 500 Xu</option>
                     </select>
                 </div>
-                
-                <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="generateQR()">
-                    ⚡ TẠO MÃ QR TỰ ĐỘNG
-                </button>
 
-                <div id="qr-result-box" class="qr-result">
-                    <h3 style="color: white; margin-top: 0;">QUÉT MÃ ĐỂ CHUYỂN KHOẢN</h3>
-                    <img id="qr-image" src="" alt="Mã QR Donate">
-                    <div style="font-size: 15px; line-height: 1.6;">
-                        <span style="color: var(--text-muted)">Ngân hàng:</span> <strong>MB Bank</strong><br>
-                        <span style="color: var(--text-muted)">Số tài khoản:</span> <strong style="color: var(--secondary); font-size: 18px;">08999081508888</strong><br>
-                        <span style="color: var(--text-muted)">Chủ tài khoản:</span> <strong>LÊ ĐẶNG BẢO KHÔI</strong><br><br>
-                        <span style="color: var(--text-muted)">Nội dung chuyển khoản (Bắt buộc):</span><br>
-                        <div class="qr-highlight" id="qr-content"></div>
-                    </div>
-                    <p style="color: #ef4444; font-size: 13px; margin-top: 15px;">
-                        * Vui lòng giữ nguyên nội dung chuyển khoản. Admin sẽ check app và cộng Xu cho bạn ngay lập tức!
-                    </p>
+                <button class="btn-pay" onclick="generateQR()">⚡ TẠO MÃ QR CHUYỂN KHOẢN</button>
+
+                <div id="qr-result-box" class="qr-display">
+                    <h3 style="color: var(--primary);">QUÉT MÃ TRÊN ỨNG DỤNG NGÂN HÀNG</h3>
+                    <img id="qr-image" src="" style="width: 250px; border: 6px solid white; border-radius: 20px; margin: 15px 0;">
+                    <p style="font-size: 1.1rem; color: #fff; margin-bottom: 10px;">Nội dung: <strong id="qr-content" style="background: var(--primary); color: #000; padding: 5px 15px; border-radius: 5px;"></strong></p>
+                    
+                    <button id="confirm-btn" class="btn-confirm" onclick="finalStep()">
+                        ✅ TÔI ĐÃ CHUYỂN KHOẢN XONG
+                    </button>
                 </div>
             </div>
         </div>
-
     </div>
 
     <script>
-        // 1. Chức năng chuyển đổi giữa các trang (Menu)
-        function showSection(sectionId, clickedElement) {
-            document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-            
-            document.getElementById('section-' + sectionId).classList.add('active');
-            clickedElement.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function showSection(id, el) {
+            document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.getElementById('section-' + id).classList.add('active');
+            el.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // 2. Chức năng Copy IP
         function copyIP() {
-            const ip = "mc.mcwdlk.net"; // Thay bằng IP thật của server bạn
-            navigator.clipboard.writeText(ip);
-            
-            // Đổi chữ nút tạm thời để báo hiệu đã copy
-            const btn = event.currentTarget;
-            const originalText = btn.innerHTML;
-            btn.innerHTML = "✔️ Đã copy IP!";
-            btn.style.background = "#1ea04c";
-            
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.style.background = "";
-            }, 2000);
+            navigator.clipboard.writeText("mc.mcwdlk.net");
+            alert("Đã sao chép IP: mc.mcwdlk.net - Hãy dán vào game để kết nối!");
         }
 
-        // 3. Chức năng tạo mã QR cho LÊ ĐẶNG BẢO KHÔI
         function generateQR() {
-            const ingameName = document.getElementById('qr-name').value.trim();
+            const name = document.getElementById('qr-name').value.trim();
             const amount = document.getElementById('qr-amount').value;
-
-            if (!ingameName) {
-                alert("Vui lòng nhập tên nhân vật (In-game) của bạn trước khi tạo mã!");
-                return;
-            }
-
-            // Tạo nội dung chuyển khoản
-            const transferContent = `MCWDLK DONATE ${ingameName}`;
             
-            // Thông tin MB Bank của bạn
-            const bankBin = '970422'; 
-            const bankAccount = '08999081508888'; 
-            const accountName = encodeURIComponent('LE DANG BAO KHOI'); 
-            
-            // Link API VietQR
-            const qrUrl = `https://img.vietqr.io/image/${bankBin}-${bankAccount}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(transferContent)}&accountName=${accountName}`;
+            if(!name) return alert("Vui lòng nhập tên In-game nhân vật của bạn!");
 
-            // Gắn vào giao diện và hiển thị
+            const content = `MCWDLK ${name}`;
+            const qrUrl = `https://img.vietqr.io/image/970422-08999081508888-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(content)}&accountName=LE%20DANG%20BAO%20KHOI`;
+            
             document.getElementById('qr-image').src = qrUrl;
-            document.getElementById('qr-content').innerText = transferContent;
+            document.getElementById('qr-content').innerText = content;
             document.getElementById('qr-result-box').style.display = 'block';
-            
-            // Cuộn mượt xuống phần QR
-            document.getElementById('qr-result-box').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            document.getElementById('confirm-btn').style.display = 'block';
+            document.getElementById('qr-result-box').scrollIntoView({behavior: 'smooth'});
+        }
+
+        function finalStep() {
+            const confirmMsg = "Chụp lại màn hình Bill chuyển khoản và gửi cho Ad qua Zalo 0334478903 để nhận ngay +10 XU FREE bạn nhé!";
+            if(confirm(confirmMsg)) {
+                window.open('https://zalo.me/0334478903', '_blank');
+            }
         }
     </script>
 </body>
