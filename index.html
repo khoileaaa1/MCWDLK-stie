@@ -114,10 +114,6 @@
         #comments-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 5px; }
 
         /* --- BẢNG VÀ CÁC THÀNH PHẦN --- */
-        .table-custom { width: 100%; border-collapse: collapse; margin-top: 20px; border-radius: var(--radius-soft); overflow: hidden; background: rgba(0,0,0,0.3); }
-        .table-custom th, .table-custom td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
-        .table-custom th { background: rgba(0, 255, 136, 0.1); color: var(--primary); text-transform: uppercase; font-size: 0.8rem; }
-
         .grid-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
         .feature-card {
             background: var(--bg-card); border-radius: var(--radius-soft); padding: 40px; border: 1px solid var(--border-color);
@@ -135,21 +131,21 @@
         .cmd-item strong { color: #4ade80; font-family: monospace; font-size: 1.15rem; margin-bottom: 6px; }
         .cmd-item span { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
 
-        /* --- PHẦN DONATE MỚI --- */
+        /* --- PHẦN DONATE --- */
         .donate-box { background: #080c14; padding: 40px; border-radius: var(--radius-soft); border: 1px solid var(--border-color); max-width: 900px; margin: 0 auto; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
         .warning-label { background: rgba(59, 130, 246, 0.1); border-left: 5px solid var(--secondary); padding: 25px; border-radius: 12px; margin-bottom: 30px; text-align: left; }
         .form-input { width: 100%; padding: 18px; margin-top: 10px; background: #000; border: 1px solid #1e293b; border-radius: 12px; color: #fff; font-size: 1rem; box-sizing: border-box; }
         .form-input:focus { outline: none; border-color: var(--primary); }
         
-        .exchange-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 30px 0; }
+        .exchange-grid { display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 30px 0; }
         .exchange-card {
-            background: rgba(255,255,255,0.03); border: 2px solid var(--border-color); border-radius: 15px; padding: 20px;
-            transition: 0.3s; text-align: center; position: relative; overflow: hidden;
+            background: rgba(255,255,255,0.03); border: 2px solid var(--primary); border-radius: 15px; padding: 20px;
+            text-align: center; width: 100%; max-width: 300px;
         }
-        .exchange-card:hover { border-color: var(--primary); transform: translateY(-5px); background: rgba(0, 255, 136, 0.05); }
         .exchange-card .price { display: block; font-size: 1.2rem; font-weight: 900; color: #fff; margin-bottom: 8px; }
         .exchange-card .xu-val { display: block; font-family: 'Minecraft-ia'; font-size: 1.8rem; color: var(--primary); }
         .exchange-card .bonus-tag { display: inline-block; margin-top: 10px; font-size: 0.8rem; color: #fbbf24; background: rgba(251, 191, 36, 0.1); padding: 4px 10px; border-radius: 20px; font-weight: bold; }
+        .exchange-dots { font-size: 2rem; color: var(--primary); font-weight: bold; margin-top: -10px; }
 
         .btn-shine {
             position: relative; overflow: hidden; width: 100%; padding: 22px; background: var(--primary); border: none; border-radius: var(--radius-soft);
@@ -158,7 +154,7 @@
         }
         .btn-shine:hover { transform: scale(1.02); box-shadow: 0 0 40px var(--primary-glow); }
         
-        /* --- MODAL ĐĂNG NHẬP/ĐĂNG KÝ --- */
+        /* --- MODAL --- */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .auth-box { background: #0f172a; border: 4px solid #334155; border-radius: var(--radius-soft); padding: 40px; width: 90%; max-width: 400px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
         .auth-box h2 { font-family: 'Minecraft-ia'; color: var(--primary); text-align: center; margin-top: 0; font-size: 1.8rem; text-shadow: 2px 2px 0 #000; }
@@ -221,22 +217,16 @@
                 <h2 style="font-family: 'Minecraft-ia'; color: #fff; text-shadow: 2px 2px 0 var(--secondary);">📰 BẢNG TIN SERVER</h2>
                 <div class="news-item">
                     <h3 style="margin: 0 0 10px 0; color: var(--primary); font-family: 'Nunito';">THÔNG BÁO TỪ ADMIN</h3>
-                    <p style="color: #cbd5e1; margin: 0; line-height: 1.6;">🔥 <strong>CÁNH CỔNG SINH TỒN ĐÃ CHÍNH THỨC MỞ!</strong> 🔥<br>Hãy nhanh tay vào game bằng IP: <strong>mcwdlk.site</strong> để trải nghiệm thế giới SMP siêu cuốn ngay hôm nay! Kêu gọi anh em cùng sát cánh xây dựng đế chế và nhận ngay những bộ quà tặng tân thủ cực khủng đang chờ đón bạn phía trước. Chúc anh em chơi game vui vẻ!</p>
+                    <p style="color: #cbd5e1; margin: 0; line-height: 1.6;">🔥 <strong>CÁNH CỔNG SINH TỒN ĐÃ CHÍNH THỨC MỞ!</strong> 🔥<br>Hãy nhanh tay vào game bằng IP: <strong>mcwdlk.site</strong> để trải nghiệm thế giới SMP siêu cuốn ngay hôm nay!</p>
                     
                     <hr style="border: 0; border-top: 1px dashed rgba(255,255,255,0.1); margin: 20px 0 15px;">
                     <div style="display: flex; gap: 15px; align-items: center;">
-                        <button id="btn-like" onclick="toggleLike()" style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); color: #cbd5e1; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-family: 'Nunito'; font-weight: bold; transition: 0.2s;">
-                            🤍 <span id="like-count">0</span> Thích
-                        </button>
-                        <button onclick="document.getElementById('comment-section').style.display = document.getElementById('comment-section').style.display === 'block' ? 'none' : 'block'" style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); color: #cbd5e1; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-family: 'Nunito'; font-weight: bold; transition: 0.2s;">
-                            💬 <span id="comment-count">0</span> Bình luận
-                        </button>
+                        <button id="btn-like" onclick="toggleLike()" style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); color: #cbd5e1; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-family: 'Nunito'; font-weight: bold;">🤍 <span id="like-count">0</span> Thích</button>
+                        <button onclick="document.getElementById('comment-section').style.display = document.getElementById('comment-section').style.display === 'block' ? 'none' : 'block'" style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); color: #cbd5e1; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-family: 'Nunito'; font-weight: bold;">💬 <span id="comment-count">0</span> Bình luận</button>
                     </div>
 
                     <div id="comment-section" style="margin-top: 15px; display: none; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 12px; border: 1px solid var(--border-color);">
-                        <div id="comments-list" style="max-height: 250px; overflow-y: auto; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; padding-right: 5px;">
-                            <div style="text-align: center; color: #64748b; font-size: 0.9rem; padding: 10px;">Đang tải bình luận...</div>
-                        </div>
+                        <div id="comments-list" style="max-height: 250px; overflow-y: auto; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; padding-right: 5px;"></div>
                         <div style="display: flex; gap: 10px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 15px;">
                             <input type="text" id="comment-input" class="form-input" style="margin-top: 0; padding: 12px;" placeholder="Nhập bình luận của bạn...">
                             <button class="btn-mc-style btn-mc-green" style="padding: 12px 20px; margin: 0; width: auto; font-size: 1rem;" onclick="submitComment()">GỬI</button>
@@ -250,14 +240,8 @@
         <div id="section-about" class="section-content">
             <h2 style="text-align: center; font-family: 'Minecraft-ia'; color: var(--primary); font-size: 2rem; margin-bottom: 50px;">KHÁM PHÁ THẾ GIỚI</h2>
             <div class="grid-features">
-                <div class="feature-card">
-                    <h3>🩸 LIFESTEAL SMP</h3>
-                    <p>Chế độ sinh tồn khốc liệt nhất! Tiêu diệt người chơi để đánh cắp tim của họ. Tích lũy tối đa lượng máu hoặc dùng tim để trao đổi trên chợ đen. Xây dựng liên minh chặt chẽ vì nếu mất hết tim, bạn sẽ bị loại khỏi cuộc chơi!</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🍃 SURVIVAL CHILL</h3>
-                    <p>Tận hưởng cảm giác sinh tồn thuần túy với cộng đồng thân thiện. Hệ thống Land Claim mạnh mẽ giúp bảo vệ nhà cửa 100% khỏi griefers. Giao lưu, kết bạn, xây dựng những kỳ quan và tham gia các sự kiện thú vị do Admin tổ chức.</p>
-                </div>
+                <div class="feature-card"><h3>🩸 LIFESTEAL SMP</h3><p>Tiêu diệt người chơi để đánh cắp tim!</p></div>
+                <div class="feature-card"><h3>🍃 SURVIVAL CHILL</h3><p>Sinh tồn thuần túy với cộng đồng thân thiện.</p></div>
             </div>
         </div>
 
@@ -265,17 +249,9 @@
             <h2 style="text-align: center; font-family: 'Minecraft-ia'; color: var(--primary); font-size: 2rem; margin-bottom: 50px;">CẨM NANG LỆNH TÂN THỦ</h2>
             <div class="cmd-grid">
                 <div class="cmd-group">
-                    <h4>📍 Di Chuyển & Định Vị</h4>
-                    <div class="cmd-item"><strong>/spawn</strong><span>Về sảnh chính an toàn.</span></div>
-                    <div class="cmd-item"><strong>/rtp</strong><span>Dịch chuyển ngẫu nhiên.</span></div>
-                    <div class="cmd-item"><strong>/sethome [tên]</strong><span>Lưu vị trí nhà.</span></div>
-                    <div class="cmd-item"><strong>/home [tên]</strong><span>Về nhà đã lưu.</span></div>
-                </div>
-                <div class="cmd-group">
-                    <h4>💰 Kinh Tế & Giao Thương</h4>
-                    <div class="cmd-item"><strong>/shop</strong><span>Mở cửa hàng hệ thống.</span></div>
-                    <div class="cmd-item"><strong>/ah</strong><span>Khu chợ đen đấu giá.</span></div>
-                    <div class="cmd-item"><strong>/bal</strong><span>Xem số dư tiền mặt.</span></div>
+                    <h4>📍 Di Chuyển</h4>
+                    <div class="cmd-item"><strong>/spawn</strong><span>Về sảnh chính.</span></div>
+                    <div class="cmd-item"><strong>/sethome</strong><span>Lưu vị trí nhà.</span></div>
                 </div>
             </div>
         </div>
@@ -286,50 +262,28 @@
                 
                 <div class="warning-label">
                     <strong style="color: var(--secondary); display: block; margin-bottom: 10px; font-size: 1.1rem;">📢 THÔNG ĐIỆP TỪ ADMIN:</strong>
-                    <p style="margin: 0; line-height: 1.6; color: #cbd5e1;">
-                        Server <strong>MCWDLK</strong> hoạt động hoàn toàn dựa trên tinh thần phi lợi nhuận. Việc Donate là tự nguyện, mọi đóng góp sẽ được dùng 100% vào việc duy trì máy chủ. Cảm ơn tình cảm của bạn!
-                    </p>
+                    <p style="margin: 0; line-height: 1.6; color: #cbd5e1;">Server hoạt động phi lợi nhuận. Việc Donate là tự nguyện để duy trì máy chủ. Cảm ơn bạn!</p>
                 </div>
 
-                <h3 style="color: var(--primary); font-family: 'Minecraft-ia'; font-size: 1.2rem; margin-top: 40px;">📊 BẢNG QUY ĐỔI XU</h3>
+                <h3 style="color: var(--primary); font-family: 'Minecraft-ia'; font-size: 1.2rem; margin-top: 40px; text-align: center;">📊 BẢNG QUY ĐỔI NGỌC</h3>
                 
                 <div class="exchange-grid">
                     <div class="exchange-card">
                         <span class="price">10.000 VNĐ</span>
-                        <span class="xu-val">10 XU</span>
-                        <span class="bonus-tag">Gói khởi đầu</span>
+                        <span class="xu-val">10 NGỌC</span>
+                        <span class="bonus-tag">Đá Quý Cao Cấp</span>
                     </div>
-                    <div class="exchange-card" style="border-color: #fbbf24;">
-                        <span class="price">100.000 VNĐ</span>
-                        <span class="xu-val">100 XU</span>
-                        <span class="bonus-tag">+ 10 XU TẶNG</span>
-                    </div>
-                    <div class="exchange-card">
-                        <span class="price">500.000 VNĐ</span>
-                        <span class="xu-val">550 XU</span>
-                        <span class="bonus-tag">+ 50 XU TẶNG</span>
-                    </div>
-                    <div class="exchange-card" style="border-color: var(--primary); background: rgba(0,255,136,0.05);">
-                        <span class="price">1.000.000 VNĐ</span>
-                        <span class="xu-val">1200 XU</span>
-                        <span class="bonus-tag">SIÊU ƯU ĐÃI (+200 XU)</span>
-                    </div>
+                    <div class="exchange-dots">...</div>
                 </div>
 
                 <hr style="margin: 40px 0; border: 0; border-top: 1px solid var(--border-color);">
 
                 <div style="background: rgba(0,0,0,0.3); padding: 30px; border-radius: 20px; border: 1px dashed var(--secondary); text-align: left;">
                     <h3 style="color: #fff; margin-top: 0; font-size: 1.2rem; text-align: center;">LIÊN HỆ ĐỂ ỦNG HỘ</h3>
-                    
                     <label style="display:block; font-weight:bold; margin-bottom: 5px;">Tên nhân vật In-game:</label>
                     <input type="text" id="donate-name" class="form-input" placeholder="Ví dụ: Steve_Khoi">
-                    
-                    <button class="btn-shine" style="background: #0068ff; color: white;" onclick="contactZaloDonate()">
-                        💬 NHẮN TIN QUA ZALO ĐỂ DONATE
-                    </button>
-                    <p style="text-align: center; font-size: 0.85rem; color: #94a3b8; margin-top: 15px;">
-                        (Admin sẽ trực tiếp hỗ trợ bạn cộng xu vào tài khoản qua Zalo nhé!)
-                    </p>
+                    <button class="btn-shine" style="background: #0068ff; color: white;" onclick="contactZaloDonate()">💬 NHẮN TIN QUA ZALO ĐỂ DONATE</button>
+                    <p style="text-align: center; font-size: 0.85rem; color: #94a3b8; margin-top: 15px;">(Admin sẽ trực tiếp hỗ trợ cộng ngọc qua Zalo nhé!)</p>
                 </div>
             </div>
         </div>
@@ -344,13 +298,13 @@
                 <input type="text" id="log-user" class="form-input" placeholder="Tên tài khoản">
                 <input type="password" id="log-pass" class="form-input" placeholder="Mật khẩu">
                 <button id="btn-do-login" class="btn-mc-style btn-mc-green" style="width: 100%; margin-top: 20px; padding: 15px; font-size: 1.1rem; border-radius: 12px;">VÀO GAME</button>
-                <p class="auth-switch" onclick="switchAuth('register')">Chưa có tài khoản? Tạo tài khoản ngay</p>
+                <p class="auth-switch" onclick="switchAuth('register')">Chưa có tài khoản? Đăng ký</p>
             </div>
             <div id="register-section" style="display: none;">
-                <h2>TẠO TÀI KHOẢN</h2>
+                <h2>ĐĂNG KÝ</h2>
                 <input type="text" id="reg-user" class="form-input" placeholder="Tên tài khoản">
-                <input type="password" id="reg-pass" class="form-input" placeholder="Mật khẩu (Tối thiểu 6 ký tự)">
-                <input type="password" id="reg-pass2" class="form-input" placeholder="Xác nhận lại mật khẩu">
+                <input type="password" id="reg-pass" class="form-input" placeholder="Mật khẩu">
+                <input type="password" id="reg-pass2" class="form-input" placeholder="Xác nhận mật khẩu">
                 <button id="btn-do-register" class="btn-mc-style btn-mc-green" style="width: 100%; margin-top: 20px; padding: 15px; font-size: 1.1rem; border-radius: 12px;">ĐĂNG KÝ</button>
                 <p class="auth-switch" onclick="switchAuth('login')">Đã có tài khoản? Đăng nhập</p>
             </div>
@@ -369,31 +323,22 @@
                 };
             }
         }
-
         function applyLogoutState() {
             const btn = document.getElementById('top-login-btn');
-            if (btn) {
-                btn.innerHTML = "Đăng nhập";
-                btn.classList.remove("btn-mc-green");
-                btn.onclick = openModal;
-            }
-            const menu = document.getElementById('user-menu');
-            if (menu) menu.style.display = 'none';
+            if (btn) { btn.innerHTML = "Đăng nhập"; btn.classList.remove("btn-mc-green"); btn.onclick = openModal; }
+            document.getElementById('user-menu').style.display = 'none';
         }
-
         document.addEventListener("DOMContentLoaded", () => {
             const savedUser = localStorage.getItem("mcwdlk_user");
             if (savedUser) applyLoginState(savedUser);
         });
-
         window.logoutAccount = function() {
-            if (confirm("Bạn có chắc chắn muốn đăng xuất không?")) {
+            if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
                 localStorage.removeItem("mcwdlk_user");
                 applyLogoutState();
-                alert("Đã đăng xuất thành công!");
+                window.location.reload();
             }
         };
-
         function showSection(id, el) {
             document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -401,7 +346,6 @@
             el.classList.add('active');
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
-
         function copyIP() { navigator.clipboard.writeText("mcwdlk.site"); alert("Đã copy IP: mcwdlk.site"); }
         window.openModal = function() { document.getElementById('auth-modal').style.display = 'flex'; }
         window.closeModal = function() { document.getElementById('auth-modal').style.display = 'none'; }
@@ -409,19 +353,16 @@
             document.getElementById('login-section').style.display = type === 'login' ? 'block' : 'none';
             document.getElementById('register-section').style.display = type === 'register' ? 'block' : 'none';
         }
-
         function contactZaloDonate() {
             const name = document.getElementById('donate-name').value.trim();
             if(!name) return alert("Bạn quên nhập tên nhân vật rồi!");
             window.open('https://zalo.me/0334478903', '_blank');
         }
-
         async function checkServerStatus() {
-            const ip = "mcwdlk.site"; 
             const statusText = document.getElementById('status-text');
             const statusDot = document.getElementById('status-dot');
             try {
-                const response = await fetch(`https://api.mcsrvstat.us/2/${ip}`);
+                const response = await fetch(`https://api.mcsrvstat.us/2/mcwdlk.site`);
                 const data = await response.json();
                 if(data.online) {
                     statusText.innerHTML = `ONLINE - ${data.players.online}/${data.players.max}`;
@@ -430,18 +371,15 @@
                     statusText.innerHTML = `OFFLINE`;
                     statusDot.className = "dot offline";
                 }
-            } catch (error) { statusText.innerText = `Lỗi kết nối`; }
+            } catch (error) { statusText.innerText = `Lỗi API`; }
         }
-        checkServerStatus();
-        setInterval(checkServerStatus, 30000);
-
+        checkServerStatus(); setInterval(checkServerStatus, 30000);
         function createParticles() {
             const container = document.getElementById('p-container');
             for(let i=0; i<40; i++) {
                 const p = document.createElement('div');
                 p.className = 'p';
-                const size = Math.random() * 4 + 2 + 'px';
-                p.style.width = size; p.style.height = size;
+                p.style.width = p.style.height = Math.random() * 4 + 2 + 'px';
                 p.style.left = Math.random() * 100 + 'vw';
                 p.style.animationDuration = Math.random() * 3 + 3 + 's';
                 container.appendChild(p);
@@ -467,74 +405,47 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // ĐĂNG NHẬP
         document.getElementById('btn-do-login').onclick = async () => {
             const user = document.getElementById('log-user').value.trim();
             const pass = document.getElementById('log-pass').value;
-            if(!user || !pass) return alert("Vui lòng điền đủ!");
             const snapshot = await get(ref(db, `accounts/${user}`));
             if (snapshot.exists() && snapshot.val().password === pass) {
-                alert("Thành công!");
                 localStorage.setItem("mcwdlk_user", user);
                 window.location.reload();
-            } else alert("Sai tài khoản hoặc mật khẩu");
+            } else alert("Sai thông tin!");
         };
 
-        // ĐĂNG KÝ
         document.getElementById('btn-do-register').onclick = async () => {
             const user = document.getElementById('reg-user').value.trim();
             const pass = document.getElementById('reg-pass').value;
-            const pass2 = document.getElementById('reg-pass2').value;
-            if(!user || pass.length < 6 || pass !== pass2) return alert("Kiểm tra lại thông tin!");
-            const snapshot = await get(ref(db, `accounts/${user}`));
-            if (snapshot.exists()) alert("Tên đã tồn tại!");
-            else {
-                await set(ref(db, `accounts/${user}`), { password: pass });
-                alert("Đăng ký thành công!");
-                localStorage.setItem("mcwdlk_user", user);
-                window.location.reload();
-            }
+            if(!user || pass.length < 6) return alert("Kiểm tra lại!");
+            await set(ref(db, `accounts/${user}`), { password: pass });
+            localStorage.setItem("mcwdlk_user", user);
+            window.location.reload();
         };
 
         // LIKE & COMMENT
-        const likesRef = ref(db, 'post_interactions/main_post/likes');
-        const commentsRef = ref(db, 'post_interactions/main_post/comments');
-
+        const interactionRef = ref(db, 'post_interactions/main_post');
         window.toggleLike = async () => {
             const user = localStorage.getItem("mcwdlk_user");
             if (!user) return window.openModal();
-            const snapshot = await get(ref(db, `post_interactions/main_post/likes/${user}`));
-            snapshot.exists() ? await remove(ref(db, `post_interactions/main_post/likes/${user}`)) : await set(ref(db, `post_interactions/main_post/likes/${user}`), true);
+            const snap = await get(ref(db, `post_interactions/main_post/likes/${user}`));
+            snap.exists() ? await remove(ref(db, `post_interactions/main_post/likes/${user}`)) : await set(ref(db, `post_interactions/main_post/likes/${user}`), true);
         };
-
-        onValue(likesRef, (snapshot) => {
-            const data = snapshot.val();
-            const count = data ? Object.keys(data).length : 0;
-            const btn = document.getElementById('btn-like');
-            const isLiked = data && localStorage.getItem("mcwdlk_user") && data[localStorage.getItem("mcwdlk_user")];
-            btn.innerHTML = `${isLiked ? '❤️' : '🤍'} <span>${count}</span> Thích`;
-            btn.style.color = isLiked ? "#ef4444" : "#cbd5e1";
-        });
-
         window.submitComment = async () => {
             const user = localStorage.getItem("mcwdlk_user");
             const text = document.getElementById('comment-input').value.trim();
             if (!user) return window.openModal();
-            if (!text) return;
-            await push(commentsRef, { user, text, timestamp: Date.now() });
+            if (text) await push(ref(db, 'post_interactions/main_post/comments'), { user, text, timestamp: Date.now() });
             document.getElementById('comment-input').value = "";
         };
-
-        onValue(commentsRef, (snapshot) => {
+        onValue(interactionRef, (snapshot) => {
             const data = snapshot.val();
-            const list = document.getElementById('comments-list');
-            if(data) {
-                const arr = Object.values(data).sort((a,b) => a.timestamp - b.timestamp);
-                document.getElementById('comment-count').innerText = arr.length;
-                list.innerHTML = arr.map(c => `<div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:8px;margin-bottom:8px"><strong>${c.user}:</strong> ${c.text}</div>`).join('');
-            } else {
-                list.innerHTML = "Chưa có bình luận.";
-            }
+            const likes = data?.likes ? Object.keys(data.likes).length : 0;
+            const comments = data?.comments ? Object.values(data.comments) : [];
+            document.getElementById('like-count').innerText = likes;
+            document.getElementById('comment-count').innerText = comments.length;
+            document.getElementById('comments-list').innerHTML = comments.map(c => `<div style="background:rgba(255,255,255,0.05);padding:10px;border-radius:8px"><strong>${c.user}:</strong> ${c.text}</div>`).join('');
         });
     </script>
 </body>
