@@ -154,8 +154,6 @@
         @keyframes btnSweep { 0% { left: -100%; } 20%, 100% { left: 200%; } }
         .btn-shine:hover { transform: scale(1.03); box-shadow: 0 0 40px var(--primary-glow); }
         
-        .btn-confirm { width: 100%; padding: 18px; background: var(--secondary); border: none; border-radius: var(--radius-soft); font-weight: 800; color: #fff; cursor: pointer; margin-top: 15px; display: none; transition: 0.3s;}
-
         /* --- MODAL ĐĂNG NHẬP/ĐĂNG KÝ --- */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .auth-box { background: #0f172a; border: 4px solid #334155; border-radius: var(--radius-soft); padding: 40px; width: 90%; max-width: 400px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
@@ -349,26 +347,28 @@
 
                 <hr style="margin: 40px 0; border: 0; border-top: 1px solid var(--border-color);">
 
-                <label style="display:block; font-weight:bold;">Tên nhân vật In-game:</label>
-                <input type="text" id="qr-name" class="form-input" placeholder="Ví dụ: Steve_Khoi">
-                
-                <label style="margin-top: 20px; display: block; font-weight:bold;">Chọn gói nạp:</label>
-                <select id="qr-amount" class="form-input">
-                    <option value="10000">10.000 VNĐ - 10 Xu</option>
-                    <option value="20000">20.000 VNĐ - 20 Xu</option>
-                    <option value="50000">50.000 VNĐ - 50 Xu</option>
-                    <option value="100000">100.000 VNĐ - 100 Xu</option>
-                    <option value="200000">200.000 VNĐ - 200 Xu</option>
-                    <option value="500000">500.000 VNĐ - 550 Xu</option>
-                    <option value="1000000">1.000.000 VNĐ - 1200 Xu</option>
-                </select>
+                <div style="background: rgba(0,0,0,0.3); padding: 25px; border-radius: 15px; border: 1px dashed var(--secondary);">
+                    <h3 style="color: #fff; margin-top: 0; font-size: 1.1rem; text-align: center;">HƯỚNG DẪN ỦNG HỘ</h3>
+                    
+                    <label style="display:block; font-weight:bold; margin-bottom: 5px;">Tên nhân vật In-game:</label>
+                    <input type="text" id="donate-name" class="form-input" placeholder="Ví dụ: Steve_Khoi">
+                    
+                    <label style="margin-top: 20px; display: block; font-weight:bold; margin-bottom: 5px;">Chọn gói muốn ủng hộ:</label>
+                    <select id="donate-amount" class="form-input">
+                        <option value="10.000 VNĐ">10.000 VNĐ - 10 Xu</option>
+                        <option value="50.000 VNĐ">50.000 VNĐ - 50 Xu</option>
+                        <option value="100.000 VNĐ">100.000 VNĐ - 100 Xu</option>
+                        <option value="200.000 VNĐ">200.000 VNĐ - 200 Xu</option>
+                        <option value="500.000 VNĐ">500.000 VNĐ - 550 Xu</option>
+                        <option value="1.000.000 VNĐ">1.000.000 VNĐ - 1200 Xu</option>
+                    </select>
 
-                <button class="btn-shine" onclick="generateQR()">⚡ TẠO MÃ THANH TOÁN</button>
-
-                <div id="qr-result-box" style="display:none; margin-top:35px; text-align:center;">
-                    <img id="qr-image" src="" style="width: 250px; border: 6px solid #fff; border-radius: 20px; box-shadow: 0 0 40px var(--primary-glow);">
-                    <p style="font-size: 1.3rem; font-weight: 900; margin: 25px 0;">NỘI DUNG: <span id="qr-content" style="color: var(--primary);"></span></p>
-                    <button id="confirm-btn" class="btn-confirm" onclick="finalStep()">✅ GỬI BILL QUA ZALO NGAY</button>
+                    <button class="btn-shine" style="background: #0068ff; color: white;" onclick="contactZaloDonate()">
+                        💬 NHẮN TIN QUA ZALO ĐỂ DONATE
+                    </button>
+                    <p style="text-align: center; font-size: 0.85rem; color: #94a3b8; margin-top: 15px;">
+                        (Bạn hãy nhắn tên nhân vật và gói nạp cho Admin qua Zalo để được hỗ trợ nhé!)
+                    </p>
                 </div>
             </div>
         </div>
@@ -407,7 +407,6 @@
                     menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
                 };
             }
-            // Gọi lại logic để hiển thị trạng thái "Like" ngay lập tức nếu cần
             if (typeof window.refreshLikeUI === "function") window.refreshLikeUI();
         }
 
@@ -420,7 +419,6 @@
             }
             const menu = document.getElementById('user-menu');
             if (menu) menu.style.display = 'none';
-            // Cập nhật lại UI "Like" về trắng
             if (typeof window.refreshLikeUI === "function") window.refreshLikeUI();
         }
 
@@ -429,7 +427,6 @@
             if (savedUser) applyLoginState(savedUser);
         });
 
-        // Xóa hoàn toàn lệnh reload ở đây
         window.logoutAccount = function() {
             if (confirm("Bạn có chắc chắn muốn đăng xuất không?")) {
                 localStorage.removeItem("mcwdlk_user");
@@ -463,7 +460,7 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        function copyIP() { navigator.clipboard.writeText("mc.mcwdlk.net"); alert("Đã copy IP!"); }
+        function copyIP() { navigator.clipboard.writeText("mcwdlk.site"); alert("Đã copy IP: mcwdlk.site"); }
         window.openModal = function() { if(localStorage.getItem("mcwdlk_user")) return; document.getElementById('auth-modal').style.display = 'flex'; }
         window.closeModal = function() { document.getElementById('auth-modal').style.display = 'none'; }
         window.switchAuth = function(type) {
@@ -475,18 +472,16 @@
                 document.getElementById('register-section').style.display = 'block';
             }
         }
-        function generateQR() {
-            const name = document.getElementById('qr-name').value.trim();
-            const amount = document.getElementById('qr-amount').value;
+
+        // HÀM DONATE ZALO MỚI
+        function contactZaloDonate() {
+            const name = document.getElementById('donate-name').value.trim();
+            const amount = document.getElementById('donate-amount').value;
             if(!name) return alert("Bạn quên nhập tên nhân vật rồi!");
-            const content = `MCWDLK ${name}`;
-            const qrUrl = `https://img.vietqr.io/image/970422-08999081508888-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(content)}&accountName=LE%20DANG%20BAO%20KHOI`;
-            document.getElementById('qr-image').src = qrUrl;
-            document.getElementById('qr-content').innerText = content;
-            document.getElementById('qr-result-box').style.display = 'block';
-            document.getElementById('confirm-btn').style.display = 'block';
+            
+            // Mở Zalo Admin
+            window.open('https://zalo.me/0334478903', '_blank');
         }
-        function finalStep() { window.open('https://zalo.me/0334478903', '_blank'); }
 
         async function checkServerStatus() {
             const ip = "mcwdlk.site"; 
@@ -529,230 +524,133 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // --- XỬ LÝ ĐĂNG NHẬP ---
+        // ĐĂNG NHẬP
         const btnLogin = document.getElementById('btn-do-login');
         if(btnLogin) {
             btnLogin.addEventListener('click', async () => {
                 const user = document.getElementById('log-user').value.trim();
                 const pass = document.getElementById('log-pass').value;
-
                 if(!user || !pass) return alert("Vui lòng điền đủ thông tin!");
                 btnLogin.innerText = "ĐANG XỬ LÝ...";
-                
                 try {
                     const userRef = ref(db, `accounts/${user}`);
                     const snapshot = await get(userRef); 
-
-                    if (snapshot.exists()) {
-                        if (snapshot.val().password === pass) {
-                            alert("Đăng nhập thành công!");
-                            localStorage.setItem("mcwdlk_user", user);
-                            
-                            // Cập nhật giao diện trực tiếp (Không Reload)
-                            window.applyLoginState(user);
-                            window.closeModal();
-                            
-                            // Xóa trống các ô mật khẩu đề phòng
-                            document.getElementById('log-pass').value = '';
-                            btnLogin.innerText = "VÀO GAME";
-                        } else {
-                            alert("Sai tk hoặc mật khẩu");
-                            btnLogin.innerText = "VÀO GAME";
-                        }
+                    if (snapshot.exists() && snapshot.val().password === pass) {
+                        alert("Đăng nhập thành công!");
+                        localStorage.setItem("mcwdlk_user", user);
+                        window.applyLoginState(user);
+                        window.closeModal();
+                        document.getElementById('log-pass').value = '';
                     } else {
-                        alert("Không có thông tin tài khoản");
-                        btnLogin.innerText = "VÀO GAME";
+                        alert("Sai tài khoản hoặc mật khẩu");
                     }
                 } catch (error) {
                     alert("Lỗi: " + error.message);
-                    btnLogin.innerText = "VÀO GAME"; 
                 }
+                btnLogin.innerText = "VÀO GAME";
             });
         }
 
-        // --- XỬ LÝ TẠO TÀI KHOẢN ---
+        // ĐĂNG KÝ
         const btnRegister = document.getElementById('btn-do-register');
         if(btnRegister) {
             btnRegister.addEventListener('click', async () => {
                 const user = document.getElementById('reg-user').value.trim();
                 const pass = document.getElementById('reg-pass').value;
                 const pass2 = document.getElementById('reg-pass2').value;
-                const validRegex = /^[a-zA-Z0-9_]{3,16}$/;
-
-                if(!user || !pass || !pass2) return alert("Vui lòng điền đủ 3 ô!");
-                if(!validRegex.test(user)) return alert("Tên tài khoản không hợp lệ (3-16 ký tự, không chứa dấu và ký tự đặc biệt)!");
-                if(pass !== pass2) return alert("Mật khẩu xác nhận không khớp!");
-
-                const weakPasswords = ['123456', '12345678', 'password', '123456789', '12345', '1234567', 'qwerty', user.toLowerCase()];
-                if(pass.length < 6) return alert("Cảnh báo: Mật khẩu quá ngắn (Yêu cầu ít nhất 6 ký tự)!");
-                if(weakPasswords.includes(pass.toLowerCase())) return alert("Cảnh báo: Mật khẩu quá dễ đoán! Vui lòng chọn mật khẩu khác.");
-
+                if(!user || pass.length < 6 || pass !== pass2) return alert("Thông tin không hợp lệ!");
                 btnRegister.innerText = "ĐANG XỬ LÝ...";
-                
                 try {
                     const userRef = ref(db, `accounts/${user}`);
                     const snapshot = await get(userRef); 
-
                     if (snapshot.exists()) {
-                        alert("Tên tài khoản này đã có người sử dụng! Vui lòng chọn tên khác.");
-                        btnRegister.innerText = "ĐĂNG KÝ";
+                        alert("Tên đã tồn tại!");
                     } else {
                         await set(userRef, { password: pass });
-                        alert("Tạo tài khoản thành công! Hệ thống sẽ tự động đăng nhập...");
-                        
+                        alert("Đăng ký thành công!");
                         localStorage.setItem("mcwdlk_user", user);
-                        
-                        // Cập nhật giao diện trực tiếp (Không Reload)
                         window.applyLoginState(user);
                         window.closeModal();
-                        
-                        // Reset lại form đề phòng
-                        document.getElementById('reg-user').value = '';
-                        document.getElementById('reg-pass').value = '';
-                        document.getElementById('reg-pass2').value = '';
-                        btnRegister.innerText = "ĐĂNG KÝ";
                     }
                 } catch (error) {
                     alert("Lỗi: " + error.message);
-                    btnRegister.innerText = "ĐĂNG KÝ"; 
                 }
+                btnRegister.innerText = "ĐĂNG KÝ";
             });
         }
 
-        // ==========================================
-        // TÍNH NĂNG LIKE VÀ BÌNH LUẬN BẢNG TIN
-        // ==========================================
+        // LIKE & BÌNH LUẬN
         const likesRef = ref(db, 'post_interactions/main_post/likes');
         const commentsRef = ref(db, 'post_interactions/main_post/comments');
-        let currentLikesData = null; // Lưu dữ liệu thả tim tạm
+        let currentLikesData = null;
 
         window.toggleLike = async function() {
             const user = localStorage.getItem("mcwdlk_user");
-            if (!user) {
-                alert("Bạn cần ĐĂNG NHẬP để thả tim bài viết!");
-                window.openModal();
-                return;
-            }
+            if (!user) return window.openModal();
             const userLikeRef = ref(db, `post_interactions/main_post/likes/${user}`);
             const snapshot = await get(userLikeRef);
-            if (snapshot.exists()) {
-                await remove(userLikeRef); 
-            } else {
-                await set(userLikeRef, true); 
-            }
+            snapshot.exists() ? await remove(userLikeRef) : await set(userLikeRef, true);
         };
 
-        // Hàm giúp cập nhật lại nút Like khi Đăng nhập / Đăng xuất mà không cần reload
-        window.refreshLikeUI = function() {
-            updateLikeButton(currentLikesData);
-        };
+        window.refreshLikeUI = () => updateLikeButton(currentLikesData);
 
         function updateLikeButton(data) {
             currentLikesData = data;
-            const likeCount = data ? Object.keys(data).length : 0;
-            const likeSpan = document.getElementById('like-count');
-            if(likeSpan) likeSpan.innerText = likeCount;
-            
-            const currentUser = localStorage.getItem("mcwdlk_user");
-            const btnLike = document.getElementById('btn-like');
-            if(!btnLike) return;
-
-            if (data && currentUser && data[currentUser]) {
-                btnLike.innerHTML = `❤️ <span id="like-count">${likeCount}</span> Đã thích`;
-                btnLike.style.color = "#ef4444";
-                btnLike.style.borderColor = "#ef4444";
-                btnLike.style.background = "rgba(239, 68, 68, 0.1)";
-            } else {
-                btnLike.innerHTML = `🤍 <span id="like-count">${likeCount}</span> Thích`;
-                btnLike.style.color = "#cbd5e1";
-                btnLike.style.borderColor = "var(--border-color)";
-                btnLike.style.background = "rgba(0,0,0,0.5)";
-            }
+            const count = data ? Object.keys(data).length : 0;
+            const btn = document.getElementById('btn-like');
+            const user = localStorage.getItem("mcwdlk_user");
+            if(!btn) return;
+            const liked = data && user && data[user];
+            btn.innerHTML = `${liked?'❤️':'🤍'} <span id="like-count">${count}</span> ${liked?'Đã thích':'Thích'}`;
+            btn.style.color = liked ? "#ef4444" : "#cbd5e1";
+            btn.style.borderColor = liked ? "#ef4444" : "var(--border-color)";
         }
 
-        onValue(likesRef, (snapshot) => {
-            updateLikeButton(snapshot.val());
-        });
+        onValue(likesRef, (snapshot) => updateLikeButton(snapshot.val()));
 
-        // Hàm gửi Bình luận
         window.submitComment = async function() {
             const user = localStorage.getItem("mcwdlk_user");
-            if (!user) {
-                alert("Bạn cần ĐĂNG NHẬP để bình luận!");
-                window.openModal();
-                return;
-            }
-
             const input = document.getElementById('comment-input');
             const text = input.value.trim();
+            if (!user) return window.openModal();
             if (!text) return;
-
-            input.disabled = true;
-            try {
-                await push(commentsRef, {
-                    user: user,
-                    text: text,
-                    timestamp: Date.now()
-                });
-                input.value = "";
-            } catch (err) {
-                alert("Lỗi đăng bình luận: " + err.message);
-            }
-            input.disabled = false;
+            await push(commentsRef, { user, text, timestamp: Date.now() });
+            input.value = "";
         };
 
-        // Cập nhật Danh sách Bình luận real-time
         onValue(commentsRef, (snapshot) => {
             const data = snapshot.val();
             const list = document.getElementById('comments-list');
             const countSpan = document.getElementById('comment-count');
-            
             if (data) {
                 const comments = Object.values(data).sort((a, b) => a.timestamp - b.timestamp);
-                if(countSpan) countSpan.innerText = comments.length;
-                if(list) {
-                    list.innerHTML = "";
-                    comments.forEach(c => {
-                        const timeObj = new Date(c.timestamp);
-                        const timeStr = timeObj.getHours() + ":" + (timeObj.getMinutes()<10?'0':'') + timeObj.getMinutes() + " " + timeObj.getDate() + "/" + (timeObj.getMonth()+1);
-                        list.innerHTML += `
-                            <div style="background: rgba(15, 23, 42, 0.8); padding: 12px 15px; border-radius: 10px; border-left: 4px solid var(--secondary);">
-                                <strong style="color: var(--primary); font-size: 0.95rem; font-family: monospace;">${c.user}</strong> 
-                                <span style="color: #64748b; font-size: 0.75rem; margin-left: 8px;">${timeStr}</span>
-                                <p style="margin: 6px 0 0 0; color: #f8fafc; font-size: 0.95rem; line-height: 1.4;">${c.text}</p>
-                            </div>
-                        `;
-                    });
-                    list.scrollTop = list.scrollHeight; 
-                }
+                countSpan.innerText = comments.length;
+                list.innerHTML = comments.map(c => `
+                    <div style="background: rgba(15, 23, 42, 0.8); padding: 12px 15px; border-radius: 10px; border-left: 4px solid var(--secondary); text-align: left;">
+                        <strong style="color: var(--primary); font-family: monospace;">${c.user}</strong>
+                        <p style="margin: 5px 0 0 0; color: #f8fafc;">${c.text}</p>
+                    </div>
+                `).join('');
+                list.scrollTop = list.scrollHeight;
             } else {
-                if(countSpan) countSpan.innerText = "0";
-                if(list) list.innerHTML = `<div style="text-align: center; color: #64748b; font-size: 0.9rem; padding: 20px;">Chưa có bình luận nào. Hãy là người đầu tiên!</div>`;
+                countSpan.innerText = "0";
+                list.innerHTML = `<div style="text-align: center; color: #64748b;">Chưa có bình luận nào.</div>`;
             }
         });
 
-        // --- LOAD BẢNG DONATE ---
         const topDonateRef = query(ref(db, 'donates'), orderByChild('amount'), limitToLast(5));
         onValue(topDonateRef, (snapshot) => {
             const data = snapshot.val();
-            const tableBody = document.getElementById('top-donate-body');
-            
+            const body = document.getElementById('top-donate-body');
             if (data) {
-                tableBody.innerHTML = ''; 
-                const sortedData = Object.values(data).sort((a, b) => b.amount - a.amount);
-                
-                sortedData.forEach((user, index) => {
-                    const row = `
-                        <tr>
-                            <td style="font-weight: bold; color: ${index === 0 ? '#fbbf24' : '#cbd5e1'}">#${index + 1}</td>
-                            <td style="font-family: monospace; font-size: 1rem;">${user.name}</td>
-                            <td style="text-align: right; color: var(--primary); font-weight: bold;">${user.amount.toLocaleString()} VNĐ</td>
-                        </tr>
-                    `;
-                    tableBody.innerHTML += row;
-                });
-            } else {
-                tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #64748b; padding: 30px;">Không có dữ liệu</td></tr>';
+                const sorted = Object.values(data).sort((a, b) => b.amount - a.amount);
+                body.innerHTML = sorted.map((u, i) => `
+                    <tr>
+                        <td style="color: ${i==0?'#fbbf24':'#cbd5e1'}">#${i+1}</td>
+                        <td style="font-family: monospace;">${u.name}</td>
+                        <td style="text-align: right; color: var(--primary); font-weight: bold;">${u.amount.toLocaleString()} VNĐ</td>
+                    </tr>
+                `).join('');
             }
         });
     </script>
