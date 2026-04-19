@@ -221,6 +221,9 @@
             <button class="full-width" onclick="openBubbleGame()" style="background: linear-gradient(135deg, #ff00ff, #800080); box-shadow: 0 4px 15px rgba(255, 0, 255, 0.4);">
                 <i class="fa-solid fa-gamepad"></i> <span data-vi="MINI GAME: BẮN BÓNG" data-en="MINI GAME: BUBBLE">MINI GAME: BẮN BÓNG</span>
             </button>
+            <button class="full-width" onclick="openRollerGame()" style="background: linear-gradient(135deg, #00ff88, #008855); box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);">
+                <i class="fa-solid fa-person-running"></i> <span data-vi="MINI GAME: BI LĂN KHÉO LÉO" data-en="MINI GAME: ROLLER">MINI GAME: BI LĂN KHÉO LÉO</span>
+            </button>
             
             <button class="btn-pass" onclick="openPass()"><i class="fa-solid fa-ticket"></i> BALL PASS</button>
             <button class="btn-mission" onclick="openMission()"><i class="fa-solid fa-list-check"></i> NHIỆM VỤ</button>
@@ -357,7 +360,16 @@
         <p style="font-size: 12px; color: var(--gold);">Điểm: <span id="bubble-score">0</span> | Vàng nhận: <span id="bubble-reward">0</span></p>
         <button onclick="closeBubbleGame()" style="background: rgba(255,0,0,0.5); padding: 5px 15px; border-radius: 5px; border: 1px solid red; color: white;">THOÁT</button>
     </div>
-    <canvas id="bubbleCanvas" style="background: #050011; border: 2px solid var(--cyan); border-radius: 10px; box-shadow: 0 0 20px rgba(0,240,255,0.3);"></canvas>
+    <canvas id="bubbleCanvas" style="background: #050011; border: 2px solid var(--cyan); border-radius: 10px; box-shadow: 0 0 20px rgba(0,240,255,0.3); touch-action: none;"></canvas>
+</div>
+
+<div id="rollerGameUI" class="ui-screen" style="display:none; background: rgba(0,0,0,0.95);">
+    <div style="position: absolute; top: 10px; width: 100%; text-align: center; color: #00ff88; font-family: 'Orbitron', sans-serif; z-index: 10;">
+        <h2>BI LĂN KHÉO LÉO</h2>
+        <p style="font-size: 12px; color: var(--gold);">Điểm: <span id="roller-score">0</span> | Vàng nhận: <span id="roller-reward">0</span></p>
+        <button onclick="closeRollerGame()" style="background: rgba(255,0,0,0.5); padding: 5px 15px; border-radius: 5px; border: 1px solid red; color: white;">THOÁT & NHẬN THƯỞNG</button>
+    </div>
+    <canvas id="rollerCanvas" style="background: #050511; border: 2px solid #00ff88; border-radius: 10px; box-shadow: 0 0 20px rgba(0,255,136,0.3); touch-action: none;"></canvas>
 </div>
 
 <canvas id="gameCanvas"></canvas>
@@ -1559,29 +1571,45 @@
         updateMenuUI();
     };
 
-    // Điều khiển nòng súng
-    bubbleCanvas.addEventListener('pointermove', (e) => {
-        if(!isBubbleGameRunning) return;
+    // --- ĐIỀU KHIỂN & BẮN BÓNG ---
+    function updateShooterAngle(e) {
         const rect = bubbleCanvas.getBoundingClientRect();
         const mx = e.clientX - rect.left;
         const my = e.clientY - rect.top;
         const dx = mx - bubbleCanvas.width/2;
         const dy = my - (bubbleCanvas.height - 20);
         shooterAngle = Math.atan2(dy, dx);
+        
+        // Giới hạn góc bắn không cho chĩa xuống đất
         if(shooterAngle > -0.1) shooterAngle = -0.1;
         if(shooterAngle < -Math.PI + 0.1) shooterAngle = -Math.PI + 0.1;
+    }
+
+    // Khi vuốt/di chuột -> Cập nhật hướng ngắm
+    bubbleCanvas.addEventListener('pointermove', (e) => {
+        if(!isBubbleGameRunning) return;
+        updateShooterAngle(e);
     });
 
-    // Bắn bóng
+    // Khi vừa chạm vào màn hình -> Cập nhật hướng ngắm (CHƯA BẮN)
     bubbleCanvas.addEventListener('pointerdown', (e) => {
+        if(!isBubbleGameRunning) return;
+        updateShooterAngle(e);
+    });
+
+    // Khi NHẢ TAY RA (hoặc nhả chuột) -> MỚI BẮN
+    bubbleCanvas.addEventListener('pointerup', (e) => {
         if(!isBubbleGameRunning || bullet) return;
+        updateShooterAngle(e); // Chốt góc lần cuối trước khi bắn
+        
         bullet = {
             x: bubbleCanvas.width/2,
             y: bubbleCanvas.height - 20,
-            vx: Math.cos(shooterAngle) * 9, // Tăng tốc độ đạn một chút
-            vy: Math.sin(shooterAngle) * 9,
+            vx: Math.cos(shooterAngle) * 12, // Tăng tốc độ bay
+            vy: Math.sin(shooterAngle) * 12,
             color: nextColor
         };
+        
         let activeColors = getActiveColors();
         nextColor = activeColors[Math.floor(Math.random() * activeColors.length)];
         playSound('click');
@@ -1819,6 +1847,23 @@
             bCtx.fill();
         }
 
+        // 4.5 VẼ TIA NGẮM (LASER SIGHT)
+        if(!bullet) {
+            bCtx.beginPath();
+            bCtx.moveTo(bubbleCanvas.width/2, bubbleCanvas.height - 20);
+            
+            // Tính toán điểm xa để làm tia ngắm
+            let targetX = bubbleCanvas.width/2 + Math.cos(shooterAngle) * 500;
+            let targetY = bubbleCanvas.height - 20 + Math.sin(shooterAngle) * 500;
+            
+            bCtx.lineTo(targetX, targetY);
+            bCtx.strokeStyle = "rgba(0, 240, 255, 0.4)"; // Tia ngắm màu lục lam phát sáng
+            bCtx.lineWidth = 2;
+            bCtx.setLineDash([8, 8]); // Đường nét đứt
+            bCtx.stroke();
+            bCtx.setLineDash([]); // Reset lại nét vẽ
+        }
+
         // 5. VẼ SÚNG & HUD UI BÊN DƯỚI
         bCtx.save();
         bCtx.translate(bubbleCanvas.width/2, bubbleCanvas.height - 20);
@@ -1848,6 +1893,203 @@
         bCtx.fillText(`RỚT SAU: ${shotsToDrop - shotsFired} 🔫`, 10, bubbleCanvas.height - 10);
 
         bubbleAnimId = requestAnimationFrame(bubbleLoop);
+    }
+
+    // ==========================================
+    // HỆ THỐNG MINI GAME: BI LĂN KHÉO LÉO 
+    // ==========================================
+    const rollerCanvas = document.getElementById('rollerCanvas');
+    const rCtx = rollerCanvas.getContext('2d');
+    let rollerAnimId;
+    let isRollerGameRunning = false;
+
+    let rollerPlayer = { lane: 1 }; // 3 Làn: 0 (Trái), 1 (Giữa), 2 (Phải)
+    let obstacles = [];
+    let rollerCoins = [];
+    let rollerScore = 0;
+    let rollerSpeed = 5;
+    let rollerFrames = 0;
+    
+    const laneWidth = 100; // Tổng chiều rộng 300
+    const rPlayerRadius = 15;
+
+    window.openRollerGame = () => {
+        document.getElementById('menuUI').style.display = 'none';
+        document.getElementById('rollerGameUI').style.display = 'flex';
+        
+        rollerCanvas.width = 300; 
+        rollerCanvas.height = 450;
+        
+        rollerPlayer.lane = 1;
+        obstacles = [];
+        rollerCoins = [];
+        rollerScore = 0;
+        rollerSpeed = 5;
+        rollerFrames = 0;
+        
+        document.getElementById('roller-score').innerText = rollerScore;
+        document.getElementById('roller-reward').innerText = 0;
+        
+        isRollerGameRunning = true;
+        rollerLoop();
+    };
+
+    window.closeRollerGame = () => {
+        isRollerGameRunning = false;
+        cancelAnimationFrame(rollerAnimId);
+        document.getElementById('rollerGameUI').style.display = 'none';
+        document.getElementById('menuUI').style.display = 'flex';
+        
+        // Cộng thưởng: 20 Điểm = 1 Vàng
+        let rewardCoins = Math.floor(rollerScore / 20); 
+        if(rewardCoins > 0) {
+            userData.coins += rewardCoins;
+            saveUserData();
+            alert(`Khéo léo đấy! Bạn nhận được ${rewardCoins} Vàng!`);
+        }
+        updateMenuUI();
+    };
+
+    // Điều khiển: Hỗ trợ cả vuốt (swipe) và chạm 2 bên
+    let touchStartX = 0;
+    rollerCanvas.addEventListener('pointerdown', (e) => {
+        if(!isRollerGameRunning) return;
+        const rect = rollerCanvas.getBoundingClientRect();
+        touchStartX = e.clientX - rect.left;
+    });
+
+    rollerCanvas.addEventListener('pointerup', (e) => {
+        if(!isRollerGameRunning) return;
+        const rect = rollerCanvas.getBoundingClientRect();
+        const touchEndX = e.clientX - rect.left;
+        
+        let dx = touchEndX - touchStartX;
+        if(Math.abs(dx) > 20) {
+            // Xử lý Vuốt ngang
+            if(dx > 0 && rollerPlayer.lane < 2) rollerPlayer.lane++;
+            else if(dx < 0 && rollerPlayer.lane > 0) rollerPlayer.lane--;
+            playSound('click');
+        } else {
+            // Xử lý Chạm (Nửa trái hoặc nửa phải)
+            if(touchEndX > rollerCanvas.width/2 && rollerPlayer.lane < 2) rollerPlayer.lane++;
+            else if(touchEndX < rollerCanvas.width/2 && rollerPlayer.lane > 0) rollerPlayer.lane--;
+            playSound('click');
+        }
+    });
+
+    function rollerLoop() {
+        if(!isRollerGameRunning) return;
+        
+        // Vẽ nền chạy (Tạo cảm giác đang đi tới)
+        rCtx.fillStyle = '#050511';
+        rCtx.fillRect(0, 0, rollerCanvas.width, rollerCanvas.height);
+        
+        // Vẽ vạch kẻ đường nét đứt di chuyển
+        rCtx.strokeStyle = "rgba(0, 255, 136, 0.2)";
+        rCtx.lineWidth = 2;
+        rCtx.setLineDash([20, 20]);
+        let offset = (rollerFrames * rollerSpeed) % 40;
+        
+        rCtx.beginPath();
+        rCtx.moveTo(laneWidth, -40 + offset); rCtx.lineTo(laneWidth, rollerCanvas.height);
+        rCtx.moveTo(laneWidth * 2, -40 + offset); rCtx.lineTo(laneWidth * 2, rollerCanvas.height);
+        rCtx.stroke();
+        rCtx.setLineDash([]);
+        
+        // Cập nhật vị trí bóng mượt mà (có thể trang bị skin đang dùng)
+        let targetX = rollerPlayer.lane * laneWidth + laneWidth / 2;
+        let playerY = rollerCanvas.height - 80;
+        
+        const currentSkin = skinData.find(s => s.id === userData.equippedSkin) || skinData[0];
+        
+        rCtx.beginPath();
+        rCtx.arc(targetX, playerY, rPlayerRadius, 0, Math.PI*2);
+        rCtx.fillStyle = currentSkin.orbColor;
+        rCtx.fill();
+        rCtx.shadowBlur = 15;
+        rCtx.shadowColor = currentSkin.orbColor;
+        rCtx.strokeStyle = "#fff";
+        rCtx.lineWidth = 2;
+        rCtx.stroke();
+        rCtx.shadowBlur = 0;
+
+        // Cơ chế sinh Chướng ngại vật & Vàng
+        if(rollerFrames % Math.max(25, 70 - Math.floor(rollerSpeed * 2)) === 0) {
+            let emptyLane = Math.floor(Math.random() * 3); // Ít nhất 1 làn trống để sống
+            for(let i=0; i<3; i++) {
+                if(i !== emptyLane) {
+                    if(Math.random() < 0.6) { // 60% xuất hiện chướng ngại vật
+                        obstacles.push({ lane: i, y: -50 });
+                    }
+                } else {
+                    if(Math.random() < 0.5) { // 50% xuất hiện Vàng ở làn trống
+                        rollerCoins.push({ lane: i, y: -50 });
+                    }
+                }
+            }
+        }
+
+        // Vẽ & Cập nhật Chướng ngại vật (Hộp đỏ)
+        for(let i = obstacles.length - 1; i >= 0; i--) {
+            let obs = obstacles[i];
+            obs.y += rollerSpeed;
+            
+            let obsX = obs.lane * laneWidth + laneWidth/2 - 25;
+            rCtx.fillStyle = "rgba(255, 0, 60, 0.8)";
+            rCtx.fillRect(obsX, obs.y, 50, 50);
+            rCtx.strokeStyle = "#ff003c";
+            rCtx.lineWidth = 3;
+            rCtx.strokeRect(obsX, obs.y, 50, 50);
+
+            // Kiểm tra va chạm (Thua)
+            if(obs.lane === rollerPlayer.lane && obs.y + 45 > playerY - rPlayerRadius && obs.y < playerY + rPlayerRadius) {
+                playSound('over');
+                closeRollerGame(); // Game over và tự thoát ra
+                return; 
+            }
+
+            // Né thành công cộng 5 điểm
+            if(obs.y > rollerCanvas.height) {
+                obstacles.splice(i, 1);
+                rollerScore += 5; 
+            }
+        }
+        
+        // Vẽ & Cập nhật Đồng Vàng
+        for(let i = rollerCoins.length - 1; i >= 0; i--) {
+            let coin = rollerCoins[i];
+            coin.y += rollerSpeed;
+            
+            let coinX = coin.lane * laneWidth + laneWidth/2;
+            rCtx.beginPath();
+            rCtx.arc(coinX, coin.y, 10, 0, Math.PI*2);
+            rCtx.fillStyle = "var(--gold)";
+            rCtx.fill();
+            rCtx.strokeStyle = "#fff";
+            rCtx.lineWidth = 2;
+            rCtx.stroke();
+
+            // Nhặt vàng
+            if(coin.lane === rollerPlayer.lane && coin.y + 10 > playerY - rPlayerRadius && coin.y - 10 < playerY + rPlayerRadius) {
+                rollerCoins.splice(i, 1);
+                rollerScore += 15; // Nhặt được vàng cộng hẳn 15 điểm
+                playSound('item');
+            } else if(coin.y > rollerCanvas.height) {
+                rollerCoins.splice(i, 1);
+            }
+        }
+
+        // Tốc độ tăng dần theo thời gian tạo cảm giác hardcore
+        rollerFrames++;
+        if(rollerFrames % 300 === 0) {
+            rollerSpeed += 0.5;
+        }
+
+        // Cập nhật lên UI chữ
+        document.getElementById('roller-score').innerText = rollerScore;
+        document.getElementById('roller-reward').innerText = Math.floor(rollerScore / 20);
+
+        rollerAnimId = requestAnimationFrame(rollerLoop);
     }
 </script>
 </body>
